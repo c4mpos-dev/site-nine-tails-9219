@@ -75,7 +75,7 @@ export default async function SeasonPage({ params }: PageProps<"/temporadas/[slu
               className="not-prose group flex items-center justify-between gap-4 rounded-lg border border-accent/50 p-4 no-underline transition-colors hover:bg-surface"
             >
               <span>
-                <span className="kicker block">Do arquivo</span>
+                <span className="kicker block">Os pioneiros</span>
                 <span className="font-bold text-fg">Leia o diário dos pioneiros, capítulo por capítulo</span>
               </span>
               <span className="text-accent transition-transform group-hover:translate-x-1">→</span>

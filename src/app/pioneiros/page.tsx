@@ -65,13 +65,13 @@ function Photos({ chapter }: { chapter: Chapter }) {
   }
 }
 
-/** Página escondida: o diário da primeira temporada. */
+/** O diário da primeira temporada. */
 export default function PioneersPage() {
   return (
     <>
       <PageHero
         crumbs={[
-          { href: "/arquivo", label: "Arquivo" },
+          { href: "/arquivo", label: "Mais" },
           { href: "/pioneiros", label: "Os pioneiros" },
         ]}
         kicker="Charged Up · 2023"
@@ -141,7 +141,7 @@ export default function PioneersPage() {
           ← A temporada Charged Up em números
         </Link>
         <Link href="/arquivo" className="text-link">
-          Voltar ao arquivo →
+          Mais páginas →
         </Link>
       </Container>
     </>

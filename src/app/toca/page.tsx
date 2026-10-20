@@ -5,9 +5,8 @@ import { Download } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 
 export const metadata: Metadata = {
-  title: "A toca da raposa",
-  description: "Você achou a toca.",
-  robots: { index: false, follow: false },
+  title: "Kit da marca",
+  description: "Emblema, logos e letreiros da Nine Tails #9219 para baixar, e curiosidades da equipe.",
 };
 
 const kit = [
@@ -26,21 +25,20 @@ const secrets = [
   "O material do Nine Learns foi enviado para lendas da FRC como a 254 Cheesy Poofs e a 118 Robonauts.",
   "O Arak conseguia colocar um coral no nível mais alto (L4) ainda no autônomo.",
   "As caudas do logo são de metal rebitado: metade raposa, metade robô.",
-  "Esta página só abre para quem clica nove vezes na raposa. Uma vez para cada cauda.",
 ];
 
-/** Página secreta: aberta pelo easter egg do rodapé. */
+/** Kit da marca e curiosidades da equipe. */
 export default function DenPage() {
   return (
     <section className="relative overflow-hidden">
       <Container className="py-16 sm:py-24">
         <div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
-            <p className="kicker">Página secreta</p>
-            <h1 className="heading mt-3 text-5xl sm:text-7xl">Você achou a toca da raposa</h1>
+            <p className="kicker">A toca da raposa</p>
+            <h1 className="heading mt-3 text-5xl sm:text-7xl">Kit da marca</h1>
             <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted">
-              Poucos chegam até aqui. Como recompensa, ficam o kit de marcas da equipe (pode baixar e usar com carinho) e
-              algumas coisas que só quem é da raposa sabe.
+              O emblema, os logos e os letreiros da Nine Tails para baixar e usar com carinho em matérias, apresentações e
+              materiais de patrocinadores. E, no fim da página, algumas coisas que só quem é da raposa sabe.
             </p>
           </div>
           <Image src="/brand/emblem.webp" alt="" width={1400} height={1282} className="mx-auto w-48 -rotate-6 lg:w-64" />
@@ -74,10 +72,10 @@ export default function DenPage() {
 
         <div className="mt-16 flex flex-wrap gap-6">
           <Link href="/arquivo" className="text-link">
-            Ver o resto do arquivo →
+            Mais páginas →
           </Link>
           <Link href="/" className="text-link">
-            Sair da toca
+            Voltar ao início
           </Link>
         </div>
       </Container>

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: "Todas as viagens de competição da Nine Tails #9219, saindo de Resende: de Brasília a Houston.",
 };
 
-/** Arquivo: as viagens da equipe num painel de aeroporto. */
+/** As viagens da equipe num painel de aeroporto. */
 export default function BoardingPage() {
   const done = trips.filter((t) => t.code !== "???");
   const totalKm = done.reduce((acc, t) => acc + roundTripKm(t), 0);
@@ -21,7 +21,7 @@ export default function BoardingPage() {
       <Container className="py-14 sm:py-20">
         <nav aria-label="Trilha" className="mb-6 flex gap-2 text-sm text-white/50">
           <Link href="/arquivo" className="hover:text-white">
-            Arquivo
+            Mais
           </Link>
           <span aria-hidden>/</span>
           <span>Painel de embarque</span>

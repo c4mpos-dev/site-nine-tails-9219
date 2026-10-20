@@ -4,9 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
-import { Menu, X } from "lucide-react";
-import { useEffect, useState } from "react";
-import { nav, site } from "@/content/site";
+import { ChevronDown, Menu, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { nav, navMore, site } from "@/content/site";
 import { ThemeToggle } from "./ThemeToggle";
 import { cn } from "@/lib/cn";
 
@@ -47,6 +47,7 @@ export function Header() {
               </Link>
             );
           })}
+          <MoreMenu pathname={pathname} />
         </nav>
 
         <div className="flex items-center gap-2">
@@ -90,9 +91,76 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
+            <p className="kicker mt-8">Mais</p>
+            <ul className="mt-2">
+              {navMore.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className={cn("block border-b border-line py-3", pathname === item.href ? "text-accent" : "text-fg")}
+                  >
+                    <span className="text-lg font-bold">{item.label}</span>
+                    <span className="block text-sm text-muted">{item.note}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </motion.nav>
         )}
       </AnimatePresence>
     </header>
+  );
+}
+
+/** Menu "Mais": abre no clique (e no teclado), fecha ao clicar fora, com Esc ou ao navegar. */
+function MoreMenu({ pathname }: { pathname: string }) {
+  const [openOn, setOpenOn] = useState<string | null>(null);
+  const open = openOn === pathname;
+  const ref = useRef<HTMLDivElement>(null);
+  const active = navMore.some((i) => pathname.startsWith(i.href));
+
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e: PointerEvent) => !ref.current?.contains(e.target as Node) && setOpenOn(null);
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpenOn(null);
+    document.addEventListener("pointerdown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpenOn(open ? null : pathname)}
+        aria-expanded={open}
+        aria-controls="menu-mais"
+        className={cn(
+          "relative flex items-center gap-1 py-1 text-sm font-bold transition-colors",
+          active || open ? "text-fg" : "text-muted hover:text-fg",
+        )}
+      >
+        Mais <ChevronDown className={cn("size-4 transition-transform", open && "rotate-180")} />
+        {active && <span className="absolute inset-x-0 -bottom-[21px] h-0.5 bg-accent" />}
+      </button>
+      {open && (
+        <ul
+          id="menu-mais"
+          className="absolute right-0 top-full mt-5 w-72 overflow-hidden rounded-lg border border-line bg-surface-2 py-2 shadow-xl"
+        >
+          {navMore.map((item) => (
+            <li key={item.href}>
+              <Link href={item.href} className="block px-4 py-2.5 hover:bg-surface">
+                <span className={cn("text-sm font-bold", pathname === item.href ? "text-accent" : "text-fg")}>{item.label}</span>
+                <span className="block text-xs text-muted">{item.note}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 }

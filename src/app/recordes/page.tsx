@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description: "Os recordes da Nine Tails #9219 em partidas oficiais e as equipes que mais jogaram ao nosso lado.",
 };
 
-/** Arquivo: números tirados das 122 partidas registradas no The Blue Alliance. */
+/** Números tirados das 122 partidas registradas no The Blue Alliance. */
 export default function RecordsPage() {
   const r = records();
   const allies = topAllies(10);
@@ -31,10 +31,10 @@ export default function RecordsPage() {
     <>
       <PageHero
         crumbs={[
-          { href: "/arquivo", label: "Arquivo" },
+          { href: "/arquivo", label: "Mais" },
           { href: "/recordes", label: "Recordes" },
         ]}
-        kicker="Arquivo · Em quadra"
+        kicker="Em quadra"
         title="Recordes e alianças"
         lead={`${r.total.total} partidas desde 2023: ${r.total.w} vitórias, ${r.total.l} derrotas e ${r.total.t} empate. Estes são os números que a raposa deixou em quadra.`}
         image={{ src: "/team/2025-brasilia-arak-campo.webp", alt: "Arak em campo", position: "50% 60%" }}
@@ -126,7 +126,7 @@ export default function RecordsPage() {
           </a>
           , incluindo off-seasons.{" "}
           <Link href="/arquivo" className="text-link">
-            Voltar ao arquivo
+            Mais páginas
           </Link>
         </p>
       </Container>

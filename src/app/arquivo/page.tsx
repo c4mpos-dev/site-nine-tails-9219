@@ -3,25 +3,24 @@ import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { PageHero } from "@/components/layout/PageHero";
-import { DenCard } from "@/components/archive/DenCard";
 import { home, roundTripKm, trips } from "@/content/trips";
 import { records } from "@/lib/matchStats";
 
 export const metadata: Metadata = {
-  title: "Arquivo",
-  description: "O arquivo da Nine Tails #9219: histórias, viagens e segredos que não cabem no menu.",
+  title: "Mais",
+  description: "Recordes, viagens, o diário dos pioneiros, glossário e kit da marca da Nine Tails #9219.",
 };
 
-/** Hub das seções "escondidas" do site. */
+/** Página "Mais": reúne as seções extras do site, todas também no menu. */
 export default function ArchivePage() {
   const rec = records();
   const km = trips.filter((t) => t.code !== "???").reduce((a, t) => a + roundTripKm(t), 0);
   return (
     <>
       <PageHero
-        kicker="Arquivo"
-        title="O que não cabe no menu"
-        lead="Histórias, bastidores e segredos guardados ao longo das temporadas. Algumas portas estão abertas; outras você vai ter que encontrar."
+        kicker="Mais"
+        title="Mais da Nine Tails"
+        lead="Números, viagens, histórias de bastidor e material da marca: tudo o que a gente juntou ao longo das temporadas."
         image={{ src: "/team/2023-the-answer-partida.webp", alt: "The Answer em partida no Off-Season de 2023" }}
       />
       <Container className="py-14">
@@ -70,7 +69,11 @@ export default function ArchivePage() {
             <p className="mt-2 text-muted">Pick, swerve, coopertition: o dialeto da robótica explicado para quem está chegando.</p>
           </Link>
 
-          <DenCard />
+          <Link href="/toca" className="group rounded-lg border border-line p-6 transition-colors hover:border-accent">
+            <p className="kicker">Para baixar</p>
+            <h2 className="heading mt-2 text-3xl group-hover:text-accent">Kit da marca</h2>
+            <p className="mt-2 text-muted">Emblema, logos e letreiros da raposa, mais algumas curiosidades da equipe.</p>
+          </Link>
         </div>
       </Container>
     </>

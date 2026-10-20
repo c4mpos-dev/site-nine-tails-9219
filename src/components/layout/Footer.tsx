@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { nav, site } from "@/content/site";
-import { FoxSecret } from "@/components/archive/FoxSecret";
+import Image from "next/image";
+import { nav, navMore, site } from "@/content/site";
 import { InstagramIcon, LinkedinIcon, TiktokIcon, YoutubeIcon } from "@/components/icons/Social";
 
 export const socialLinks = [
@@ -15,10 +15,10 @@ export function Footer() {
     <footer className="mt-24 border-t border-line bg-surface">
       {/* Fio na cor da equipe, como a faixa da camisa */}
       <div className="h-1 bg-gradient-to-r from-brand via-accent to-brand" />
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr]">
+      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.2fr_1.6fr_1fr]">
         <div>
           <div className="flex items-center gap-3">
-            <FoxSecret />
+            <Image src="/brand/emblem.webp" alt="" width={64} height={58} className="h-14 w-auto" />
             <p className="heading text-2xl">
               Nine Tails <span className="text-accent">#{site.number}</span>
             </p>
@@ -44,8 +44,8 @@ export function Footer() {
 
         <div>
           <p className="kicker">Navegue</p>
-          <ul className="mt-4 space-y-2 text-sm">
-            {[...nav, { href: "/patrocine", label: "Apoie a equipe" }, { href: "/arquivo", label: "Arquivo" }, { href: "/creditos", label: "Créditos das fotos" }].map(
+          <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
+            {[...nav, ...navMore, { href: "/patrocine", label: "Apoie a equipe" }, { href: "/creditos", label: "Créditos das fotos" }].map(
               (item) => (
                 <li key={item.href}>
                   <Link href={item.href} className="text-muted hover:text-fg">
@@ -71,8 +71,7 @@ export function Footer() {
       </div>
       <div className="border-t border-line">
         <p className="mx-auto max-w-6xl px-4 py-5 text-xs text-muted sm:px-6">
-          © Nine Tails #9219. FIRST® e FIRST® Robotics Competition são marcas registradas da FIRST®.{" "}
-          <span className="opacity-70">Psiu: a raposa tem nove caudas.</span>
+          © Nine Tails #9219. FIRST® e FIRST® Robotics Competition são marcas registradas da FIRST®.
         </p>
       </div>
     </footer>

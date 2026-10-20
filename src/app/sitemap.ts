@@ -4,7 +4,7 @@ import { seasons } from "@/content/seasons";
 import { robots } from "@/content/robots";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const pages = ["", "/temporadas", "/robos", "/conquistas", "/impacto", "/equipe", "/patrocine", "/creditos", "/arquivo", "/pioneiros", "/embarque", "/recordes", "/glossario"];
+  const pages = ["", "/temporadas", "/robos", "/conquistas", "/impacto", "/equipe", "/patrocine", "/creditos", "/arquivo", "/pioneiros", "/embarque", "/recordes", "/glossario", "/toca"];
   return [
     ...pages.map((p) => ({ url: `${site.url}${p}`, priority: p === "" ? 1 : 0.8 })),
     ...seasons.map((s) => ({ url: `${site.url}/temporadas/${s.slug}`, priority: 0.7 })),

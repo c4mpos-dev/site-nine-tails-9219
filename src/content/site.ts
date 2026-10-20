@@ -33,6 +33,15 @@ export const nav = [
   { href: "/equipe", label: "Equipe" },
 ] as const;
 
+/** Páginas extras, abertas no menu "Mais" (e listadas em /arquivo). */
+export const navMore = [
+  { href: "/recordes", label: "Recordes e alianças", note: "As 122 partidas em números" },
+  { href: "/pioneiros", label: "Os pioneiros", note: "O diário da primeira temporada" },
+  { href: "/embarque", label: "Viagens", note: "Todas as competições, de Brasília a Houston" },
+  { href: "/glossario", label: "Glossário", note: "O vocabulário da FRC explicado" },
+  { href: "/toca", label: "Kit da marca", note: "Logos para baixar e curiosidades" },
+] as const;
+
 /** Números de destaque — fonte: portfólio "all book tails" (fev/2024) + TBA. */
 export const stats = [
   { value: 25000, suffix: "+", label: "pessoas impactadas", detail: "diretamente por ações STEAM" },
