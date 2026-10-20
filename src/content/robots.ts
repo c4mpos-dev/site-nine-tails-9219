@@ -20,6 +20,8 @@ export type Robot = {
   thumb?: { src: string; position?: string };
   /** Comparação "da oficina à arena" (slider). */
   beforeAfter?: { before: string; after: string; beforePosition?: string; afterPosition?: string };
+  /** Trecho em loop (mp4 sem som em /clips, com pôster .webp de mesmo nome). */
+  clip?: { src: string; caption: string; aspect?: string };
 };
 
 export const robots: Robot[] = [
@@ -49,6 +51,7 @@ export const robots: Robot[] = [
       beforePosition: "50% 65%",
       afterPosition: "50% 60%",
     },
+    clip: { src: "/clips/tank-tails.mp4", caption: "Em campo na Regional do Brasil, no Mané Garrincha, março de 2023." },
   },
   {
     slug: "the-answer",
@@ -74,6 +77,7 @@ export const robots: Robot[] = [
       after: "/team/2023-the-answer-partida.webp",
       beforePosition: "50% 50%",
     },
+    clip: { src: "/clips/the-answer.mp4", caption: "Ligando os LEDs na oficina, semanas antes do Off-Season do Rio.", aspect: "aspect-[3/4]" },
   },
   {
     slug: "garuttinho",
@@ -93,6 +97,7 @@ export const robots: Robot[] = [
     events: ["Regional Brasil 2024"],
     matchEvents: ["2024-brasilia"],
     photo: "/team/2024-garuttinho.webp",
+    clip: { src: "/clips/garuttinho.mp4", caption: "Correntes, motores e a placa da raposa: um passeio pela lateral do robô." },
   },
   {
     slug: "predator",
@@ -133,6 +138,7 @@ export const robots: Robot[] = [
     events: ["Regional Brasília 2025", "Regional São Paulo 2025", "Off-Season RS 2025"],
     matchEvents: ["2025-brasilia", "2025-sao-paulo", "2025-porto-alegre"],
     photo: "/team/2025-arak.webp",
+    clip: { src: "/clips/arak.mp4", caption: "Testando o swerve na oficina antes da Regional de Brasília." },
   },
 ];
 

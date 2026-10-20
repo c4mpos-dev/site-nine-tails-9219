@@ -11,6 +11,8 @@ export type Award = {
   art: TrophyArt;
   photo?: string;
   photoPosition?: string;
+  /** Trecho em loop do momento (mp4 sem som em /clips), mostrado no lugar da foto. */
+  clip?: { src: string; label: string };
 };
 
 /** Em ordem cronológica. */
@@ -50,6 +52,10 @@ export const awards: Award[] = [
     },
     photo: "/team/2023-houston-rookie-inspiration.webp",
     photoPosition: "50% 40%",
+    clip: {
+      src: "/clips/houston-rookie-inspiration.mp4",
+      label: "A equipe pula e comemora com a placa do Rookie Inspiration Award em Houston.",
+    },
   },
   {
     id: "engineering",

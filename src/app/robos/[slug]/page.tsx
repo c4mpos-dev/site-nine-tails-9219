@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Term } from "@/components/ui/Term";
 import { Container } from "@/components/ui/Container";
+import { Loop } from "@/components/ui/Loop";
 import { RobotBlueprint } from "@/components/robots/RobotBlueprint";
 import { BeforeAfter } from "@/components/robots/BeforeAfter";
 import { MatchLegend, MatchStrip } from "@/components/seasons/MatchStrip";
@@ -240,6 +241,35 @@ export default async function RobotPage({ params }: PageProps<"/robos/[slug]">) 
           )}
         </aside>
       </Container>
+
+      {/* Em movimento */}
+      {robot.clip && (
+        <section className="relative isolate overflow-hidden bg-[#160b20] text-white">
+          <div
+            aria-hidden
+            className="absolute inset-0 -z-10 opacity-[0.05] [background-image:linear-gradient(#fff_1px,transparent_1px),linear-gradient(90deg,#fff_1px,transparent_1px)] [background-size:48px_48px]"
+          />
+          <Container
+            className={`grid items-center gap-10 py-16 ${robot.clip.aspect ? "lg:grid-cols-[minmax(0,380px)_1fr]" : "lg:grid-cols-[minmax(0,1.6fr)_1fr]"}`}
+          >
+            <div className="relative">
+              <Corners />
+              <Loop
+                src={robot.clip.src}
+                label={`${robot.name} em movimento. ${robot.clip.caption}`}
+                aspect={robot.clip.aspect}
+                className="rounded-md !bg-white/5"
+              />
+            </div>
+            <div>
+              <p className="kicker !text-[#f0a6e8]">Em movimento</p>
+              <h2 className="heading mt-3 text-4xl sm:text-5xl">O {robot.name} em ação</h2>
+              <p className="mt-4 max-w-sm text-lg leading-relaxed text-white/75">{robot.clip.caption}</p>
+              <p className="mt-6 text-sm text-white/50">Trecho do acervo da equipe, sem som, em loop.</p>
+            </div>
+          </Container>
+        </section>
+      )}
 
       {/* Da oficina à arena */}
       {robot.beforeAfter && (

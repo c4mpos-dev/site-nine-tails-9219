@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { PageHero } from "@/components/layout/PageHero";
 import { Photo } from "@/components/ui/Photo";
+import { Loop } from "@/components/ui/Loop";
 import { Reveal } from "@/components/ui/Reveal";
 import { Trophy } from "@/components/graphics/Trophies";
 import { TrophyShelf } from "@/components/graphics/TrophyShelf";
@@ -58,7 +59,12 @@ export default function AwardsPage() {
               <p className="mt-1 font-bold text-muted">{a.event}</p>
               <p className="mt-3 leading-relaxed text-muted">{a.description}</p>
             </div>
-            {a.photo && (
+            {a.clip ? (
+              <figure className="md:col-span-2 lg:col-span-1">
+                <Loop src={a.clip.src} label={a.clip.label} aspect="aspect-[4/5]" />
+                <figcaption className="mt-2 text-sm text-muted">Logo depois de receber a placa.</figcaption>
+              </figure>
+            ) : a.photo && (
               <Photo
                 src={a.photo}
                 alt={`${a.title}, ${a.event}`}

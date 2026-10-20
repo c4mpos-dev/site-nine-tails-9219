@@ -5,6 +5,7 @@ import { PageHero } from "@/components/layout/PageHero";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Photo } from "@/components/ui/Photo";
 import { Button } from "@/components/ui/Button";
+import { Loop } from "@/components/ui/Loop";
 import { alumni, areas, mentors, roster } from "@/content/people";
 
 export const metadata: Metadata = {
@@ -28,6 +29,27 @@ const milestones = [
   { date: "Ago 2024", text: "Primeiro swerve (Predator) e final do Off-Season do Mato Grosso." },
   { date: "Mar 2025", text: "Arak nas regionais de Brasília e São Paulo." },
   { date: "Mar 2026", text: "Temporada REBUILT, em São Paulo e Osasco." },
+];
+
+const workshop = [
+  {
+    src: "/clips/oficina-cad.mp4",
+    title: "Projeto",
+    text: "Tudo começa no CAD: o robô é montado peça por peça no computador antes de existir.",
+    label: "Integrante da equipe modelando uma peça do robô no computador.",
+  },
+  {
+    src: "/clips/oficina-usinagem.mp4",
+    title: "Usinagem",
+    text: "Na fresa, as peças saem do alumínio. Quem projeta também aprende a fabricar.",
+    label: "Integrantes da equipe usinando uma peça na fresadora.",
+  },
+  {
+    src: "/clips/oficina-codigo.mp4",
+    title: "Código",
+    text: "A programação dá vida ao robô: controle, sensores e o autônomo.",
+    label: "Integrantes da equipe programando o robô nos notebooks.",
+  },
 ];
 
 export default function TeamPage() {
@@ -119,6 +141,27 @@ export default function TeamPage() {
             );
           })}
         </div>
+      </Container>
+
+      {/* Na oficina: do desenho ao código, em loops curtos */}
+      <Container className="pb-20">
+        <SectionHeading
+          kicker="Na oficina"
+          title="Do desenho ao código"
+          lead="Antes de chegar à arena, cada peça passa pelo CAD, pela usinagem e pelo código. Trechos gravados na oficina em julho de 2023."
+        />
+        <ol className="mt-10 grid gap-6 sm:grid-cols-3">
+          {workshop.map((w, i) => (
+            <li key={w.src}>
+              <Loop src={w.src} label={w.label} aspect="aspect-[4/5]" />
+              <p className="mt-4 flex items-baseline gap-3">
+                <span className="heading text-2xl text-accent">{String(i + 1).padStart(2, "0")}</span>
+                <span className="heading text-2xl">{w.title}</span>
+              </p>
+              <p className="mt-1 text-sm leading-relaxed text-muted">{w.text}</p>
+            </li>
+          ))}
+        </ol>
       </Container>
 
       {/* 4. Mentores e alumni */}
