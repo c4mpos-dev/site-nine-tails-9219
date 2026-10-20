@@ -22,7 +22,6 @@ export function SeasonExplorer({ seasons, initial }: { seasons: ExplorerSeason[]
   const [active, setActive] = useState(initial);
   const s = seasons[active];
   const awards = s.events.flatMap((e) => e.awards ?? []).filter((a) => !a.startsWith("Wildcard"));
-  const wins = s.events.reduce((acc, e) => acc + (Number(e.record?.split("-")[0]) || 0), 0);
 
   return (
     <div>
@@ -107,8 +106,8 @@ export function SeasonExplorer({ seasons, initial }: { seasons: ExplorerSeason[]
                   <dd className="heading text-3xl">{s.events.length}</dd>
                 </div>
                 <div className="border-x border-line">
-                  <dt className="text-xs text-muted">Vitórias</dt>
-                  <dd className="heading text-3xl">{wins}</dd>
+                  <dt className="text-xs text-muted">Prêmios</dt>
+                  <dd className="heading text-3xl">{awards.length || "—"}</dd>
                 </div>
                 <div>
                   <dt className="text-xs text-muted">Robôs</dt>

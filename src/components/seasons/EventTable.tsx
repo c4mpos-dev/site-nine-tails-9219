@@ -11,7 +11,6 @@ export function EventTable({ events }: { events: EventResult[] }) {
           <tr>
             <th className="px-4 py-3 font-bold">Evento</th>
             <th className="px-4 py-3 font-bold">Ranking</th>
-            <th className="px-4 py-3 font-bold">V-D-E</th>
             <th className="px-4 py-3 font-bold">Resultado</th>
           </tr>
         </thead>
@@ -25,7 +24,6 @@ export function EventTable({ events }: { events: EventResult[] }) {
                 </p>
               </td>
               <td className="heading px-4 py-4 text-2xl">{e.rank ? `${e.rank}º` : "—"}</td>
-              <td className="px-4 py-4 font-bold tabular-nums">{e.record ?? "—"}</td>
               <td className="px-4 py-4">
                 <p className="text-fg">{e.result}</p>
                 {e.alliance && <p className="text-xs text-muted">{e.alliance}</p>}

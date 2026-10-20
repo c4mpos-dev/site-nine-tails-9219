@@ -23,8 +23,6 @@ export default function RecordsPage() {
     { k: "Maior placar", v: String(r.best.score), d: `${r.best.score} x ${r.best.against} · ${r.best.where}`, video: r.best.video },
     { k: "Maior vitória", v: `+${r.biggest.margin}`, d: `${r.biggest.score} · ${r.biggest.where}`, video: r.biggest.video },
     { k: "Vitória mais apertada", v: `+${r.closest.margin}`, d: `${r.closest.score} · ${r.closest.where}`, video: r.closest.video },
-    { k: "Maior sequência", v: `${r.streak.count} vitórias`, d: `seguidas, em ${r.streak.where}`, video: null },
-    { k: "Melhor aproveitamento", v: `${r.bestEvent.pct}%`, d: `${r.bestEvent.label} em ${r.bestEvent.name}`, video: null },
   ];
 
   return (
@@ -36,13 +34,13 @@ export default function RecordsPage() {
         ]}
         kicker="Em quadra"
         title="Recordes e alianças"
-        lead={`${r.total.total} partidas desde 2023: ${r.total.w} vitórias, ${r.total.l} derrotas e ${r.total.t} empate. Estes são os números que a raposa deixou em quadra.`}
+        lead={`${r.total.total} partidas oficiais desde 2023. Estes são os momentos e as parcerias que a raposa deixou em quadra.`}
         image={{ src: "/team/2025-brasilia-arak-campo.webp", alt: "Arak em campo", position: "50% 60%" }}
       />
 
       {/* Recordes */}
       <Container className="py-14">
-        <RevealGroup className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
+        <RevealGroup className="grid gap-6 sm:grid-cols-3">
           {cards.map((c) => (
             <RevealItem key={c.k} className="border-t-2 border-accent pt-4">
               <p className="text-sm text-muted">{c.k}</p>
@@ -83,14 +81,11 @@ export default function RecordsPage() {
                         #{a.team} {info?.name ?? ""}
                       </a>
                       <span className="text-sm tabular-nums text-muted">
-                        {a.total} partidas · {a.w}V {a.l}D
+                        {a.total} partidas juntas
                       </span>
                     </div>
-                    {/* Barra: partidas juntas, com a parte das vitórias destacada */}
-                    <div className="mt-1.5 flex h-2 overflow-hidden rounded-full bg-surface-2" style={{ width: `${(a.total / maxAlly) * 100}%` }}>
-                      <span className="h-full bg-win" style={{ width: `${(a.w / a.total) * 100}%` }} />
-                      <span className="h-full bg-loss/50" style={{ width: `${((a.l + a.t) / a.total) * 100}%` }} />
-                    </div>
+                    {/* Barra: partidas juntas */}
+                    <div className="mt-1.5 h-2 rounded-full bg-brand" style={{ width: `${(a.total / maxAlly) * 100}%` }} />
                     <p className="mt-1 text-xs text-muted">
                       {info?.city ? `${info.city} · ` : ""}
                       {a.events.join(", ")}
@@ -105,8 +100,8 @@ export default function RecordsPage() {
 
       {/* Adversários */}
       <Container className="py-14">
-        <h2 className="heading text-3xl">Do outro lado</h2>
-        <p className="mt-2 text-muted">As equipes que mais enfrentamos, e o nosso retrospecto contra elas.</p>
+        <h2 className="heading text-3xl">Velhos conhecidos</h2>
+        <p className="mt-2 text-muted">As equipes que mais cruzaram com a raposa do outro lado da quadra.</p>
         <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {rivals.map((x) => (
             <li key={x.team} className="rounded-lg border border-line p-4">
@@ -114,7 +109,7 @@ export default function RecordsPage() {
                 #{x.team} {teamInfo(x.team)?.name ?? ""}
               </a>
               <p className="text-sm text-muted tabular-nums">
-                {x.total} partidas contra · {x.w} vitórias nossas, {x.l} deles
+                {x.total} partidas frente a frente{teamInfo(x.team)?.city ? ` · ${teamInfo(x.team)?.city}` : ""}
               </p>
             </li>
           ))}

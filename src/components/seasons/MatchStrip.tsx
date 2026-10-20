@@ -25,8 +25,6 @@ export function MatchStrip({
   names?: Record<number, string>;
 }) {
   const [video, setVideo] = useState<MatchVideo | null>(null);
-  const count = (r: Match[7]) => matches.filter((m) => m[7] === r).length;
-  const [w, l, t] = [count("W"), count("L"), count("T")];
   const team = (n: number) => (names[n] ? `${n} ${names[n]}` : String(n));
 
   return (
@@ -34,7 +32,7 @@ export function MatchStrip({
       <div className="flex items-baseline justify-between gap-4">
         <p className="font-bold">{title}</p>
         <p className="text-sm text-muted tabular-nums">
-          {w}V · {l}D{t ? ` · ${t}E` : ""}
+          {matches.length} partidas
         </p>
       </div>
       <ol className="mt-3 flex h-28 items-end gap-[3px] border-b border-line pb-px" aria-label={`Partidas em ${title}`}>
