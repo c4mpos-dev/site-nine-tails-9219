@@ -134,7 +134,7 @@ export const seasons: Season[] = [
         record: "10-7-0",
         alliance: "1ª escolha da Aliança 2",
         result: "Finalista",
-        awards: ["Finalista"],
+        awards: ["Aliança Finalista", "Prêmio de Impacto"],
       },
     ],
     highlights: [

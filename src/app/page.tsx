@@ -7,7 +7,8 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { Button } from "@/components/ui/Button";
 import { Counter } from "@/components/ui/Counter";
 import { Photo } from "@/components/ui/Photo";
-import { EngineeringIcon, FinalistIcon, RookieAllStarIcon, RookieInspirationIcon } from "@/components/graphics/Trophies";
+import { TrophyShelf } from "@/components/graphics/TrophyShelf";
+import { awards } from "@/content/awards";
 import { SeasonExplorer, type ExplorerSeason } from "@/components/home/SeasonExplorer";
 import { RobotCard } from "@/components/robots/RobotCard";
 import { seasons } from "@/content/seasons";
@@ -19,12 +20,6 @@ import { projects } from "@/content/impact";
 import { sponsors } from "@/content/sponsors";
 import { site, stats } from "@/content/site";
 
-const trophies = [
-  { Icon: RookieAllStarIcon, title: "Rookie All Star", where: "Regional Brasil 2023" },
-  { Icon: RookieInspirationIcon, title: "Rookie Inspiration", where: "Mundial de Houston 2023" },
-  { Icon: EngineeringIcon, title: "Engineering Award", where: "Off-Season RJ 2023" },
-  { Icon: FinalistIcon, title: "Finalista", where: "Off-Season MT 2024" },
-];
 
 const mosaic = [
   teamPhotos["2023-charged-up"][3],
@@ -171,15 +166,9 @@ export default function Home() {
               Ver todas →
             </Link>
           </div>
-          <RevealGroup className="mt-10 grid grid-cols-2 gap-6 md:grid-cols-4">
-            {trophies.map(({ Icon, title, where }) => (
-              <RevealItem key={title} className="rounded-lg border border-line p-6">
-                <Icon className="h-16 w-14 text-accent" />
-                <p className="heading mt-4 text-xl">{title}</p>
-                <p className="text-sm text-muted">{where}</p>
-              </RevealItem>
-            ))}
-          </RevealGroup>
+          <Reveal className="mt-12">
+            <TrophyShelf awards={awards} />
+          </Reveal>
         </Container>
       </section>
 

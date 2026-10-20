@@ -16,6 +16,7 @@ export function Photo({
   sizes = "(min-width: 1024px) 50vw, 100vw",
   eager,
   placeholder = "Foto em breve",
+  position,
 }: {
   src?: string;
   alt: string;
@@ -26,6 +27,8 @@ export function Photo({
   sizes?: string;
   eager?: boolean;
   placeholder?: string;
+  /** object-position da foto, ex.: "50% 30%". */
+  position?: string;
 }) {
   return (
     <figure className={className}>
@@ -39,6 +42,7 @@ export function Photo({
             loading={eager ? "eager" : undefined}
             fetchPriority={eager ? "high" : undefined}
             className="object-cover"
+            style={position ? { objectPosition: position } : undefined}
           />
         ) : (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 border border-dashed border-line text-muted">
