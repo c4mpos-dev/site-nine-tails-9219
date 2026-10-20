@@ -29,3 +29,32 @@ export const teamPhotos: Record<string, TeamPhoto[]> = {
 };
 
 export const seasonTeamCover = (slug: string): TeamPhoto | undefined => teamPhotos[slug]?.[0];
+
+/** Topo da home: a equipe inteira, uma foto por temporada (em ordem). Falta a de 2026. */
+export type HeroPhoto = { year: string; game: string; src: string; alt: string; caption: string; position?: string };
+export const heroTeamPhotos: HeroPhoto[] = [
+  {
+    year: "2023",
+    game: "Charged Up",
+    src: "/photos/hero-1.webp",
+    alt: "A primeira formação da Nine Tails em frente à Escola Firjan SENAI Resende",
+    caption: "A primeira formação, em frente à escola.",
+    position: "50% 35%",
+  },
+  {
+    year: "2024",
+    game: "Crescendo",
+    src: "/team/2024-equipe.webp",
+    alt: "Equipe Nine Tails reunida na comemoração do Off-Season do Mato Grosso",
+    caption: "Comemorando a final do Off-Season do Mato Grosso.",
+    position: "50% 45%",
+  },
+  {
+    year: "2025",
+    game: "Reefscape",
+    src: "/team/2025-equipe.webp",
+    alt: "Equipe Nine Tails com a bandeira da Firjan na Regional de Brasília",
+    caption: "Regional de Brasília, com a bandeira da Firjan.",
+    position: "50% 60%",
+  },
+];

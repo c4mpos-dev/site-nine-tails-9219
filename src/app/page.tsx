@@ -13,7 +13,8 @@ import { RobotCard } from "@/components/robots/RobotCard";
 import { seasons } from "@/content/seasons";
 import { getRobot, robots } from "@/content/robots";
 import { seasonLogos, seasonPhotos } from "@/content/credits";
-import { teamPhotos } from "@/content/gallery";
+import { heroTeamPhotos, teamPhotos } from "@/content/gallery";
+import { HeroTeam } from "@/components/home/HeroTeam";
 import { projects } from "@/content/impact";
 import { sponsors } from "@/content/sponsors";
 import { site, stats } from "@/content/site";
@@ -52,19 +53,9 @@ export default function Home() {
 
   return (
     <>
-      {/* Topo: a equipe */}
-      <section className="relative isolate overflow-hidden bg-[#160b20] text-white">
-        <Image
-          src="/photos/hero-1.webp"
-          alt="Equipe Nine Tails em frente à Escola Firjan SENAI Resende"
-          fill
-          sizes="100vw"
-          loading="eager"
-          fetchPriority="high"
-          className="-z-20 object-cover object-[50%_35%]"
-        />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#160b20]/95 via-[#160b20]/70 to-[#160b20]/20" />
-        <Container className="flex min-h-[78vh] flex-col justify-center py-20">
+      {/* Topo: a equipe inteira, uma foto por temporada */}
+      <HeroTeam photos={heroTeamPhotos}>
+        <Container className="flex min-h-[78vh] flex-col justify-center pb-32 pt-20">
           <p className="kicker !text-[#f0a6e8]">FRC 9219 · Resende, RJ · desde 2022</p>
           <h1 className="heading mt-4 text-6xl sm:text-8xl">
             Nine Tails <span className="text-[#f0a6e8]">#9219</span>
@@ -80,7 +71,7 @@ export default function Home() {
             </Button>
           </div>
         </Container>
-      </section>
+      </HeroTeam>
 
       {/* Quem somos */}
       <section>

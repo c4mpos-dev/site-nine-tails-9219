@@ -158,3 +158,26 @@
     transition-duration: 0.001ms !important;
   }
 }
+
+@keyframes hero-progress {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* Topo da home: troca de foto com a faixa roxa */
+@keyframes hero-wipe {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes hero-band {
+  from { left: -16%; }
+  to { left: 102%; }
+}
+@keyframes hero-kenburns {
+  from { transform: scale(1.08); }
+  to { transform: scale(1); }
+}
+@keyframes hero-year {
+  from { transform: translateY(35%); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
