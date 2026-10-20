@@ -164,10 +164,10 @@ export default async function RobotPage({ params }: PageProps<"/robos/[slug]">) 
       {/* Ficha técnica */}
       <section className="border-b border-line bg-surface">
         <Container>
-          <dl className="grid grid-cols-2 divide-line lg:grid-cols-4 lg:divide-x">
+          <dl className="grid grid-cols-[repeat(2,minmax(0,1fr))] gap-x-6 divide-line lg:gap-x-0 lg:grid-cols-4 lg:divide-x">
             <div className="py-6 lg:pr-6">
               <dt className="kicker">Temporada</dt>
-              <dd className="heading mt-2 text-2xl">
+              <dd className="heading mt-2 break-words text-xl sm:text-2xl">
                 {season ? (
                   <Link href={`/temporadas/${season.slug}`} className="hover:text-accent">
                     {season.game} {robot.year}
@@ -180,19 +180,19 @@ export default async function RobotPage({ params }: PageProps<"/robos/[slug]">) 
             <div className="flex items-start justify-between gap-3 py-6 lg:px-6">
               <div>
                 <dt className="kicker">Tração</dt>
-                <dd className="heading mt-2 text-2xl">
+                <dd className="heading mt-2 break-words text-xl sm:text-2xl">
                   <Term id={driveTerm(robot.drivetrain)}>{robot.drivetrain}</Term>
                 </dd>
               </div>
-              <RobotBlueprint drivetrain={robot.drivetrain} className="h-12 w-14 shrink-0 text-brand" />
+              <RobotBlueprint drivetrain={robot.drivetrain} className="hidden h-12 w-14 shrink-0 text-brand sm:block" />
             </div>
             <div className="py-6 lg:px-6">
               <dt className="kicker">Partidas oficiais</dt>
-              <dd className="heading mt-2 text-2xl">{all.length || "—"}</dd>
+              <dd className="heading mt-2 break-words text-xl sm:text-2xl">{all.length || "—"}</dd>
             </div>
             <div className="py-6 lg:pl-6">
               <dt className="kicker">Maior placar</dt>
-              <dd className="heading mt-2 text-2xl">{best ? `${best} pontos` : "—"}</dd>
+              <dd className="heading mt-2 break-words text-xl sm:text-2xl">{best ? `${best} pontos` : "—"}</dd>
             </div>
           </dl>
         </Container>

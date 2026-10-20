@@ -66,7 +66,7 @@ export default async function SeasonPage({ params }: PageProps<"/temporadas/[slu
         image={hero}
       />
 
-      <Container className="grid gap-12 py-14 lg:grid-cols-[minmax(0,1fr)_280px]">
+      <Container className="grid grid-cols-[minmax(0,1fr)] gap-12 py-14 lg:grid-cols-[minmax(0,1fr)_280px]">
         <div className="prose-nt max-w-[68ch]">
           <p className="text-xl !text-fg">{season.summary}</p>
           {season.slug === "2023-charged-up" && (
