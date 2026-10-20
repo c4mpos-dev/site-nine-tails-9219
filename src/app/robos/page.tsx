@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
-import { PageHero } from "@/components/layout/PageHero";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { RobotCard } from "@/components/robots/RobotCard";
@@ -17,28 +17,32 @@ export const metadata: Metadata = {
 export default function RobotsPage() {
   return (
     <>
-      <PageHero
-        kicker="Robôs"
-        title="Feitos na nossa oficina"
-        lead="Cada robô leva meses de projeto, fabricação, programação e testes, e nasce do que o anterior ensinou."
-        image={{ src: "/team/2025-arak.webp", alt: "Arak, robô da Nine Tails na temporada Reefscape", position: "50% 60%" }}
-      />
-
-      {/* O primeiro: Tank Tails em 3D */}
-      <Container className="grid items-center gap-8 py-14 lg:grid-cols-[1fr_1.3fr]">
-        <div>
-          <p className="kicker">O primeiro · 2023</p>
-          <h2 className="heading mt-3 text-4xl sm:text-5xl">Tank Tails</h2>
-          <p className="mt-4 text-lg leading-relaxed text-muted">
-            Onde tudo começou: tração de tanque, torre de alumínio e um braço telescópico que pegava cones e cubos do chão
-            e levava até o nó mais alto. Foi com ele que a raposa chegou a Houston no ano de estreia.
-          </p>
-          <Link href="/robos/tank-tails" className="text-link mt-5 inline-block font-bold">
-            Conhecer o Tank Tails
-          </Link>
-        </div>
-        <TankTails3D className="aspect-[4/3] w-full" />
-      </Container>
+      {/* Topo: o Tank Tails, o primeiro robô, repetindo uma jogada da Charged Up */}
+      <section className="relative isolate overflow-hidden bg-[#160b20] text-white">
+        {/* Linhas da quadra ao fundo */}
+        <div
+          aria-hidden
+          className="absolute inset-0 -z-10 opacity-[0.07] [background-image:linear-gradient(#fff_1px,transparent_1px),linear-gradient(90deg,#fff_1px,transparent_1px)] [background-size:56px_56px] [mask-image:radial-gradient(ellipse_at_70%_60%,#000_30%,transparent_75%)]"
+        />
+        <Container className="grid items-center gap-4 py-12 sm:py-16 lg:grid-cols-[1fr_1.15fr] lg:gap-8">
+          <div>
+            <p className="kicker !text-[#f0a6e8]">Robôs</p>
+            <h1 className="heading mt-3 text-5xl sm:text-7xl">Feitos na nossa oficina</h1>
+            <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/80">
+              Cada robô leva meses de projeto, fabricação, programação e testes, e nasce do que o anterior ensinou.
+            </p>
+          </div>
+          <figure>
+            <TankTails3D className="aspect-[4/3] w-full" />
+            <figcaption className="-mt-2 text-center text-sm text-white/60">
+              <Link href="/robos/tank-tails" className="font-bold text-white hover:text-[#f0a6e8]">
+                Tank Tails
+              </Link>
+              , o primeiro, pontuando um cone como na Charged Up de 2023.
+            </figcaption>
+          </figure>
+        </Container>
+      </section>
 
       {/* Linhagem: a evolução da tração, robô a robô */}
       <section className="border-b border-line bg-surface">
@@ -46,17 +50,29 @@ export default function RobotsPage() {
           <SectionHeading kicker="Linhagem" title="Do tank drive ao swerve" />
           <div className="mt-10 overflow-x-auto [scrollbar-width:thin]">
             <ol className="relative flex min-w-[720px] justify-between gap-4">
-              <span aria-hidden className="absolute left-0 right-0 top-[56px] h-px bg-line" />
+              <span aria-hidden className="absolute left-[10%] right-[10%] top-[60px] h-0.5 bg-gradient-to-r from-line via-brand to-accent" />
               {robots.map((r) => (
                 <li key={r.slug} className="relative w-full text-center">
                   <Link href={`/robos/${r.slug}`} className="group block">
-                    <div className="mx-auto grid size-28 place-items-center rounded-full border border-line bg-bg transition-colors group-hover:border-accent">
-                      <RobotBlueprint drivetrain={r.drivetrain} className="h-16 w-20 text-brand" />
+                    <div className="relative mx-auto size-[120px] overflow-hidden rounded-full border-4 border-surface bg-surface-2 shadow-md ring-2 ring-line transition-all duration-300 group-hover:-translate-y-1 group-hover:ring-accent">
+                      {r.thumb || r.photo ? (
+                        <Image
+                          src={r.thumb?.src ?? r.photo!}
+                          alt={`Robô ${r.name}`}
+                          fill
+                          sizes="120px"
+                          className="object-cover transition-transform duration-500 group-hover:scale-110"
+                          style={{ objectPosition: r.thumb?.position ?? r.photoPosition ?? "center" }}
+                        />
+                      ) : (
+                        <RobotBlueprint drivetrain={r.drivetrain} className="absolute inset-0 m-auto h-16 w-20 text-brand" />
+                      )}
                     </div>
-                    <p className="heading mt-3 text-lg group-hover:text-accent">{r.name}</p>
-                    <p className="text-xs text-muted">
-                      {r.year} · {r.drivetrain}
-                    </p>
+                    <p className="heading mt-4 text-xl group-hover:text-accent">{r.name}</p>
+                    <p className="text-xs text-muted">{r.year}</p>
+                    <span className="mt-2 inline-block rounded-full border border-line px-2.5 py-0.5 text-[11px] font-bold text-muted group-hover:border-accent group-hover:text-accent">
+                      {r.drivetrain}
+                    </span>
                   </Link>
                 </li>
               ))}

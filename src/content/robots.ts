@@ -16,6 +16,8 @@ export type Robot = {
   photo?: string;
   /** Enquadramento da foto (object-position). */
   photoPosition?: string;
+  /** Foto fechada no robô, para miniaturas redondas (cai para `photo` se não houver). */
+  thumb?: { src: string; position?: string };
   /** Comparação "da oficina à arena" (slider). */
   beforeAfter?: { before: string; after: string; beforePosition?: string; afterPosition?: string };
 };
@@ -40,6 +42,7 @@ export const robots: Robot[] = [
     awards: ["rookie-all-star", "rookie-inspiration"],
     matchEvents: ["2023-brasilia", "2023-houston"],
     photo: "/team/2023-houston-tank-tails.webp",
+    thumb: { src: "/team/2023-tank-tails-oficina-3-4.webp", position: "50% 62%" },
     beforeAfter: {
       before: "/team/2023-tank-tails-construcao.webp",
       after: "/team/2023-houston-tank-tails.webp",
