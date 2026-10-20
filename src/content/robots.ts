@@ -9,8 +9,13 @@ export type Robot = {
   description: string;
   features: string[];
   events: string[];
+  /** Prêmios ligados a este robô (ids de src/content/awards.ts). */
   awards?: string[];
+  /** Eventos com partidas no TBA (chaves de matchEvents em src/content/allies.ts). */
+  matchEvents?: string[];
   photo?: string;
+  /** Enquadramento da foto (object-position). */
+  photoPosition?: string;
   /** Comparação "da oficina à arena" (slider). */
   beforeAfter?: { before: string; after: string; beforePosition?: string; afterPosition?: string };
 };
@@ -32,7 +37,8 @@ export const robots: Robot[] = [
       "Top 10 na Regional do Brasil (9º)",
     ],
     events: ["Regional Brasil 2023", "Mundial de Houston — Curie"],
-    awards: ["Rookie All Star", "Rookie Inspiration"],
+    awards: ["rookie-all-star", "rookie-inspiration"],
+    matchEvents: ["2023-brasilia", "2023-houston"],
     photo: "/team/2023-houston-tank-tails.webp",
     beforeAfter: {
       before: "/team/2023-tank-tails-construcao.webp",
@@ -57,7 +63,8 @@ export const robots: Robot[] = [
       "Foco em velocidade e estabilidade",
     ],
     events: ["Off-Season Brasil 2023 (RJ)"],
-    awards: ["Engineering Award"],
+    awards: ["engineering"],
+    matchEvents: ["2023-rio"],
     photo: "/team/2023-the-answer-partida-2.webp",
     beforeAfter: {
       before: "/team/2023-the-answer-eletrica.webp",
@@ -81,6 +88,8 @@ export const robots: Robot[] = [
       "Base de aprendizado para o Predator",
     ],
     events: ["Regional Brasil 2024"],
+    matchEvents: ["2024-brasilia"],
+    photo: "/team/2024-garuttinho.webp",
   },
   {
     slug: "predator",
@@ -98,7 +107,10 @@ export const robots: Robot[] = [
       "Finalista do Off-Season MT",
     ],
     events: ["Off-Season MT 2024 (Cuiabá)"],
-    awards: ["Finalista"],
+    awards: ["finalista"],
+    photo: "/team/2024-predator.webp",
+    photoPosition: "50% 46%",
+    matchEvents: ["2024-cuiaba"],
   },
   {
     slug: "arak",
@@ -116,6 +128,7 @@ export const robots: Robot[] = [
       "Coral no L4 durante o autônomo",
     ],
     events: ["Regional Brasília 2025", "Regional São Paulo 2025", "Off-Season RS 2025"],
+    matchEvents: ["2025-brasilia", "2025-sao-paulo", "2025-porto-alegre"],
     photo: "/team/2025-arak.webp",
   },
 ];

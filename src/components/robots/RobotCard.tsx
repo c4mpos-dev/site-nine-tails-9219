@@ -15,6 +15,7 @@ export function RobotCard({ robot }: { robot: Robot }) {
             fill
             sizes="(min-width:1024px) 30vw, 90vw"
             className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+            style={robot.photoPosition ? { objectPosition: robot.photoPosition } : undefined}
           />
         ) : (
           <RobotBlueprint drivetrain={robot.drivetrain} className="absolute inset-0 m-auto h-[80%] w-[80%] text-brand opacity-80" />

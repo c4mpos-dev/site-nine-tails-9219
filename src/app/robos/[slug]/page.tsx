@@ -2,14 +2,18 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Term } from "@/components/ui/Term";
 import { Container } from "@/components/ui/Container";
-import { PageHero } from "@/components/layout/PageHero";
 import { RobotBlueprint } from "@/components/robots/RobotBlueprint";
 import { BeforeAfter } from "@/components/robots/BeforeAfter";
-import { getRobot, robots } from "@/content/robots";
+import { MatchLegend, MatchStrip } from "@/components/seasons/MatchStrip";
+import { Trophy } from "@/components/graphics/Trophies";
+import { getRobot, robots, type Robot } from "@/content/robots";
 import { getSeason } from "@/content/seasons";
-import { seasonPhotos } from "@/content/credits";
+import { awards } from "@/content/awards";
+import { matchEvents } from "@/content/allies";
+import { byEvent, namesFor } from "@/lib/matchStats";
 
 const driveTerm = (d: string) => (/swerve/i.test(d) ? "swerve" : /omni/i.test(d) ? "omni" : "tank");
 
@@ -24,115 +28,254 @@ export async function generateMetadata({ params }: PageProps<"/robos/[slug]">): 
   return { title: `${robot.name} (${robot.year})`, description: robot.description };
 }
 
+/** Moldura de "visor" nos cantos da foto, como num desenho técnico. */
+function Corners() {
+  const c = "absolute size-5 border-[#f0a6e8]";
+  return (
+    <>
+      <span aria-hidden className={`${c} -left-2 -top-2 border-l-2 border-t-2`} />
+      <span aria-hidden className={`${c} -right-2 -top-2 border-r-2 border-t-2`} />
+      <span aria-hidden className={`${c} -bottom-2 -left-2 border-b-2 border-l-2`} />
+      <span aria-hidden className={`${c} -bottom-2 -right-2 border-b-2 border-r-2`} />
+    </>
+  );
+}
+
+function NavCard({ robot, dir }: { robot: Robot; dir: "prev" | "next" }) {
+  return (
+    <Link
+      href={`/robos/${robot.slug}`}
+      className={`group flex items-center gap-4 rounded-lg border border-line p-3 transition-colors hover:border-accent ${dir === "next" ? "flex-row-reverse text-right" : ""}`}
+    >
+      <div className="relative aspect-[4/3] w-24 shrink-0 overflow-hidden rounded-md bg-surface-2">
+        {robot.photo ? (
+          <Image src={robot.photo} alt="" fill sizes="96px" className="object-cover" style={robot.photoPosition ? { objectPosition: robot.photoPosition } : undefined} />
+        ) : (
+          <RobotBlueprint drivetrain={robot.drivetrain} className="absolute inset-0 m-auto h-[75%] w-[75%] text-brand" />
+        )}
+      </div>
+      <div>
+        <span className="flex items-center gap-1 text-xs text-muted">
+          {dir === "prev" ? (
+            <>
+              <ArrowLeft className="size-3.5" /> Anterior
+            </>
+          ) : (
+            <>
+              Próximo <ArrowRight className="size-3.5" />
+            </>
+          )}
+        </span>
+        <span className="heading block text-2xl group-hover:text-accent">{robot.name}</span>
+        <span className="text-xs text-muted">
+          {robot.year} · {robot.drivetrain}
+        </span>
+      </div>
+    </Link>
+  );
+}
+
 export default async function RobotPage({ params }: PageProps<"/robos/[slug]">) {
   const { slug } = await params;
   const robot = getRobot(slug);
   if (!robot) notFound();
   const season = getSeason(robot.seasonSlug);
-  const cover = season?.photos[0] ? seasonPhotos[season.photos[0]] : undefined;
   const idx = robots.indexOf(robot);
   const prev = robots[idx - 1];
   const next = robots[idx + 1];
+  const number = robot.order.replace(/\D/g, "");
 
-  const specs = [
-    ["Temporada", `${robot.year} · ${season?.game ?? ""}`],
-    ["Tração", robot.drivetrain],
-    ["Geração", robot.order],
-    ["Competiu em", robot.events.join(", ")],
-  ];
+  const robotAwards = awards.filter((a) => robot.awards?.includes(a.id));
+  const events = (robot.matchEvents ?? [])
+    .map((key) => ({ key, ...matchEvents[key], matches: byEvent(key) }))
+    .filter((e) => e.matches.length > 0);
+  const all = events.flatMap((e) => e.matches);
+  const best = all.reduce((m, x) => Math.max(m, x[5]), 0);
+  const max = Math.max(1, best);
 
   return (
     <>
-      <PageHero
-        crumbs={[
-          { href: "/robos", label: "Robôs" },
-          { href: `/robos/${robot.slug}`, label: robot.name },
-        ]}
-        kicker={`${robot.order} · ${season?.game} ${robot.year}`}
-        title={robot.name}
-        lead={robot.tagline}
-        image={
-          robot.photo
-            ? { src: robot.photo, alt: `Robô ${robot.name}`, position: "50% 60%" }
-            : cover
-              ? { src: cover.src, alt: cover.caption, credit: `${cover.author}, ${cover.license}` }
-              : undefined
-        }
-      />
-
-      <Container className="grid gap-12 py-14 lg:grid-cols-[1.2fr_1fr]">
-        <div>
-          {robot.beforeAfter ? (
-            <BeforeAfter {...robot.beforeAfter} />
-          ) : (
-          <>
-          <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-surface-2">
-            {robot.photo ? (
-              <Image src={robot.photo} alt={`Robô ${robot.name}`} fill sizes="(min-width:1024px) 55vw, 100vw" className="object-cover" />
-            ) : (
-              <RobotBlueprint drivetrain={robot.drivetrain} className="absolute inset-0 m-auto h-[80%] w-[80%] text-brand" />
+      {/* Topo: ficha do robô */}
+      <section className="relative isolate overflow-hidden bg-[#160b20] text-white">
+        <div
+          aria-hidden
+          className="absolute inset-0 -z-10 opacity-[0.07] [background-image:linear-gradient(#fff_1px,transparent_1px),linear-gradient(90deg,#fff_1px,transparent_1px)] [background-size:48px_48px]"
+        />
+        <Container className="grid items-center gap-12 py-12 sm:py-16 lg:grid-cols-[1fr_1.15fr]">
+          <div className="relative">
+            <span aria-hidden className="heading pointer-events-none absolute -left-2 -top-16 -z-10 text-[11rem] leading-none text-transparent [-webkit-text-stroke:1.5px_rgb(240_166_232/0.25)] sm:text-[14rem]">
+              #{number}
+            </span>
+            <nav aria-label="Trilha" className="mb-6 flex flex-wrap gap-2 text-sm text-white/60">
+              <Link href="/" className="hover:text-white">
+                Início
+              </Link>
+              <span aria-hidden>/</span>
+              <Link href="/robos" className="hover:text-white">
+                Robôs
+              </Link>
+            </nav>
+            <p className="kicker !text-[#f0a6e8]">
+              {robot.order} · {season?.game} {robot.year}
+            </p>
+            <h1 className="heading mt-3 text-6xl sm:text-8xl">{robot.name}</h1>
+            <p className="mt-4 max-w-md text-xl leading-relaxed text-white/80">{robot.tagline}</p>
+            {robotAwards.length > 0 && (
+              <ul className="mt-6 flex flex-wrap gap-2">
+                {robotAwards.map((a) => (
+                  <li key={a.id}>
+                    <Link
+                      href={`/conquistas#${a.id}`}
+                      className="inline-flex items-center gap-2 rounded-full border border-white/20 px-3 py-1 text-sm font-bold hover:border-[#f0a6e8]"
+                    >
+                      <span className="size-1.5 rotate-45 bg-[#f0a6e8]" /> {a.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             )}
           </div>
-          {!robot.photo && <p className="mt-2 text-sm text-muted">Planta ilustrativa da base. A foto do robô entra em breve.</p>}
-          </>
-          )}
-        </div>
+          <div className="relative">
+            <Corners />
+            <div className="relative aspect-[4/3] overflow-hidden rounded-md bg-white/5">
+              {robot.photo ? (
+                <Image
+                  src={robot.photo}
+                  alt={`Robô ${robot.name}`}
+                  fill
+                  sizes="(min-width:1024px) 55vw, 100vw"
+                  loading="eager"
+                  fetchPriority="high"
+                  className="object-cover"
+                  style={robot.photoPosition ? { objectPosition: robot.photoPosition } : undefined}
+                />
+              ) : (
+                <div className="absolute inset-0 grid place-items-center">
+                  <RobotBlueprint drivetrain={robot.drivetrain} className="h-[70%] w-[70%] text-[#f0a6e8]" />
+                  <p className="absolute bottom-3 text-xs text-white/50">Planta ilustrativa da base. A foto entra em breve.</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </Container>
+      </section>
 
-        <div>
-          <dl className="divide-y divide-line border-y border-line text-sm">
-            {specs.map(([k, v]) => (
-              <div key={k} className="flex justify-between gap-6 py-3">
-                <dt className="text-muted">{k}</dt>
-                <dd className="text-right font-bold">
-                  {k === "Tração" ? <Term id={driveTerm(robot.drivetrain)}>{v}</Term> : v}
+      {/* Ficha técnica */}
+      <section className="border-b border-line bg-surface">
+        <Container>
+          <dl className="grid grid-cols-2 divide-line lg:grid-cols-4 lg:divide-x">
+            <div className="py-6 lg:pr-6">
+              <dt className="kicker">Temporada</dt>
+              <dd className="heading mt-2 text-2xl">
+                {season ? (
+                  <Link href={`/temporadas/${season.slug}`} className="hover:text-accent">
+                    {season.game} {robot.year}
+                  </Link>
+                ) : (
+                  robot.year
+                )}
+              </dd>
+            </div>
+            <div className="flex items-start justify-between gap-3 py-6 lg:px-6">
+              <div>
+                <dt className="kicker">Tração</dt>
+                <dd className="heading mt-2 text-2xl">
+                  <Term id={driveTerm(robot.drivetrain)}>{robot.drivetrain}</Term>
                 </dd>
               </div>
-            ))}
+              <RobotBlueprint drivetrain={robot.drivetrain} className="h-12 w-14 shrink-0 text-brand" />
+            </div>
+            <div className="py-6 lg:px-6">
+              <dt className="kicker">Partidas oficiais</dt>
+              <dd className="heading mt-2 text-2xl">{all.length || "—"}</dd>
+            </div>
+            <div className="py-6 lg:pl-6">
+              <dt className="kicker">Maior placar</dt>
+              <dd className="heading mt-2 text-2xl">{best ? `${best} pontos` : "—"}</dd>
+            </div>
           </dl>
-          {robot.awards && (
-            <ul className="mt-5 space-y-1.5">
-              {robot.awards.map((a) => (
-                <li key={a} className="flex items-center gap-2 font-bold text-accent">
-                  <span className="size-2 rotate-45 bg-accent" /> {a}
-                </li>
-              ))}
-            </ul>
-          )}
-          <div className="prose-nt mt-6">
-            <p>{robot.description}</p>
-            <h2>Destaques</h2>
-            <ul className="space-y-2">
-              {robot.features.map((f) => (
-                <li key={f} className="flex gap-3">
-                  <span className="mt-2.5 size-1.5 shrink-0 rotate-45 bg-accent" />
-                  {f}
+        </Container>
+      </section>
+
+      {/* A história */}
+      <Container className="grid gap-12 py-16 lg:grid-cols-[1.3fr_1fr] lg:gap-16">
+        <div>
+          <p className="kicker">A história</p>
+          <p className="mt-4 text-lg leading-relaxed text-muted">{robot.description}</p>
+          <h2 className="heading mt-10 text-3xl">Destaques</h2>
+          <ol className="mt-5 space-y-4">
+            {robot.features.map((f, i) => (
+              <li key={f} className="flex gap-4">
+                <span className="heading text-2xl leading-none text-accent">{String(i + 1).padStart(2, "0")}</span>
+                <span className="pt-0.5 text-lg">{f}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <aside className="space-y-8">
+          <div>
+            <p className="kicker">Competiu em</p>
+            <ul className="mt-3 divide-y divide-line border-y border-line">
+              {robot.events.map((e) => (
+                <li key={e} className="py-3 font-bold">
+                  {e}
                 </li>
               ))}
             </ul>
           </div>
-          {season && (
-            <Link href={`/temporadas/${season.slug}`} className="text-link mt-8 inline-block">
-              Ler sobre a temporada {season.year} →
-            </Link>
+          {robotAwards.length > 0 && (
+            <div>
+              <p className="kicker">Na estante</p>
+              <ul className="mt-4 grid grid-cols-2 gap-4">
+                {robotAwards.map((a) => (
+                  <li key={a.id}>
+                    <Link href={`/conquistas#${a.id}`} className="group block rounded-lg border border-line p-4 text-center hover:border-accent">
+                      <Trophy art={a.art} className="mx-auto h-28 w-auto transition-transform group-hover:-translate-y-1" />
+                      <span className="mt-3 block text-sm font-bold group-hover:text-accent">{a.title}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           )}
-        </div>
+        </aside>
       </Container>
 
-      <Container className="flex flex-wrap justify-between gap-4 border-t border-line pt-8">
-        {prev ? (
-          <Link href={`/robos/${prev.slug}`} className="group">
-            <span className="text-xs text-muted">← Anterior</span>
-            <span className="heading block text-2xl group-hover:text-accent">{prev.name}</span>
-          </Link>
-        ) : (
-          <span />
-        )}
-        {next && (
-          <Link href={`/robos/${next.slug}`} className="group text-right">
-            <span className="text-xs text-muted">Próximo →</span>
-            <span className="heading block text-2xl group-hover:text-accent">{next.name}</span>
-          </Link>
-        )}
+      {/* Da oficina à arena */}
+      {robot.beforeAfter && (
+        <section className="border-y border-line bg-surface">
+          <Container className="py-16">
+            <p className="kicker">Da oficina à arena</p>
+            <h2 className="heading mt-3 text-4xl">Arraste para ver o antes e o depois</h2>
+            <div className="mt-8 max-w-4xl">
+              <BeforeAfter {...robot.beforeAfter} />
+            </div>
+          </Container>
+        </section>
+      )}
+
+      {/* Partida a partida */}
+      {events.length > 0 && (
+        <Container className="py-16">
+          <p className="kicker">Partida a partida</p>
+          <h2 className="heading mt-3 text-4xl">
+            {all.length} partidas com o {robot.name}
+          </h2>
+          <div className="mt-8 grid gap-10 lg:grid-cols-2">
+            {events.map((e) => (
+              <MatchStrip key={e.key} title={e.short} matches={e.matches} max={max} names={namesFor(e.matches)} />
+            ))}
+          </div>
+          <div className="mt-6">
+            <MatchLegend />
+          </div>
+        </Container>
+      )}
+
+      {/* Navegação entre robôs */}
+      <Container className="grid gap-4 border-t border-line pt-10 sm:grid-cols-2">
+        {prev ? <NavCard robot={prev} dir="prev" /> : <span />}
+        {next && <NavCard robot={next} dir="next" />}
       </Container>
     </>
   );
