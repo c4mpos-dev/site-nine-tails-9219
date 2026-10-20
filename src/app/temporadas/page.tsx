@@ -6,7 +6,7 @@ import { PageHero } from "@/components/layout/PageHero";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { completedSeasons, seasons } from "@/content/seasons";
 import { getRobot } from "@/content/robots";
-import { seasonPhotos } from "@/content/credits";
+import { seasonLogos, seasonPhotos } from "@/content/credits";
 import { teamPhotos } from "@/content/gallery";
 
 export const metadata: Metadata = {
@@ -33,12 +33,13 @@ export default function SeasonsPage() {
             const cover = team ?? (stock ? { src: stock.src, caption: stock.caption, position: undefined } : undefined);
             const awards = s.events.flatMap((e) => e.awards ?? []).filter((a) => !a.startsWith("Wildcard"));
             const robotNames = s.robots.map((r) => getRobot(r)?.name).filter(Boolean);
+            const logo = seasonLogos[s.motif];
             return (
               <RevealItem key={s.slug}>
-                <Link href={`/temporadas/${s.slug}`} className="group grid gap-6 py-8 sm:grid-cols-[240px_1fr] sm:items-center">
+                <Link href={`/temporadas/${s.slug}`} className="group grid gap-6 py-8 sm:grid-cols-[300px_1fr] sm:items-center lg:grid-cols-[300px_1fr_auto]">
                   <div className="relative aspect-[3/2] overflow-hidden rounded-lg bg-surface-2">
                     {cover ? (
-                      <Image src={cover.src} alt={cover.caption} fill sizes="240px" className="object-cover transition-transform duration-500 group-hover:scale-105" style={{ objectPosition: cover.position }} />
+                      <Image src={cover.src} alt={cover.caption} fill sizes="300px" className="object-cover transition-transform duration-500 group-hover:scale-105" style={{ objectPosition: cover.position }} />
                     ) : (
                       <div className="absolute inset-0 grid place-items-center text-sm text-muted">Kickoff em 09/01/2027</div>
                     )}
@@ -53,6 +54,13 @@ export default function SeasonsPage() {
                       {robotNames.length > 0 && <span className="text-muted">Robôs: {robotNames.join(", ")}</span>}
                       {awards.length > 0 && <span className="ml-3 font-bold text-accent">{awards.join(" · ")}</span>}
                     </p>
+                  </div>
+                  <div className="hidden lg:block">
+                    {logo && (
+                      <span className="rounded-md bg-white p-2">
+                        <Image src={logo} alt={`Logo ${s.game}`} width={120} height={48} className="h-10 w-auto" />
+                      </span>
+                    )}
                   </div>
                 </Link>
               </RevealItem>

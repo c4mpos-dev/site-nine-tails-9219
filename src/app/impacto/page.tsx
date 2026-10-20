@@ -57,6 +57,21 @@ export default function ImpactPage() {
         </RevealGroup>
       </Container>
 
+      {/* O estande do Nine Learns nas competições */}
+      <Container className="pb-14">
+        <p className="kicker">Fora da quadra</p>
+        <h2 className="heading mt-3 text-3xl sm:text-4xl">O Nine Learns também vai às competições</h2>
+        <p className="mt-3 max-w-2xl text-muted">
+          Em cada evento, o box da equipe vira estande: painéis do projeto, materiais para levar para casa e conversa com
+          quem passa, de outras equipes a famílias e estudantes.
+        </p>
+        <div className="mt-8 grid gap-4 sm:grid-cols-3">
+          <Photo src="/team/2024-cuiaba-estande-nine-learns.webp" alt="Estande da Nine Tails com os painéis do Nine Learns" caption="O estande em Cuiabá, 2024." aspect="aspect-[4/3]" sizes="(min-width:640px) 33vw, 100vw" />
+          <Photo src="/team/2024-cuiaba-estande-visitas.webp" alt="Visitantes no estande da Nine Tails" caption="Estudantes visitando o box." aspect="aspect-[4/3]" sizes="(min-width:640px) 33vw, 100vw" />
+          <Photo src="/team/2024-cuiaba-pit-visitas.webp" alt="Integrantes apresentando o Nine Learns" caption="Apresentando o projeto para quem passa." aspect="aspect-[4/3]" sizes="(min-width:640px) 33vw, 100vw" />
+        </div>
+      </Container>
+
       {/* Nine Learns por escola */}
       <section className="border-y border-line bg-surface">
         <Container className="grid gap-12 py-14 lg:grid-cols-[1fr_1.1fr] lg:items-center">

@@ -156,8 +156,8 @@ export default async function SeasonPage({ params }: PageProps<"/temporadas/[slu
             </>
           )}
 
-          <h2>Fotos da equipe</h2>
-          {team.length > 0 ? (
+          {team.length > 0 && <h2>Fotos da equipe</h2>}
+          {team.length > 0 && (
             <div className="not-prose !mt-6 grid grid-flow-dense auto-rows-[180px] grid-cols-2 gap-3 sm:auto-rows-[220px]">
               {team.map((t, i) => (
                 <figure
@@ -176,12 +176,6 @@ export default async function SeasonPage({ params }: PageProps<"/temporadas/[slu
                     {t.caption}
                   </figcaption>
                 </figure>
-              ))}
-            </div>
-          ) : (
-            <div className="!mt-6 grid grid-cols-2 gap-3">
-              {[0, 1, 2, 3].map((i) => (
-                <Photo key={i} alt={`Equipe na temporada ${season.year}`} aspect="aspect-square" placeholder="Foto da equipe em breve" />
               ))}
             </div>
           )}
