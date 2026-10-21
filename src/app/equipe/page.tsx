@@ -6,7 +6,9 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Photo } from "@/components/ui/Photo";
 import { Button } from "@/components/ui/Button";
 import { Loop } from "@/components/ui/Loop";
+import { InstagramIcon, LinkedinIcon } from "@/components/icons/Social";
 import { alumni, areas, mentors, roster } from "@/content/people";
+import { site } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Equipe",
@@ -111,6 +113,7 @@ export default function TeamPage() {
       </Container>
 
       {/* 3. Áreas, cada uma com quem faz parte dela */}
+      <div id="membros" className="scroll-mt-16" />
       <Container className="py-20">
         <SectionHeading
           kicker="Áreas"
@@ -167,7 +170,7 @@ export default function TeamPage() {
       {/* 4. Mentores e alumni */}
       <section className="border-y border-line bg-surface">
         <Container className="grid gap-16 py-20 lg:grid-cols-[1fr_1.4fr]">
-          <div>
+          <div id="mentores" className="scroll-mt-24">
             <p className="kicker">Quem orienta</p>
             <h2 className="heading mt-3 text-4xl">Mentores</h2>
             <ul className="mt-8 space-y-4">
@@ -187,17 +190,51 @@ export default function TeamPage() {
               ))}
             </ul>
           </div>
-          <div>
+          <div id="alumni" className="scroll-mt-24">
             <p className="kicker">Quem passou e continua por perto</p>
             <h2 className="heading mt-3 text-4xl">Alumni</h2>
-            <ul className="mt-8 grid gap-x-8 gap-y-4 sm:grid-cols-2">
+            <p className="mt-3 max-w-lg text-muted">Onde anda quem já vestiu a camisa da raposa, e como achar cada um.</p>
+            <ul className="mt-8 grid gap-3 sm:grid-cols-2">
               {alumni.map((a) => (
-                <li key={a.name} className="border-l-2 border-accent pl-3">
-                  <span className="block font-bold">{a.name}</span>
-                  <span className="block text-sm text-muted">{a.role}</span>
+                <li key={a.name} className="flex gap-3 rounded-lg border border-line bg-bg p-4">
+                  <span aria-hidden className="heading grid size-11 shrink-0 place-items-center rounded-full bg-surface-2 text-lg text-accent">
+                    {a.name
+                      .split(" ")
+                      .map((w) => w[0])
+                      .slice(0, 2)
+                      .join("")}
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block font-bold">{a.name}</span>
+                    <span className="block text-sm text-muted">
+                      {a.now ?? a.role}
+                      {a.years && ` · na equipe em ${a.years}`}
+                    </span>
+                    {(a.instagram || a.linkedin) && (
+                      <span className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-sm font-bold">
+                        {a.instagram && (
+                          <a href={`https://www.instagram.com/${a.instagram}/`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-accent hover:underline">
+                            <InstagramIcon className="size-3.5" /> @{a.instagram}
+                          </a>
+                        )}
+                        {a.linkedin && (
+                          <a href={a.linkedin} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-accent hover:underline">
+                            <LinkedinIcon className="size-3.5" /> LinkedIn
+                          </a>
+                        )}
+                      </span>
+                    )}
+                  </span>
                 </li>
               ))}
             </ul>
+            <p className="mt-6 text-sm text-muted">
+              É alumni e quer aparecer aqui com o seu @?{" "}
+              <a href={`mailto:${site.email}?subject=${encodeURIComponent("Alumni no site")}`} className="text-link">
+                Mande para a equipe
+              </a>
+              .
+            </p>
           </div>
         </Container>
       </section>

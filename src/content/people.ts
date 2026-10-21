@@ -32,7 +32,19 @@ export const areas: Area[] = [
   },
 ];
 
-export type Person = { name: string; role: string; area?: string };
+export type Person = {
+  name: string;
+  role: string;
+  area?: string;
+  /** Alumni: @ do Instagram (sem o @), só com autorização da pessoa. */
+  instagram?: string;
+  /** Alumni: link do LinkedIn, só com autorização da pessoa. */
+  linkedin?: string;
+  /** Alumni: anos em que esteve na equipe. */
+  years?: string;
+  /** Alumni: o que faz hoje. */
+  now?: string;
+};
 
 /** Mentores da temporada Crescendo (2024). */
 export const mentors: Person[] = [
