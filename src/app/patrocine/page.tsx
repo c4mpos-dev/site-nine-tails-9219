@@ -3,7 +3,7 @@ import { Container } from "@/components/ui/Container";
 import { PageHero } from "@/components/layout/PageHero";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
-import { sponsors } from "@/content/sponsors";
+import { SponsorWall } from "@/components/ui/SponsorWall";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
@@ -21,11 +21,6 @@ const reasons = [
 ];
 
 export default function SponsorPage() {
-  const groups = [
-    { key: "institution", label: "Instituição" },
-    { key: "major", label: "Grandes parceiros" },
-    { key: "partner", label: "Parceiros" },
-  ] as const;
   return (
     <>
       <PageHero
@@ -55,22 +50,7 @@ export default function SponsorPage() {
       <section className="border-y border-line bg-surface">
         <Container className="py-14">
           <SectionHeading kicker="Parceiros" title="Quem já está com a gente" />
-          <div className="mt-8 space-y-8">
-            {groups.map((g) => (
-              <div key={g.key}>
-                <p className="text-sm font-bold text-muted">{g.label}</p>
-                <ul className="mt-3 flex flex-wrap gap-2">
-                  {sponsors
-                    .filter((s) => s.tier === g.key)
-                    .map((s) => (
-                      <li key={s.name} className="rounded-md border border-line bg-surface-2 px-3 py-1.5 text-sm font-bold">
-                        {s.name}
-                      </li>
-                    ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+          <SponsorWall className="mt-8" />
         </Container>
       </section>
 
