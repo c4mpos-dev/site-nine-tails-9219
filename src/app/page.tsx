@@ -17,8 +17,11 @@ import { seasonLogos, seasonPhotos } from "@/content/credits";
 import { heroTeamPhotos, teamPhotos } from "@/content/gallery";
 import { HeroTeam } from "@/components/home/HeroTeam";
 import { projects } from "@/content/impact";
-import { sponsors } from "@/content/sponsors";
+import { SponsorWall } from "@/components/ui/SponsorWall";
+import { OnThisDay, type Memory } from "@/components/home/OnThisDay";
+import { competitions } from "@/lib/events";
 import { site, stats } from "@/content/site";
+import { zoom } from "@/lib/zoom";
 
 
 const mosaic = [
@@ -28,9 +31,29 @@ const mosaic = [
   teamPhotos["2024-crescendo"][0],
   teamPhotos["2023-charged-up"][4],
   teamPhotos["2025-reefscape"][2],
-  teamPhotos["2023-charged-up"][1],
+  teamPhotos["2026-rebuilt"][1],
   teamPhotos["2024-crescendo"][3],
 ];
+
+/** Lembranças para o "Neste dia": cada competição com a data de início e uma foto (do museu, senão o robô). */
+const memories: Memory[] = competitions.map((c) => {
+  const p = c.photos.find((x) => x.r >= 1) ?? c.photos[0];
+  return {
+    key: c.key,
+    title: `${c.event.shortName} ${c.season.year}`,
+    where: c.event.location.split(",")[0],
+    dates: c.event.dates,
+    result: [c.event.result, ...(c.event.awards ?? []).filter((a) => !a.startsWith("Wildcard"))].join(" · "),
+    y: c.start.getUTCFullYear(),
+    m: c.start.getUTCMonth(),
+    d: c.start.getUTCDate(),
+    photo: p
+      ? { src: p.src, title: p.title, position: p.position }
+      : c.robot?.photo
+        ? { src: c.robot.photo, title: c.robot.name, position: c.robot.photoPosition }
+        : undefined,
+  };
+});
 
 export default function Home() {
   const explorer: ExplorerSeason[] = seasons.map((s) => {
@@ -50,19 +73,16 @@ export default function Home() {
     <>
       {/* Topo: a equipe inteira, uma foto por temporada */}
       <HeroTeam photos={heroTeamPhotos}>
-        <Container className="flex min-h-[78vh] flex-col justify-center pb-32 pt-20">
-          <p className="kicker !text-[#f0a6e8]">FRC 9219 · Resende, RJ · desde 2022</p>
-          <h1 className="heading mt-4 text-6xl sm:text-8xl">
+        <Container className="flex min-h-[72svh] flex-col justify-end pb-24 pt-24 sm:min-h-[85vh] sm:pb-32">
+          <p className="kicker !text-[#f0a6e8] [text-shadow:0_1px_8px_rgb(0_0_0/0.7)]">FRC 9219 · Resende, RJ · desde 2022</p>
+          <h1 className="heading mt-2 text-[2.6rem] [text-shadow:0_2px_24px_rgb(0_0_0/0.45)] sm:text-6xl">
             Nine Tails <span className="text-[#f0a6e8]">#9219</span>
           </h1>
-          <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/85">
-            Equipe de FIRST Robotics Competition da {site.school}. A gente projeta, constrói e programa robôs, e leva robótica
-            para quem nunca teve contato com ela.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-5 flex flex-wrap gap-2 sm:gap-3">
             <Button href="/equipe">Conheça a equipe</Button>
             <Button href="/temporadas" variant="outline" className="text-white">
-              Nossas temporadas
+              <span className="sm:hidden">Temporadas</span>
+              <span className="hidden sm:inline">Nossas temporadas</span>
             </Button>
           </div>
         </Container>
@@ -102,6 +122,13 @@ export default function Home() {
         </Container>
       </section>
 
+      {/* Neste dia: a lembrança mais perto da data de hoje */}
+      <section>
+        <Container className="pb-16">
+          <OnThisDay memories={memories} />
+        </Container>
+      </section>
+
       {/* Temporadas */}
       <section className="border-y border-line bg-surface">
         <Container className="py-20">
@@ -135,20 +162,22 @@ export default function Home() {
             {mosaic.map((m, i) => (
               <figure
                 key={m.src}
+                {...zoom(m.src, m.caption)}
                 className={
-                  "group relative overflow-hidden rounded-lg bg-surface-2 " +
+                  "zoomable group relative overflow-hidden rounded-lg bg-surface-2 " +
                   (i === 0 ? "col-span-2 row-span-2" : i === 3 ? "row-span-2" : "")
                 }
               >
                 <Image
+                  quality={90}
                   src={m.src}
                   alt={m.caption}
                   fill
                   sizes="(min-width:768px) 25vw, 50vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                  className="object-cover"
                   style={{ objectPosition: m.position }}
                 />
-                <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent p-3 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100">
+                <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent p-3 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
                   {m.caption}
                 </figcaption>
               </figure>
@@ -240,20 +269,7 @@ export default function Home() {
             title="Quem acredita na gente"
             lead="Empresas e instituições que tornam cada temporada possível."
           />
-          <ul className="mt-8 flex flex-wrap gap-2">
-            {sponsors.map((s) => (
-              <li
-                key={s.name}
-                className={
-                  s.tier === "partner"
-                    ? "rounded-md border border-line px-3 py-1.5 text-sm text-muted"
-                    : "rounded-md border border-line bg-surface-2 px-3 py-1.5 text-sm font-bold"
-                }
-              >
-                {s.name}
-              </li>
-            ))}
-          </ul>
+          <SponsorWall className="mt-8" />
           <div className="mt-8">
             <Button href="/patrocine">Seja um patrocinador</Button>
           </div>
