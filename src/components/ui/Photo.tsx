@@ -1,10 +1,11 @@
 import Image from "next/image";
 import { ImageIcon } from "lucide-react";
 import { cn } from "@/lib/cn";
+import { zoom } from "@/lib/zoom";
 
 /**
  * Foto com legenda opcional. Sem `src`, mostra um espaço reservado discreto
- * para a equipe colocar a foto depois.
+ * para a equipe colocar a foto depois. Com foto, amplia ao clicar.
  */
 export function Photo({
   src,
@@ -32,9 +33,10 @@ export function Photo({
 }) {
   return (
     <figure className={className}>
-      <div className={cn("relative overflow-hidden rounded-lg bg-surface-2", aspect)}>
+      <div className={cn("relative overflow-hidden rounded-lg bg-surface-2", src && "zoomable", aspect)} {...(src ? zoom(src, caption ?? alt) : {})}>
         {src ? (
           <Image
+            quality={90}
             src={src}
             alt={alt}
             fill

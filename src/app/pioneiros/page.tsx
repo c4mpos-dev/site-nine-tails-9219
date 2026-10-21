@@ -7,6 +7,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { TimelineRail } from "@/components/archive/TimelineRail";
 import { chapters, pioneers, type Chapter } from "@/content/pioneers";
 import { cn } from "@/lib/cn";
+import { zoom } from "@/lib/zoom";
 
 export const metadata: Metadata = {
   title: "Os pioneiros",
@@ -16,13 +17,14 @@ export const metadata: Metadata = {
 
 function Shot({ src, caption, position, className, sizes }: Chapter["photos"][number] & { className?: string; sizes: string }) {
   return (
-    <figure className={cn("group relative overflow-hidden rounded-lg bg-surface-2", className)}>
+    <figure {...zoom(src, caption)} className={cn("zoomable relative overflow-hidden rounded-lg bg-surface-2", className)}>
       <Image
+        quality={90}
         src={src}
         alt={caption}
         fill
         sizes={sizes}
-        className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+        className="object-cover"
         style={{ objectPosition: position }}
       />
       <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent px-3 pb-2 pt-8 text-xs text-white">

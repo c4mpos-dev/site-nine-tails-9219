@@ -11,7 +11,7 @@ import { TankTails3D } from "@/components/robots/TankTails3D";
 
 export const metadata: Metadata = {
   title: "Robôs",
-  description: "Tank Tails, The Answer, Garuttinho, Predator e Arak: todos os robôs da Nine Tails #9219, do tank drive ao swerve.",
+  description: "Tank Tails, The Answer, Garuttinho, Predator, Arak e Pharaoh: todos os robôs da Nine Tails #9219, do tank drive ao swerve.",
 };
 
 export default function RobotsPage() {

@@ -10,6 +10,7 @@ export function RobotCard({ robot }: { robot: Robot }) {
       <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-surface-2">
         {robot.photo ? (
           <Image
+            quality={90}
             src={robot.photo}
             alt={`Robô ${robot.name}`}
             fill

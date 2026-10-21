@@ -1,10 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Maximize2 } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 
 /**
  * Topo das páginas internas: foto real ao fundo, escurecida com o roxo da equipe.
- * Sem foto, vira uma faixa lisa.
+ * Sem foto, vira uma faixa lisa. O botão no canto mostra a foto inteira, sem o texto por cima.
  */
 export function PageHero({
   kicker,
@@ -26,6 +27,7 @@ export function PageHero({
       {image && (
         <>
           <Image
+            quality={90}
             src={image.src}
             alt={image.alt}
             fill
@@ -60,7 +62,21 @@ export function PageHero({
         {lead && <p className="mt-5 max-w-2xl text-lg leading-relaxed text-white/80">{lead}</p>}
         {children}
       </Container>
-      {image?.credit && <p className="absolute bottom-2 right-4 text-[0.65rem] text-white/45">Foto: {image.credit}</p>}
+      {image && (
+        <div className="absolute bottom-3 right-4 flex items-center gap-3">
+          {image.credit && <p className="text-[0.65rem] text-white/45">Foto: {image.credit}</p>}
+          <button
+            type="button"
+            data-zoom={image.src}
+            data-zoom-caption={image.alt}
+            aria-label="Ver a foto inteira"
+            title="Ver a foto inteira"
+            className="grid size-9 cursor-zoom-in place-items-center rounded-full bg-white/10 text-white/75 transition-colors hover:bg-white/20 hover:text-white"
+          >
+            <Maximize2 className="size-4" />
+          </button>
+        </div>
+      )}
     </section>
   );
 }
