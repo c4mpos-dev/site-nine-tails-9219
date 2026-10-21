@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { EventResult } from "@/content/seasons";
 
 const kindLabel = { regional: "Regional", championship: "Mundial", offseason: "Off-season" };
@@ -16,9 +17,11 @@ export function EventTable({ events }: { events: EventResult[] }) {
         </thead>
         <tbody className="divide-y divide-line">
           {events.map((e) => (
-            <tr key={e.name} className="align-top">
+            <tr key={e.key} className="align-top">
               <td className="px-4 py-4">
-                <p className="font-bold text-fg">{e.name}</p>
+                <Link href={`/competicoes/${e.key}`} className="font-bold text-fg hover:text-accent">
+                  {e.name} <span className="text-accent">→</span>
+                </Link>
                 <p className="text-xs text-muted">
                   {kindLabel[e.kind]} · {e.location} · {e.dates}
                 </p>

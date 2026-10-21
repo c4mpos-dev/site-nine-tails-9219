@@ -2,6 +2,8 @@ export type Motif = "charged-up" | "crescendo" | "reefscape" | "rebuilt" | "bioc
 
 export type EventResult = {
   name: string;
+  /** Chave do evento nas partidas (matches/matchEvents) e na página /competicoes/[key]. */
+  key: string;
   shortName: string;
   location: string;
   dates: string;
@@ -56,6 +58,7 @@ export const seasons: Season[] = [
       {
         name: "Brazil Regional",
         shortName: "Regional Brasil",
+        key: "2023-brasilia",
         location: "Brasília, DF",
         dates: "16–18 mar 2023",
         kind: "regional",
@@ -68,6 +71,7 @@ export const seasons: Season[] = [
       {
         name: "FIRST Championship — Curie Division",
         shortName: "Mundial — Curie",
+        key: "2023-houston",
         location: "Houston, Texas, EUA",
         dates: "19–22 abr 2023",
         kind: "championship",
@@ -79,6 +83,7 @@ export const seasons: Season[] = [
       {
         name: "Off-Season Brazil",
         shortName: "Off-Season RJ",
+        key: "2023-rio",
         location: "Rio de Janeiro, RJ",
         dates: "2–5 ago 2023",
         kind: "offseason",
@@ -116,6 +121,7 @@ export const seasons: Season[] = [
       {
         name: "Brazil Regional",
         shortName: "Regional Brasil",
+        key: "2024-brasilia",
         location: "Brasília, DF",
         dates: "28 fev – 2 mar 2024",
         kind: "regional",
@@ -127,6 +133,7 @@ export const seasons: Season[] = [
       {
         name: "Festival SESI de Robótica — Off-Season MT",
         shortName: "Off-Season MT",
+        key: "2024-cuiaba",
         location: "Cuiabá, MT",
         dates: "6–8 ago 2024",
         kind: "offseason",
@@ -164,6 +171,7 @@ export const seasons: Season[] = [
       {
         name: "Regional Brazil — Brasília",
         shortName: "Regional Brasília",
+        key: "2025-brasilia",
         location: "Brasília, DF",
         dates: "12–15 mar 2025",
         kind: "regional",
@@ -175,6 +183,7 @@ export const seasons: Season[] = [
       {
         name: "Regional Brazil — São Paulo",
         shortName: "Regional São Paulo",
+        key: "2025-sao-paulo",
         location: "São Paulo, SP",
         dates: "20–23 mar 2025",
         kind: "regional",
@@ -186,6 +195,7 @@ export const seasons: Season[] = [
       {
         name: "Torneio FRC Off-Season Brasil",
         shortName: "Off-Season RS",
+        key: "2025-porto-alegre",
         location: "Porto Alegre, RS",
         dates: "1–3 out 2025",
         kind: "offseason",
@@ -216,11 +226,12 @@ export const seasons: Season[] = [
     gameDescription:
       "Temporada com tema de arqueologia e reconstrução: as alianças coletam e lançam fuel no Hub e escalam a Tower para fechar a partida.",
     gamePieces: ["Fuel", "Hub", "Tower"],
-    robots: [],
+    robots: ["pharaoh"],
     events: [
       {
         name: "Regional Brazil — Festival SESI de Educação",
         shortName: "Regional SESI Educação",
+        key: "2026-sao-paulo",
         location: "São Paulo, SP",
         dates: "5–8 mar 2026",
         kind: "regional",
@@ -231,6 +242,7 @@ export const seasons: Season[] = [
       {
         name: "Regional Brazil — SESI Osasco",
         shortName: "Regional Osasco",
+        key: "2026-osasco",
         location: "Osasco, SP",
         dates: "12–15 mar 2026",
         kind: "regional",

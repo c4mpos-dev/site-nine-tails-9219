@@ -25,7 +25,8 @@ export function MatchStrip({
   names?: Record<number, string>;
 }) {
   const [video, setVideo] = useState<MatchVideo | null>(null);
-  const team = (n: number) => (names[n] ? `${n} ${names[n]}` : String(n));
+  // Equipes demo do off-season já trazem o número no nome
+  const team = (n: number) => (!names[n] ? String(n) : names[n].includes(String(n)) ? names[n] : `${n} ${names[n]}`);
 
   return (
     <div>

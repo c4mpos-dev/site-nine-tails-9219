@@ -15,6 +15,8 @@ import { getSeason } from "@/content/seasons";
 import { awards } from "@/content/awards";
 import { matchEvents } from "@/content/allies";
 import { byEvent, namesFor } from "@/lib/matchStats";
+import { cn } from "@/lib/cn";
+import { zoom } from "@/lib/zoom";
 
 const driveTerm = (d: string) => (/swerve/i.test(d) ? "swerve" : /omni/i.test(d) ? "omni" : "tank");
 
@@ -138,9 +140,13 @@ export default async function RobotPage({ params }: PageProps<"/robos/[slug]">) 
           </div>
           <div className="relative">
             <Corners />
-            <div className="relative aspect-[4/3] overflow-hidden rounded-md bg-white/5">
+            <div
+              className={cn("relative aspect-[4/3] overflow-hidden rounded-md bg-white/5", robot.photo && "zoomable")}
+              {...(robot.photo ? zoom(robot.photo, `Robô ${robot.name}`) : {})}
+            >
               {robot.photo ? (
                 <Image
+                  quality={90}
                   src={robot.photo}
                   alt={`Robô ${robot.name}`}
                   fill
@@ -293,7 +299,12 @@ export default async function RobotPage({ params }: PageProps<"/robos/[slug]">) 
           </h2>
           <div className="mt-8 grid gap-10 lg:grid-cols-2">
             {events.map((e) => (
-              <MatchStrip key={e.key} title={e.short} matches={e.matches} max={max} names={namesFor(e.matches)} />
+              <div key={e.key}>
+                <MatchStrip title={e.short} matches={e.matches} max={max} names={namesFor(e.matches)} />
+                <Link href={`/competicoes/${e.key}`} className="mt-5 inline-block text-sm font-bold text-accent hover:underline">
+                  Ficha da competição →
+                </Link>
+              </div>
             ))}
           </div>
           <div className="mt-6">
