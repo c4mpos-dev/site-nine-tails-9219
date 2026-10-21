@@ -35,6 +35,7 @@ export const nav = [
 
 /** Páginas extras, abertas no menu "Mais" (e listadas em /arquivo). */
 export const navMore = [
+  { href: "/museu", label: "Museu da Raposa", note: "O acervo da equipe, sala por sala" },
   { href: "/recordes", label: "Recordes e alianças", note: "As 122 partidas em números" },
   { href: "/pioneiros", label: "Os pioneiros", note: "O diário da primeira temporada" },
   { href: "/embarque", label: "Viagens", note: "Todas as competições, de Brasília a Houston" },

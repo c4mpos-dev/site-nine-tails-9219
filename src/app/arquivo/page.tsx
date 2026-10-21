@@ -25,9 +25,33 @@ export default function ArchivePage() {
       />
       <Container className="py-14">
         <div className="grid gap-6 md:grid-cols-2">
+          <Link href="/museu" className="group grid overflow-hidden rounded-lg border border-line bg-[#160b20] text-white transition-colors hover:border-accent md:col-span-2 md:grid-cols-[1fr_1.2fr]">
+            <div className="p-6 sm:p-8">
+              <p className="kicker !text-[#f0a6e8]">Acervo · 2022 até hoje</p>
+              <h2 className="heading mt-2 text-4xl group-hover:text-[#f0a6e8]">Museu da Raposa</h2>
+              <p className="mt-2 max-w-md text-white/75">
+                Fotos sérias e de resenha, robôs, troféus e objetos de cada temporada, expostos em salas.
+              </p>
+              <p className="mt-4 font-bold">Entrar no museu →</p>
+            </div>
+            <div className="relative hidden min-h-56 md:block">
+              {[
+                { src: "/museu/23-inicio-cone.webp", c: "left-[8%] top-8 -rotate-6" },
+                { src: "/museu/23-volta-beijo-trofeu.webp", c: "left-[38%] top-4 rotate-3" },
+                { src: "/museu/24-festa-abraco-3.webp", c: "left-[66%] top-10 -rotate-2" },
+              ].map((p) => (
+                <div key={p.src} className={`absolute w-[28%] bg-[#fdfcf8] p-1.5 pb-5 shadow-xl transition-transform duration-500 group-hover:-translate-y-1 ${p.c}`}>
+                  <div className="relative aspect-square">
+                    <Image src={p.src} alt="" fill sizes="200px" className="object-cover" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Link>
+
           <Link href="/pioneiros" className="group overflow-hidden rounded-lg border border-line transition-colors hover:border-accent">
             <div className="relative aspect-[16/9]">
-              <Image src="/team/2023-houston-space-center.webp" alt="" fill sizes="(min-width:768px) 50vw, 100vw" className="object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
+              <Image quality={90} src="/team/2023-houston-space-center.webp" alt="" fill sizes="(min-width:768px) 50vw, 100vw" className="object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
             </div>
             <div className="p-6">
               <p className="kicker">Charged Up · 2023</p>
