@@ -4,7 +4,7 @@ import type { Award } from "@/content/awards";
 import { cn } from "@/lib/cn";
 
 /** Altura de cada tipo de troféu na estante, proporcional ao tamanho real. */
-const height = { frc: "h-36 sm:h-44", sesi: "h-40 sm:h-48", certificate: "h-32 sm:h-36" };
+const height = { frc: "h-36 sm:h-44", sesi: "h-40 sm:h-48" };
 
 /**
  * A estante de troféus: todos os prêmios lado a lado sobre a prateleira roxa.

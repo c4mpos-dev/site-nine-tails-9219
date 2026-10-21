@@ -3,28 +3,27 @@ import { useId } from "react";
 /**
  * Os troféus da Nine Tails desenhados no formato real, a partir das fotos da equipe:
  * - FrcAward: o troféu de cristal da FRC 2023 com a placa da Charged Up (Rookie All Star e Rookie Inspiration).
- * - SesiTrophy: o troféu do Festival SESI de Robótica, base laranja em degraus com o disco verde de "power".
- * - Certificate: a Moção de Aplausos, um certificado emoldurado.
+ * - SesiTrophy: o troféu do Festival SESI de Robótica, base laranja em degraus com o contorno verde de "power".
  */
 export type TrophyArt =
   | { kind: "frc"; award: string; crystal: [string, string]; plaque: string[]; frame: "walnut" | "black" }
-  | { kind: "sesi"; lines: [string, string?]; event: string; edition: "2023" | "2024" }
-  | { kind: "certificate"; lines: [string, string?]; issuer: string };
+  | { kind: "sesi"; lines: [string, string?]; event: string; onca?: boolean };
 
 export function Trophy({ art, className }: { art: TrophyArt; className?: string }) {
   if (art.kind === "frc") return <FrcAward {...art} className={className} />;
-  if (art.kind === "sesi") return <SesiTrophy {...art} className={className} />;
-  return <Certificate {...art} className={className} />;
+  return <SesiTrophy {...art} className={className} />;
 }
 
-/** Logo da FRC (triângulo vermelho, círculo branco, quadrado azul), em miniatura. */
-function FrcLogo({ x, y, s = 1 }: { x: number; y: number; s?: number }) {
+/** Marca oficial da FIRST (triângulo, anel e quadrado), colorida ou branca, com altura `h`. */
+function FirstMark({ x, y, h, white }: { x: number; y: number; h: number; white?: boolean }) {
   return (
-    <g transform={`translate(${x} ${y}) scale(${s})`}>
-      <polygon points="0,6 4,0 6,6" fill="#ed1c24" />
-      <circle cx="8" cy="3.6" r="2.7" fill="#fff" stroke="#8a8a8a" strokeWidth="0.8" />
-      <rect x="10" y="1" width="4.6" height="5" fill="#0066b3" />
-    </g>
+    <image
+      href={white ? "/seasons/logos/frc-mark-white.svg" : "/seasons/logos/frc-mark.svg"}
+      x={x}
+      y={y}
+      height={h}
+      width={h * (107.5 / 64.2)}
+    />
   );
 }
 
@@ -87,7 +86,7 @@ function FrcAward({
           HAAS
         </tspan>
       </text>
-      <FrcLogo x={129} y={142} s={0.85} />
+      <FirstMark x={128.5} y={141.5} h={6.5} />
       <line x1="144" y1="140" x2="144" y2="158" stroke="#bbb" strokeWidth="0.5" />
       {plaque.map((l, i) => (
         <text key={l} x="147" y={145 + i * 5.4} fontSize={i === 0 ? 4.3 : 3.8} fontWeight={i === 0 ? 700 : 400} fill="#222" fontFamily="Arial, sans-serif">
@@ -100,7 +99,7 @@ function FrcAward({
       <rect x="12" y="178" width="148" height="20" fill="#0d0d10" />
       <line x1="12" y1="178.5" x2="160" y2="178.5" stroke="#fff" strokeOpacity="0.25" />
       <rect x="26" y="181" width="120" height="14" fill="#d9dde2" />
-      <FrcLogo x={29} y={185} s={0.7} />
+      <FirstMark x={29} y={184.5} h={6} />
       <text x="88" y="187.5" textAnchor="middle" fontSize="4.6" fontWeight="700" fill="#111" fontFamily="Arial, sans-serif">
         {crystal[0]}
       </text>
@@ -128,19 +127,128 @@ function FrcAward({
   );
 }
 
-/** Troféu do Festival SESI de Robótica: base laranja em degraus, acrílico e o disco verde de power. */
+/**
+ * O "power" do Festival SESI, como no logo: anel de fora e anel de dentro separados por um canal
+ * transparente que entra à esquerda da barra, dá a volta inteira e sai à direita dela, no furo do centro.
+ * Medidas tiradas da foto do troféu (raios em unidades do desenho, centro em 100,86).
+ */
+const CX = 100;
+const CY = 86;
+const R = { disc: 61, outer: 58, gap: 45, inner: 39.5, hole: 21 };
+const BAR = { x: 91.5, w: 17, end: 80 };
+const SLIT = 5.5;
+
+const at = (r: number, deg: number) => {
+  const a = (deg * Math.PI) / 180;
+  return `${(CX + r * Math.sin(a)).toFixed(1)} ${(CY - r * Math.cos(a)).toFixed(1)}`;
+};
+const range = (from: number, to: number, step: number) =>
+  Array.from({ length: Math.floor((to - from) / step) + 1 }, (_, i) => from + i * step);
+
+/** Trilhas de circuito: um traço do meio do anel para fora, às vezes com um cotovelo, e um pad na ponta. */
+type Trace = { d: string; pad: string };
+function trace(r1: number, r2: number, deg: number, bend = 0): Trace {
+  const end = bend ? at(r2, deg + bend) : at(r2, deg);
+  return { d: `M${at(r1, deg)} L${at(r2, deg)}${bend ? ` L${end}` : ""}`, pad: end };
+}
+const TRACES: Trace[] = [
+  // Anel de fora: traços curtos com cotovelos alternados
+  ...range(24, 336, 9).map((deg, i) =>
+    i % 3 === 0 ? trace(47, 55, deg, i % 2 ? 5 : -5) : i % 3 === 1 ? trace(56.5, 50.5 - (i % 4), deg) : trace(46.5, 51, deg, 3),
+  ),
+  // Anel de dentro, embaixo: o pente de traços paralelos com pad em cima
+  ...range(150, 210, 5).map((deg) => trace(23, 31 + (deg % 10 ? 0 : 3), deg)),
+  // Anel de dentro, nas laterais
+  ...range(40, 140, 8).map((deg, i) => trace(38, 27 + (i % 3) * 2, deg, i % 2 ? 6 : 0)),
+  ...range(220, 340, 8).map((deg, i) => trace(38, 27 + (i % 3) * 2, deg, i % 2 ? -6 : 0)),
+];
+
+function PowerMark({ id }: { id: string }) {
+  const mask = `url(#${id}m)`;
+  return (
+    <>
+      <defs>
+        <linearGradient id={`${id}g`} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#b4f08a" />
+          <stop offset="1" stopColor="#7fd65a" />
+        </linearGradient>
+        {/* Branco = acrílico verde; preto = recortes transparentes */}
+        <mask id={`${id}m`} maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="244">
+          <circle cx={CX} cy={CY} r={R.outer} fill="#fff" />
+          <circle cx={CX} cy={CY} r={R.gap} fill="#000" />
+          <circle cx={CX} cy={CY} r={R.inner} fill="#fff" />
+          <circle cx={CX} cy={CY} r={R.hole} fill="#000" />
+          <path
+            d={`M${BAR.x} ${CY - R.outer + 6} V${BAR.end} a${BAR.w / 2} ${BAR.w / 2} 0 0 0 ${BAR.w} 0 V${CY - R.outer + 6} Z`}
+            fill="#fff"
+          />
+          {/* Canal à esquerda da barra (de fora até o canal do meio) e à direita (do canal até o furo) */}
+          <rect x={BAR.x - SLIT} y={CY - R.outer - 2} width={SLIT} height={R.outer - R.inner + 3} fill="#000" />
+          <rect x={BAR.x + BAR.w} y={CY - R.gap - 1} width={SLIT} height={R.gap - R.hole + 3} fill="#000" />
+        </mask>
+        {/* As bordas dos anéis não passam por cima da barra */}
+        <mask id={`${id}e`} maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="244">
+          <rect width="200" height="244" fill="#fff" />
+          <rect x={BAR.x + 1} y="0" width={BAR.w - 2} height={BAR.end} fill="#000" />
+        </mask>
+      </defs>
+
+      {/* O disco de acrílico transparente */}
+      <circle cx={CX} cy={CY} r={R.disc} fill="#fff" fillOpacity="0.16" stroke="#fff" strokeOpacity="0.7" strokeWidth="1.2" />
+      <circle cx={CX} cy={CY} r={R.disc - 2} fill="none" stroke="#fff" strokeOpacity="0.25" strokeWidth="0.8" />
+
+      {/* O verde, com as trilhas e as bordas claras do recorte */}
+      <g mask={mask}>
+        <rect x={CX - R.outer} y={CY - R.outer} width={R.outer * 2} height={R.outer * 2} fill={`url(#${id}g)`} />
+        <g stroke="#3f9a35" strokeWidth="0.8" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.75">
+          {TRACES.map((t) => (
+            <path key={t.d} d={t.d} />
+          ))}
+          <path d={`M${CX} ${CY - R.outer + 4} V${BAR.end - 4}`} />
+        </g>
+        <g fill="none" stroke="#3f9a35" strokeWidth="0.7" opacity="0.75">
+          {TRACES.map((t) => {
+            const [x, y] = t.pad.split(" ");
+            return <circle key={t.d} cx={x} cy={y} r="0.95" />;
+          })}
+          <rect x={CX - 2.5} y={CY - 26} width="5" height="5" />
+        </g>
+        <g fill="none" stroke="#e7fbd5" strokeWidth="2" opacity="0.85">
+          <g mask={`url(#${id}e)`}>
+            <circle cx={CX} cy={CY} r={R.outer} />
+            <circle cx={CX} cy={CY} r={R.gap} />
+            <circle cx={CX} cy={CY} r={R.inner} />
+            <circle cx={CX} cy={CY} r={R.hole} />
+          </g>
+          <path
+            d={`M${BAR.x} ${CY - R.outer} V${CY - R.inner} M${BAR.x} ${CY - R.hole} V${BAR.end} a${BAR.w / 2} ${BAR.w / 2} 0 0 0 ${BAR.w} 0 V${CY - R.gap}`}
+          />
+          <path d={`M${BAR.x - SLIT} ${CY - R.outer} V${CY - R.gap}`} />
+          <path d={`M${BAR.x + BAR.w + SLIT} ${CY - R.gap} V${CY - R.hole}`} />
+        </g>
+      </g>
+    </>
+  );
+}
+
+/**
+ * Troféu do Festival SESI de Robótica, igual nos off-seasons de 2023 (Rio) e 2024 (Mato Grosso):
+ * o "power" verde com trilhas de circuito num disco de acrílico, sobre um bloco laranja com o nome do
+ * prêmio e a base larga com o festival e os logos. O de Mato Grosso tem a onça-pintada dourada na frente.
+ */
 function SesiTrophy({
   lines,
   event,
-  edition,
+  onca,
   className,
 }: {
   lines: [string, string?];
   event: string;
-  edition: "2023" | "2024";
+  onca?: boolean;
   className?: string;
 }) {
   const id = useId();
+  const [eventTop, ...eventRest] = event.split(" ");
   return (
     <svg viewBox="0 0 200 244" className={className} role="img" aria-label={`Troféu ${lines.join(" ")}, ${event}`}>
       <defs>
@@ -152,84 +260,52 @@ function SesiTrophy({
           <stop offset="0" stopColor="#f6d77a" />
           <stop offset="1" stopColor="#c9921f" />
         </linearGradient>
-        <radialGradient id={`${id}g`} cx="0.4" cy="0.35" r="0.7">
-          <stop offset="0" stopColor="#c3f08f" />
-          <stop offset="1" stopColor="#7fcf45" />
-        </radialGradient>
       </defs>
       <ellipse cx="100" cy="236" rx="88" ry="6" fill="#000" opacity="0.25" />
 
-      {edition === "2023" ? (
-        <>
-          {/* 2023: acrílico com o disco verde cheio, trilhas de circuito e o power em linhas claras */}
-          <path d="M100 22 a68 68 0 1 1 -0.1 0 Z M70 140 H130 V168 H70 Z" fill="#fff" fillOpacity="0.16" stroke="#fff" strokeOpacity="0.55" strokeWidth="1.5" />
-          <circle cx="100" cy="90" r="60" fill={`url(#${id}g)`} />
-          <g stroke="#4e9a27" strokeWidth="2" fill="none" strokeLinecap="round" opacity="0.75">
-            <path d="M48 78 H60 L66 70 H74" />
-            <path d="M46 98 H58 L64 106 H70" />
-            <path d="M128 70 H138 L144 62 H150" />
-            <path d="M130 108 H140 L146 116 H152" />
-            <path d="M84 138 V128 L90 122" />
-            <path d="M118 138 V130 L112 124" />
-            <path d="M70 46 L78 54 V60" />
+      <PowerMark id={id} />
+
+      {onca && (
+        /* Onça-pintada dourada, andando na frente do anel, sobre o bloco */
+        <g transform="translate(200 0) scale(-1 1) translate(100 139) scale(1.25) translate(-100 -144)">
+          <path
+            d="M70 132 q-3 -9 4 -12 l1 -6 l4 4 q5 -2 9 1 q12 -6 28 -2 q7 2 10 9 q5 -3 8 -10 q4 -6 6 -3 q1 3 -3 7 q-4 7 -10 10 v12 h-6 l-2 -9 h-16 l-2 9 h-6 l1 -9 q-5 0 -8 -2 l-2 11 h-6 l1 -12 q-7 -1 -10 -6 Z"
+            fill={`url(#${id}j)`}
+            stroke="#8a6410"
+            strokeWidth="1"
+          />
+          {/* Rosetas */}
+          <g fill="none" stroke="#6b4b0b" strokeWidth="0.8">
+            <circle cx="84" cy="124" r="1.4" />
+            <circle cx="89" cy="120" r="1.4" />
+            <circle cx="94" cy="126" r="1.4" />
+            <circle cx="98" cy="119" r="1.4" />
+            <circle cx="103" cy="124" r="1.4" />
+            <circle cx="108" cy="119" r="1.4" />
+            <circle cx="112" cy="126" r="1.4" />
+            <circle cx="116" cy="121" r="1.4" />
+            <circle cx="120" cy="127" r="1.4" />
+            <circle cx="92" cy="131" r="1.4" />
+            <circle cx="101" cy="130" r="1.4" />
+            <circle cx="110" cy="131" r="1.4" />
+            <circle cx="118" cy="132" r="1.4" />
+            <circle cx="86" cy="129" r="1.4" />
+            <circle cx="124" cy="124" r="1.4" />
+            <circle cx="105" cy="135" r="1.4" />
+            <circle cx="96" cy="136" r="1.4" />
           </g>
-          <g fill="#4e9a27" opacity="0.75">
-            <circle cx="74" cy="70" r="2.2" />
-            <circle cx="70" cy="106" r="2.2" />
-            <circle cx="150" cy="62" r="2.2" />
-            <circle cx="152" cy="116" r="2.2" />
-            <circle cx="90" cy="122" r="2.2" />
-            <circle cx="112" cy="124" r="2.2" />
-          </g>
-          <circle cx="100" cy="90" r="57" fill="none" stroke="#e9fbd6" strokeWidth="2.5" opacity="0.8" />
-          <path d="M84 62 A34 34 0 1 0 116 62" fill="none" stroke="#5aa82f" strokeWidth="15" strokeLinecap="round" />
-          <path d="M84 62 A34 34 0 1 0 116 62" fill="none" stroke="#eafcd9" strokeWidth="10" strokeLinecap="round" />
-          <line x1="100" y1="44" x2="100" y2="84" stroke="#5aa82f" strokeWidth="15" strokeLinecap="round" />
-          <line x1="100" y1="44" x2="100" y2="84" stroke="#eafcd9" strokeWidth="10" strokeLinecap="round" />
-        </>
-      ) : (
-        <>
-          {/* 2024: só o anel verde vazado de power, com a onça-pintada dourada na frente */}
-          <g fill="none" strokeLinecap="round">
-            <path d="M80 42 A54 54 0 1 0 120 42" stroke="#1d8a3a" strokeWidth="17" />
-            <path d="M80 42 A54 54 0 1 0 120 42" stroke="#2fbf55" strokeWidth="13" />
-            <path d="M88 64 A32 32 0 1 0 112 64" stroke="#1d8a3a" strokeWidth="9" />
-            <path d="M88 64 A32 32 0 1 0 112 64" stroke="#2fbf55" strokeWidth="6" />
-            <line x1="100" y1="34" x2="100" y2="88" stroke="#1d8a3a" strokeWidth="15" />
-            <line x1="100" y1="34" x2="100" y2="88" stroke="#2fbf55" strokeWidth="11" />
-          </g>
-          <path d="M66 70 A40 40 0 0 1 80 50" fill="none" stroke="#fff" strokeOpacity="0.45" strokeWidth="2" strokeLinecap="round" />
-          {/* Onça dourada, em pé sobre o bloco */}
-          <g>
-            <path
-              d="M70 132 q-3 -9 4 -12 l1 -6 l4 4 q5 -2 9 1 q12 -6 28 -2 q7 2 10 9 q5 -3 8 -10 q4 -6 6 -3 q1 3 -3 7 q-4 7 -10 10 v12 h-6 l-2 -9 h-16 l-2 9 h-6 l1 -9 q-5 0 -8 -2 l-2 11 h-6 l1 -12 q-7 -1 -10 -6 Z"
-              fill={`url(#${id}j)`}
-              stroke="#8a6410"
-              strokeWidth="1"
-            />
-            <g fill="#6b4b0b">
-              <circle cx="96" cy="121" r="1.6" />
-              <circle cx="104" cy="119" r="1.4" />
-              <circle cx="112" cy="122" r="1.7" />
-              <circle cx="100" cy="127" r="1.3" />
-              <circle cx="108" cy="128" r="1.5" />
-              <circle cx="117" cy="126" r="1.3" />
-              <circle cx="90" cy="125" r="1.2" />
-            </g>
-            <circle cx="75" cy="121" r="0.9" fill="#3a2a05" />
-          </g>
-        </>
+          <circle cx="75" cy="121" r="0.9" fill="#3a2a05" />
+        </g>
       )}
 
       {/* Bloco de cima: o nome do prêmio */}
-      <polygon points="64,170 136,170 132,138 68,138" fill={`url(#${id}o)`} />
-      <polygon points="68,138 132,138 131,134 69,134" fill="#ff9a6e" />
-      {edition === "2024" && <rect x="72" y="143" width="56" height="21" rx="1.5" fill="#d9b25a" stroke="#9c7313" strokeWidth="0.8" />}
-      <text x="100" y={lines[1] ? 151 : 156} textAnchor="middle" fontSize="8.5" fontWeight="700" fill={edition === "2024" ? "#3a2a05" : "#fff"} fontFamily="Arial, sans-serif">
+      <polygon points="62,170 138,170 132,140 68,140" fill={`url(#${id}o)`} />
+      <polygon points="68,140 132,140 131,136 69,136" fill="#ff9a6e" />
+      <text x="100" y={lines[1] ? 153 : 158} textAnchor="middle" fontSize="8.5" fontWeight="700" fill="#fff" fontFamily="Arial, sans-serif">
         {lines[0]}
       </text>
       {lines[1] && (
-        <text x="100" y="162" textAnchor="middle" fontSize="8.5" fontWeight="700" fill={edition === "2024" ? "#3a2a05" : "#fff"} fontFamily="Arial, sans-serif">
+        <text x="100" y="163.5" textAnchor="middle" fontSize="8.5" fontWeight="700" fill="#fff" fontFamily="Arial, sans-serif">
           {lines[1]}
         </text>
       )}
@@ -247,67 +323,29 @@ function SesiTrophy({
       <text x="36" y="205" fontSize="3.4" fill="#fff" opacity="0.85" fontFamily="Arial, sans-serif">
         FIRST Robotics Competition
       </text>
-      <text x="164" y="194" textAnchor="end" fontSize="5.8" fontWeight="700" fill="#fff" fontFamily="Arial, sans-serif">
-        {event.split(" ").slice(0, -2).join(" ") || event}
+      <text x="164" y="194" textAnchor="end" fontSize="5.4" fontWeight="700" fill="#fff" fontFamily="Arial, sans-serif">
+        {eventTop}
       </text>
-      <text x="164" y="201.5" textAnchor="end" fontSize="5.8" fontWeight="700" fill="#fff" fontFamily="Arial, sans-serif">
-        {event.split(" ").slice(-2).join(" ")}
+      <text x="164" y="201" textAnchor="end" fontSize="5.4" fontWeight="700" fill="#fff" fontFamily="Arial, sans-serif">
+        {eventRest.join(" ")}
       </text>
       <g fontFamily="Arial, sans-serif" fontWeight="900" fill="#fff">
         <rect x="40" y="211" width="28" height="8" fill="#fff" />
         <text x="54" y="217.5" textAnchor="middle" fontSize="6" fill="#e2461d">
           SENAI
         </text>
-        <g transform="translate(84 211)">
-          <polygon points="0,7 4,0 6,7" fill="#fff" />
-          <circle cx="8.5" cy="4" r="2.8" fill="none" stroke="#fff" strokeWidth="1" />
-          <rect x="11" y="1" width="4.6" height="5.5" fill="#fff" />
-          <text x="18" y="4" fontSize="3.6">
-            FIRST
-          </text>
-          <text x="18" y="8" fontSize="2.8">
-            ROBOTICS COMPETITION
-          </text>
-        </g>
-        <rect x="132" y="211" width="24" height="8" fill="#fff" />
-        <text x="144" y="217.5" textAnchor="middle" fontSize="6" fill="#e2461d">
+        <FirstMark x={76} y={211} h={8} white />
+        <text x="90.5" y="214.4" fontSize="3.8" fontStyle="italic">
+          FIRST
+        </text>
+        <text x="90.5" y="218.4" fontSize="2.6">
+          ROBOTICS COMPETITION
+        </text>
+        <rect x="134" y="211" width="24" height="8" fill="#fff" />
+        <text x="146" y="217.5" textAnchor="middle" fontSize="6" fill="#e2461d">
           SESI
         </text>
       </g>
-    </svg>
-  );
-}
-
-/** Certificado emoldurado (Moção de Aplausos). */
-function Certificate({ lines, issuer, className }: { lines: [string, string?]; issuer: string; className?: string }) {
-  return (
-    <svg viewBox="0 0 160 212" className={className} role="img" aria-label={`${lines.join(" ")}, ${issuer}`}>
-      <ellipse cx="80" cy="205" rx="66" ry="5" fill="#000" opacity="0.25" />
-      <rect x="6" y="6" width="148" height="194" rx="3" fill="#2d1f17" />
-      <rect x="14" y="14" width="132" height="178" fill="#fbf7ec" />
-      <rect x="20" y="20" width="120" height="166" fill="none" stroke="#c9a94e" strokeWidth="1" />
-      <text x="80" y="48" textAnchor="middle" fontSize="13" fontWeight="700" fill="#3a2a20" fontFamily="Georgia, serif">
-        {lines[0]}
-      </text>
-      {lines[1] && (
-        <text x="80" y="64" textAnchor="middle" fontSize="13" fontWeight="700" fill="#3a2a20" fontFamily="Georgia, serif">
-          {lines[1]}
-        </text>
-      )}
-      <g stroke="#b9ad97" strokeWidth="2" strokeLinecap="round">
-        <path d="M34 84 H126" />
-        <path d="M34 94 H126" />
-        <path d="M34 104 H118" />
-        <path d="M34 114 H126" />
-        <path d="M34 124 H100" />
-      </g>
-      <text x="80" y="140" textAnchor="middle" fontSize="7" fill="#6b5a48" fontFamily="Georgia, serif">
-        {issuer}
-      </text>
-      {/* Selo com fitas */}
-      <path d="M72 168 L66 188 L74 184 L78 192 L80 170 Z M88 168 L94 188 L86 184 L82 192 L80 170 Z" fill="#9e19b8" />
-      <circle cx="80" cy="164" r="12" fill="#d8b44a" stroke="#a5822a" strokeWidth="1.5" />
-      <circle cx="80" cy="164" r="7" fill="none" stroke="#a5822a" strokeWidth="1" />
     </svg>
   );
 }

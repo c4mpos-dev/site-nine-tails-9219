@@ -65,7 +65,7 @@ export const awards: Award[] = [
     event: "Festival SESI de Robótica, Off-Season Brasil, Rio de Janeiro",
     description:
       "Reconhece a equipe com o processo de design mais profissional e elegante. Foi conquistado com o The Answer, robô construído em menos de um mês.",
-    art: { kind: "sesi", lines: ["Engineering", "Award"], event: "OFF-SEASON BRASIL 2023", edition: "2023" },
+    art: { kind: "sesi", lines: ["Engineering", "Award"], event: "OFF-SEASON BRASIL 2023" },
     photo: "/team/2023-rio-engineering-award.webp",
     photoPosition: "50% 45%",
   },
@@ -77,7 +77,7 @@ export const awards: Award[] = [
     event: "Festival SESI de Robótica, Off-Season Mato Grosso, Cuiabá",
     description:
       "Com o Predator, a equipe ficou em 3º no ranking, foi a 1ª escolha da Aliança 2 e chegou à grande final.",
-    art: { kind: "sesi", lines: ["Aliança", "Finalista"], event: "OFF-SEASON MT 2024", edition: "2024" },
+    art: { kind: "sesi", lines: ["Aliança", "Finalista"], event: "OFF-SEASON MATO GROSSO 2024", onca: true },
     photo: "/team/2024-cuiaba-alianca-robos.webp",
   },
   {
@@ -88,18 +88,8 @@ export const awards: Award[] = [
     event: "Festival SESI de Robótica, Off-Season Mato Grosso, Cuiabá",
     description:
       "O prêmio que reconhece o impacto da equipe fora da quadra: o Nine Learns, as ações em escolas públicas e a cultura STEAM levada para a comunidade de Resende.",
-    art: { kind: "sesi", lines: ["Prêmio de", "Impacto"], event: "OFF-SEASON MT 2024", edition: "2024" },
+    art: { kind: "sesi", lines: ["Prêmio de", "Impacto"], event: "OFF-SEASON MATO GROSSO 2024", onca: true },
     photo: "/team/2024-cuiaba-premiacao.webp",
     photoPosition: "50% 40%",
-  },
-  {
-    id: "mocao",
-    title: "Moção de Aplausos",
-    year: 2025,
-    date: "2025",
-    event: "Prefeitura de Itatiaia",
-    description:
-      "Reconhecimento oficial do poder público pelo trabalho da equipe em levar robótica e STEAM para a comunidade.",
-    art: { kind: "certificate", lines: ["Moção de", "Aplausos"], issuer: "Itatiaia · RJ" },
   },
 ];

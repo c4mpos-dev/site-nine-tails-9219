@@ -15,7 +15,10 @@ export const metadata: Metadata = {
     "Rookie All Star, Rookie Inspiration no Mundial de Houston, Engineering Award, Prêmio de Impacto e mais: os prêmios da Nine Tails #9219.",
 };
 
+const inWords = ["zero", "uma", "duas", "três", "quatro", "cinco"];
+
 export default function AwardsPage() {
+  const seasonCount = new Set(awards.map((a) => a.year)).size;
   return (
     <>
       <PageHero
@@ -29,7 +32,7 @@ export default function AwardsPage() {
       <section className="border-b border-line bg-surface">
         <Container className="pb-12 pt-14">
           <p className="kicker">A estante</p>
-          <h2 className="heading mt-3 text-4xl sm:text-5xl">{awards.length} troféus em quatro temporadas</h2>
+          <h2 className="heading mt-3 text-4xl sm:text-5xl">{awards.length} troféus em {inWords[seasonCount] ?? seasonCount} temporadas</h2>
           <p className="mt-3 max-w-2xl text-muted">
             Cada um desenhado no formato do troféu de verdade: o cristal e a placa da FRC, os troféus do Festival SESI de
             Robótica. Clique em um para ver a história.
