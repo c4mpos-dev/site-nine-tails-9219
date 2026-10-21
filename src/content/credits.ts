@@ -72,8 +72,8 @@ export const seasonPhotos: Record<string, Credit> = {
 };
 
 export const seasonLogos: Record<string, string> = {
-  "charged-up": "/seasons/logos/charged-up.svg",
-  crescendo: "/seasons/logos/crescendo.svg",
-  reefscape: "/seasons/logos/reefscape.png",
-  rebuilt: "/seasons/logos/rebuilt.png",
+  "charged-up": "/seasons/logos/charged-up-mark.png",
+  crescendo: "/seasons/logos/crescendo-mark.png",
+  reefscape: "/seasons/logos/reefscape-mark.png",
+  rebuilt: "/seasons/logos/rebuilt-mark.png",
 };

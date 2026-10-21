@@ -67,7 +67,8 @@ e fundar times de robótica nessas comunidades.
 ### 2026 — REBUILT
 - **Regional Brazil – Festival SESI de Educação** (São Paulo, de 5 a 8/03, Week 1): ficou em 45º com 2-7-0.
 - **Regional Brazil – SESI Osasco** (de 12 a 15/03, Week 2): foi a 2ª escolha da Aliança 5 e caiu na Round 2.
-- Saldo do ano: 6-15-0. **O nome do robô ainda não foi encontrado** (não está no Drive nem no site).
+- Saldo do ano: 6-15-0.
+- **Robô:** **Pharaoh** (nome na placa lateral, com o olho de Hórus), com swerve drive e intake de roletes. Fotos da construção na pasta Rebuild -2026 › Robô do Drive.
 
 ### 2027 — BIOCORE (temporada atual, ainda em preparação)
 - O jogo da temporada FIRST CANOPY (tema biodiversidade) é apresentado pela Haas e será revelado no kickoff de **09/01/2027**.

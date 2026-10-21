@@ -32,20 +32,32 @@ export const teamPhotos: Record<string, TeamPhoto[]> = {
     { src: "/team/2025-brasilia-palco.webp", caption: "Torneio SESI de Robótica, em Brasília.", position: "50% 30%" },
     { src: "/team/2025-sp-arena.webp", caption: "A arena da Regional de São Paulo." },
   ],
+  "2026-rebuilt": [
+    { src: "/team/2026-sp-equipe-robo.webp", caption: "A drive team com o robô na arena da Regional de São Paulo.", position: "50% 45%" },
+    { src: "/team/2026-sp-robo-quadra.webp", caption: "Em quadra, entre as bolas de fuel.", position: "50% 62%" },
+    { src: "/team/2026-sp-piloto.webp", caption: "No controle, com a bandeira do Brasil na manga.", position: "50% 40%" },
+    { src: "/team/2026-oficina-intake.webp", caption: "O intake de rodas verdes ganhando forma na oficina." },
+    { src: "/team/2026-sp-entrada-quadra.webp", caption: "Levando o robô para a quadra.", position: "50% 62%" },
+    { src: "/team/2026-oficina-chassi.webp", caption: "A base com os quatro módulos de tração e bumpers improvisados para os testes." },
+    { src: "/team/2026-sp-mascote.webp", caption: "Encontro com o mascote no Festival SESI de Educação.", position: "50% 55%" },
+    { src: "/team/2026-oficina-prototipo.webp", caption: "Testando o mecanismo num modelo de MDF em tamanho real.", position: "50% 60%" },
+    { src: "/team/2026-sp-robo-arena.webp", caption: "O robô ao lado do campo, pronto para a próxima partida.", position: "50% 60%" },
+    { src: "/team/2026-sp-drive-team.webp", caption: "A drive team na beira da quadra.", position: "50% 55%" },
+  ],
 };
 
 export const seasonTeamCover = (slug: string): TeamPhoto | undefined => teamPhotos[slug]?.[0];
 
-/** Topo da home: a equipe inteira, uma foto por temporada (em ordem). Falta a de 2026. */
+/** Topo da home: a equipe, uma foto por temporada (em ordem). */
 export type HeroPhoto = { year: string; game: string; src: string; alt: string; caption: string; position?: string };
 export const heroTeamPhotos: HeroPhoto[] = [
   {
     year: "2023",
     game: "Charged Up",
-    src: "/photos/hero-1.webp",
-    alt: "A primeira formação da Nine Tails em frente à Escola Firjan SENAI Resende",
-    caption: "A primeira formação, em frente à escola.",
-    position: "50% 35%",
+    src: "/team/2023-houston-equipe-bandeira.webp",
+    alt: "A equipe Nine Tails em Houston com a placa do Rookie Inspiration Award e a bandeira do Brasil",
+    caption: "Em Houston, com o Rookie Inspiration Award e a bandeira do Brasil.",
+    position: "50% 62%",
   },
   {
     year: "2024",
@@ -62,5 +74,13 @@ export const heroTeamPhotos: HeroPhoto[] = [
     alt: "Equipe Nine Tails com a bandeira da Firjan na Regional de Brasília",
     caption: "Regional de Brasília, com a bandeira da Firjan.",
     position: "50% 60%",
+  },
+  {
+    year: "2026",
+    game: "REBUILT",
+    src: "/team/2026-sp-equipe-robo.webp",
+    alt: "Drive team da Nine Tails com o robô na arena da Regional de São Paulo",
+    caption: "Com o robô na arena da Regional de São Paulo.",
+    position: "50% 40%",
   },
 ];
