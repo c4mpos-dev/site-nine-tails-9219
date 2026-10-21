@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { nav, navMore, site } from "@/content/site";
+import { SiteSearch } from "./SiteSearch";
 import { ThemeToggle } from "./ThemeToggle";
 import { cn } from "@/lib/cn";
 
@@ -22,10 +23,10 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-bg/90 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-        <Link href="/" className="flex items-center gap-3" aria-label="Nine Tails, página inicial">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-2 px-4 sm:gap-4 sm:px-6">
+        <Link href="/" className="flex min-w-0 items-center gap-2 sm:gap-3" aria-label="Nine Tails, página inicial">
           <Image src="/brand/emblem.webp" alt="" width={48} height={44} className="h-10 w-auto" />
-          <span className="heading text-xl tracking-wide">
+          <span className="heading whitespace-nowrap text-lg tracking-wide sm:text-xl">
             Nine Tails <span className="text-accent">#{site.number}</span>
           </span>
         </Link>
@@ -50,7 +51,8 @@ export function Header() {
           <MoreMenu pathname={pathname} />
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 sm:gap-2">
+          <SiteSearch />
           <ThemeToggle className="grid size-10 place-items-center rounded-md text-muted transition-colors hover:bg-surface hover:text-fg" />
           <Link
             href="/patrocine"
