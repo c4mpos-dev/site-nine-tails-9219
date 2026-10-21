@@ -14,8 +14,10 @@ import { RobotCard } from "@/components/robots/RobotCard";
 import { getSeason, seasons } from "@/content/seasons";
 import { robotsBySeason } from "@/content/robots";
 import { seasonLogos, seasonPhotos } from "@/content/credits";
+import { SeasonLogo } from "@/components/seasons/SeasonLogo";
 import { site } from "@/content/site";
 import { teamPhotos } from "@/content/gallery";
+import { zoom } from "@/lib/zoom";
 
 
 export function generateStaticParams() {
@@ -162,9 +164,11 @@ export default async function SeasonPage({ params }: PageProps<"/temporadas/[slu
               {team.map((t, i) => (
                 <figure
                   key={t.src}
-                  className={"group relative overflow-hidden rounded-lg bg-surface-2 " + (i === 0 ? "col-span-2 row-span-2" : "")}
+                  {...zoom(t.src, t.caption)}
+                  className={"zoomable relative overflow-hidden rounded-lg bg-surface-2 " + (i === 0 ? "col-span-2 row-span-2" : "")}
                 >
                   <Image
+                    quality={90}
                     src={t.src}
                     alt={t.caption}
                     fill
@@ -184,11 +188,7 @@ export default async function SeasonPage({ params }: PageProps<"/temporadas/[slu
         {/* Lateral: ficha da temporada */}
         <aside className="lg:sticky lg:top-24 lg:self-start">
           <div className="rounded-lg border border-line p-5">
-            {logo && (
-              <div className="mb-5 rounded-md bg-white p-3">
-                <Image src={logo} alt={`Logo ${season.game}`} width={220} height={110} className="mx-auto h-16 w-auto" />
-              </div>
-            )}
+            {logo && <SeasonLogo src={logo} game={season.game} size="md" className="mb-5" />}
             <dl className="space-y-3 text-sm">
               <div>
                 <dt className="text-muted">Temporada</dt>

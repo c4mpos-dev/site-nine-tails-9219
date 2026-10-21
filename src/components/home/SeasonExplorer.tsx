@@ -6,7 +6,9 @@ import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 import type { Season } from "@/content/seasons";
 import { cn } from "@/lib/cn";
+import { zoom } from "@/lib/zoom";
 import { Countdown } from "@/components/seasons/Countdown";
+import { SeasonLogo } from "@/components/seasons/SeasonLogo";
 
 export type ExplorerPhoto = { src: string; caption: string; credit?: string; position?: string };
 
@@ -57,9 +59,9 @@ export function SeasonExplorer({ seasons, initial }: { seasons: ExplorerSeason[]
           className="mt-8 grid gap-8 lg:grid-cols-[1.25fr_1fr] lg:items-start"
         >
           <figure>
-            <div className="relative aspect-[16/10] overflow-hidden rounded-lg bg-surface-2">
+            <div className={cn("relative aspect-[16/10] overflow-hidden rounded-lg bg-surface-2", s.cover && "zoomable")} {...(s.cover ? zoom(s.cover.src, s.cover.caption) : {})}>
               {s.cover ? (
-                <Image src={s.cover.src} alt={s.cover.caption} fill sizes="(min-width:1024px) 55vw, 100vw" className="object-cover" style={{ objectPosition: s.cover.position }} />
+                <Image quality={90} src={s.cover.src} alt={s.cover.caption} fill sizes="(min-width:1024px) 55vw, 100vw" className="object-cover" style={{ objectPosition: s.cover.position }} />
               ) : (
                 <div className="absolute inset-0 grid place-items-center text-center text-muted">
                   <div>
@@ -69,11 +71,7 @@ export function SeasonExplorer({ seasons, initial }: { seasons: ExplorerSeason[]
                   </div>
                 </div>
               )}
-              {s.logo && (
-                <div className="absolute left-4 top-4 rounded-md bg-white/95 p-2 shadow">
-                  <Image src={s.logo} alt={`Logo ${s.game}`} width={120} height={60} className="h-10 w-auto" />
-                </div>
-              )}
+              {s.logo && <SeasonLogo src={s.logo} game={s.game} className="absolute left-4 top-4 shadow" />}
             </div>
             {s.cover && (
               <figcaption className="mt-2 text-xs text-muted">
@@ -84,7 +82,7 @@ export function SeasonExplorer({ seasons, initial }: { seasons: ExplorerSeason[]
             {s.thumbs.length > 0 && (
               <div className="mt-3 grid grid-cols-3 gap-2">
                 {s.thumbs.slice(0, 3).map((t) => (
-                  <div key={t.src} className="relative aspect-[4/3] overflow-hidden rounded-md bg-surface-2">
+                  <div key={t.src} {...zoom(t.src, t.caption)} className="zoomable relative aspect-[4/3] overflow-hidden rounded-md bg-surface-2 after:!size-7 after:!bg-[length:0.85rem]">
                     <Image src={t.src} alt={t.caption} fill sizes="200px" className="object-cover" style={{ objectPosition: t.position }} />
                   </div>
                 ))}

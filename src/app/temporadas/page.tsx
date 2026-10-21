@@ -7,6 +7,7 @@ import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { completedSeasons, seasons } from "@/content/seasons";
 import { getRobot } from "@/content/robots";
 import { seasonLogos, seasonPhotos } from "@/content/credits";
+import { SeasonLogo } from "@/components/seasons/SeasonLogo";
 import { teamPhotos } from "@/content/gallery";
 
 export const metadata: Metadata = {
@@ -56,11 +57,7 @@ export default function SeasonsPage() {
                     </p>
                   </div>
                   <div className="hidden lg:block">
-                    {logo && (
-                      <span className="rounded-md bg-white p-2">
-                        <Image src={logo} alt={`Logo ${s.game}`} width={120} height={48} className="h-10 w-auto" />
-                      </span>
-                    )}
+                    {logo && <SeasonLogo src={logo} game={s.game} />}
                   </div>
                 </Link>
               </RevealItem>
