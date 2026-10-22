@@ -45,15 +45,13 @@ export function Footer() {
         <div>
           <p className="kicker">Navegue</p>
           <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
-            {[...nav, ...navMore, { href: "/patrocine", label: "Apoie a equipe" }, { href: "/creditos", label: "Créditos das fotos" }].map(
-              (item) => (
-                <li key={item.href}>
-                  <Link href={item.href} className="text-muted hover:text-fg">
-                    {item.label}
-                  </Link>
-                </li>
-              ),
-            )}
+            {[...nav, ...navMore, { href: "/sponsor", label: "Apoie a equipe" }, { href: "/credits", label: "Créditos das fotos" }].map((item) => (
+              <li key={item.href}>
+                <Link href={item.href} className="text-muted hover:text-fg">
+                  {item.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
 
@@ -70,9 +68,15 @@ export function Footer() {
         </div>
       </div>
       <div className="border-t border-line">
-        <p className="mx-auto max-w-6xl px-4 py-5 text-xs text-muted sm:px-6">
-          © Nine Tails #9219. FIRST® e FIRST® Robotics Competition são marcas registradas da FIRST®.
-        </p>
+        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-5 text-xs text-muted sm:flex-row sm:justify-between sm:px-6">
+          <p>© Nine Tails #9219. FIRST® e FIRST® Robotics Competition são marcas registradas da FIRST®.</p>
+          <p>
+            Feito com <span className="text-accent">&lt;3</span> pelos{" "}
+            <Link href="/alumni" className="hover:text-fg">
+              alumni Cauã Campos e Davi Garutti
+            </Link>
+          </p>
+        </div>
       </div>
     </footer>
   );
