@@ -24,7 +24,7 @@ export function generateStaticParams() {
   return seasons.map((s) => ({ slug: s.slug }));
 }
 
-export async function generateMetadata({ params }: PageProps<"/temporadas/[slug]">): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps<"/seasons/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const season = getSeason(slug);
   if (!season) return {};
@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: PageProps<"/temporadas/[slug]
 }
 
 /** Temporada contada como artigo: leitura corrida, com fotos e o placar no meio do texto. */
-export default async function SeasonPage({ params }: PageProps<"/temporadas/[slug]">) {
+export default async function SeasonPage({ params }: PageProps<"/seasons/[slug]">) {
   const { slug } = await params;
   const season = getSeason(slug);
   if (!season) notFound();
@@ -59,8 +59,8 @@ export default async function SeasonPage({ params }: PageProps<"/temporadas/[slu
     <article>
       <PageHero
         crumbs={[
-          { href: "/temporadas", label: "Temporadas" },
-          { href: `/temporadas/${season.slug}`, label: String(season.year) },
+          { href: "/seasons", label: "Temporadas" },
+          { href: `/seasons/${season.slug}`, label: String(season.year) },
         ]}
         kicker={`Temporada ${season.year} · ${season.firstTheme}`}
         title={season.game}
@@ -73,7 +73,7 @@ export default async function SeasonPage({ params }: PageProps<"/temporadas/[slu
           <p className="text-xl !text-fg">{season.summary}</p>
           {season.slug === "2023-charged-up" && (
             <Link
-              href="/pioneiros"
+              href="/pioneers"
               className="not-prose group flex items-center justify-between gap-4 rounded-lg border border-accent/50 p-4 no-underline transition-colors hover:bg-surface"
             >
               <span>
@@ -219,7 +219,7 @@ export default async function SeasonPage({ params }: PageProps<"/temporadas/[slu
 
       <Container className="flex flex-wrap justify-between gap-4 border-t border-line pt-8">
         {prev ? (
-          <Link href={`/temporadas/${prev.slug}`} className="group">
+          <Link href={`/seasons/${prev.slug}`} className="group">
             <span className="text-xs text-muted">← Anterior</span>
             <span className="heading block text-2xl group-hover:text-accent">
               {prev.year} · {prev.game}
@@ -229,7 +229,7 @@ export default async function SeasonPage({ params }: PageProps<"/temporadas/[slu
           <span />
         )}
         {next && (
-          <Link href={`/temporadas/${next.slug}`} className="group text-right">
+          <Link href={`/seasons/${next.slug}`} className="group text-right">
             <span className="text-xs text-muted">Próxima →</span>
             <span className="heading block text-2xl group-hover:text-accent">
               {next.year} · {next.game}

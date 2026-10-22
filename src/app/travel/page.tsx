@@ -20,7 +20,7 @@ export default function BoardingPage() {
     <section className="bg-[#0b0710] text-white">
       <Container className="py-14 sm:py-20">
         <nav aria-label="Trilha" className="mb-6 flex gap-2 text-sm text-white/50">
-          <Link href="/arquivo" className="hover:text-white">
+          <Link href="/archive" className="hover:text-white">
             Mais
           </Link>
           <span aria-hidden>/</span>

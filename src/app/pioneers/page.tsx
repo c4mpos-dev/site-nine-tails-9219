@@ -73,8 +73,8 @@ export default function PioneersPage() {
     <>
       <PageHero
         crumbs={[
-          { href: "/arquivo", label: "Mais" },
-          { href: "/pioneiros", label: "Os pioneiros" },
+          { href: "/archive", label: "Mais" },
+          { href: "/pioneers", label: "Os pioneiros" },
         ]}
         kicker="Charged Up · 2023"
         title="Os pioneiros"
@@ -139,10 +139,10 @@ export default function PioneersPage() {
       </section>
 
       <Container className="mt-12 flex flex-wrap justify-between gap-4">
-        <Link href="/temporadas/2023-charged-up" className="text-link">
+        <Link href="/seasons/2023-charged-up" className="text-link">
           ← A temporada Charged Up em números
         </Link>
-        <Link href="/arquivo" className="text-link">
+        <Link href="/archive" className="text-link">
           Mais páginas →
         </Link>
       </Container>

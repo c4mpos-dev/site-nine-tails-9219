@@ -13,6 +13,7 @@ import { LitRoom } from "@/components/museum/LitRoom";
 import { MuseumMap } from "@/components/museum/MuseumMap";
 import { Passport } from "@/components/museum/Passport";
 import { Stamp } from "@/components/museum/Stamp";
+import { Ticket } from "@/components/museum/Ticket";
 import { rooms, type Room, type Wing } from "@/content/museum";
 import { getRobot } from "@/content/robots";
 import { awards } from "@/content/awards";
@@ -31,47 +32,6 @@ export const metadata: Metadata = {
 const yearOf = (r: Room) => r.period.match(/\d{4}/g)?.at(-1) ?? "";
 
 const pieceCount = rooms.reduce((a, r) => a + r.wings.reduce((b, w) => b + w.pieces.length, 0), 0);
-
-/** Ingresso de papel, com picote e código de barras. */
-function Ticket() {
-  return (
-    <div className="relative mx-auto w-full max-w-sm rotate-[-3deg] text-[#1b0d26] drop-shadow-[0_20px_30px_rgb(0_0_0/0.45)]">
-      <div className="flex overflow-hidden rounded-md bg-[#f6efe2]">
-        <div className="flex-1 border-r-2 border-dashed border-[#1b0d26]/25 p-5">
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#7d1394]">Ingresso · entrada franca</p>
-          <p className="heading mt-2 text-3xl leading-none">Museu da Raposa</p>
-          <p className="mt-1 text-xs">Acervo Nine Tails · FRC 9219</p>
-          <dl className="mt-4 grid grid-cols-3 gap-2 font-mono text-[10px] uppercase">
-            <div>
-              <dt className="text-[#1b0d26]/50">Salas</dt>
-              <dd className="text-base font-bold">{rooms.length + 1}</dd>
-            </div>
-            <div>
-              <dt className="text-[#1b0d26]/50">Peças</dt>
-              <dd className="text-base font-bold">{pieceCount}</dd>
-            </div>
-            <div>
-              <dt className="text-[#1b0d26]/50">Desde</dt>
-              <dd className="text-base font-bold">2022</dd>
-            </div>
-          </dl>
-          {/* Código de barras */}
-          <div
-            aria-hidden
-            className="mt-4 h-8 bg-[repeating-linear-gradient(90deg,#1b0d26_0_2px,transparent_2px_4px,#1b0d26_4px_5px,transparent_5px_8px,#1b0d26_8px_11px,transparent_11px_13px)]"
-          />
-          <p className="mt-1 font-mono text-[10px] tracking-[0.3em]">0 9219 2022 0001</p>
-        </div>
-        <div className="flex w-16 flex-col items-center justify-center gap-2 bg-[#9e19b8] text-white">
-          <p className="heading rotate-90 whitespace-nowrap text-lg tracking-wider">Nº 9219</p>
-        </div>
-      </div>
-      {/* Furos do picote */}
-      <span aria-hidden className="absolute -top-2 right-14 size-4 rounded-full bg-[#160b20]" />
-      <span aria-hidden className="absolute -bottom-2 right-14 size-4 rounded-full bg-[#160b20]" />
-    </div>
-  );
-}
 
 /** Placa de sinalização de ala, como as setas de museu. */
 function WingSign({ name }: { name: string }) {
@@ -129,7 +89,7 @@ function Centerpiece({ room }: { room: Room }) {
               </div>
               {/* Pedestal */}
               <div className="mx-6 h-3 bg-gradient-to-b from-surface-2 to-line" />
-              <Link href={`/robos/${r.slug}`} className="group mt-3 inline-block">
+              <Link href={`/robots/${r.slug}`} className="group mt-3 inline-block">
                 <span className="heading block text-2xl group-hover:text-accent">{r.name}</span>
                 <span className="text-xs text-muted">
                   {r.order} · {r.drivetrain} · ver a ficha →
@@ -144,7 +104,7 @@ function Centerpiece({ room }: { room: Room }) {
           <p className="font-mono text-[10px] uppercase tracking-widest text-muted">Vitrine de troféus</p>
           <div className="mt-4 flex flex-wrap items-end justify-center gap-x-4 gap-y-6 border-b-8 border-brand px-2 pb-1 lg:flex-nowrap">
             {prizes.map((a) => (
-              <Link key={a.id} href={`/conquistas#${a.id}`} title={a.title} className="transition-transform hover:-translate-y-1">
+              <Link key={a.id} href={`/awards#${a.id}`} title={a.title} className="transition-transform hover:-translate-y-1">
                 <Trophy art={a.art} className="h-24 w-auto drop-shadow-lg sm:h-32" />
               </Link>
             ))}
@@ -226,7 +186,7 @@ export default function MuseumPage() {
                 Início
               </Link>
               <span aria-hidden>/</span>
-              <Link href="/arquivo" className="hover:text-white">
+              <Link href="/archive" className="hover:text-white">
                 Mais
               </Link>
               <span aria-hidden>/</span>
@@ -250,7 +210,7 @@ export default function MuseumPage() {
               Entrar na Sala 01 <ArrowRight className="size-4" />
             </a>
           </div>
-          <Ticket />
+          <Ticket roomCount={rooms.length + 1} pieceCount={pieceCount} />
         </Container>
       </section>
 
@@ -303,7 +263,7 @@ export default function MuseumPage() {
               >
                 <Mail className="size-4" /> Enviar para o acervo
               </a>
-              <Link href="/temporadas" className="inline-flex items-center gap-2 rounded-md border border-line px-4 py-2.5 font-bold hover:border-accent">
+              <Link href="/seasons" className="inline-flex items-center gap-2 rounded-md border border-line px-4 py-2.5 font-bold hover:border-accent">
                 Saída: temporadas <ArrowRight className="size-4" />
               </Link>
             </div>

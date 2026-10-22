@@ -2,7 +2,7 @@ export type Motif = "charged-up" | "crescendo" | "reefscape" | "rebuilt" | "bioc
 
 export type EventResult = {
   name: string;
-  /** Chave do evento nas partidas (matches/matchEvents) e na página /competicoes/[key]. */
+  /** Chave do evento nas partidas (matches/matchEvents) e na página /competitions/[key]. */
   key: string;
   shortName: string;
   location: string;

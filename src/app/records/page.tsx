@@ -29,8 +29,8 @@ export default function RecordsPage() {
     <>
       <PageHero
         crumbs={[
-          { href: "/arquivo", label: "Mais" },
-          { href: "/recordes", label: "Recordes" },
+          { href: "/archive", label: "Mais" },
+          { href: "/records", label: "Recordes" },
         ]}
         kicker="Em quadra"
         title="Recordes e alianças"
@@ -120,7 +120,7 @@ export default function RecordsPage() {
             The Blue Alliance
           </a>
           , incluindo off-seasons.{" "}
-          <Link href="/arquivo" className="text-link">
+          <Link href="/archive" className="text-link">
             Mais páginas
           </Link>
         </p>

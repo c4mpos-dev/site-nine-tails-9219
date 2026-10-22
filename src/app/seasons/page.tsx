@@ -37,7 +37,7 @@ export default function SeasonsPage() {
             const logo = seasonLogos[s.motif];
             return (
               <RevealItem key={s.slug}>
-                <Link href={`/temporadas/${s.slug}`} className="group grid gap-6 py-8 sm:grid-cols-[300px_1fr] sm:items-center lg:grid-cols-[300px_1fr_auto]">
+                <Link href={`/seasons/${s.slug}`} className="group grid gap-6 py-8 sm:grid-cols-[300px_1fr] sm:items-center lg:grid-cols-[300px_1fr_auto]">
                   <div className="relative aspect-[3/2] overflow-hidden rounded-lg bg-surface-2">
                     {cover ? (
                       <Image src={cover.src} alt={cover.caption} fill sizes="300px" className="object-cover transition-transform duration-500 group-hover:scale-105" style={{ objectPosition: cover.position }} />

@@ -35,7 +35,7 @@ export default function RobotsPage() {
           <figure>
             <TankTails3D className="aspect-[4/3] w-full" />
             <figcaption className="-mt-2 text-center text-sm text-white/60">
-              <Link href="/robos/tank-tails" className="font-bold text-white hover:text-[#f0a6e8]">
+              <Link href="/robots/tank-tails" className="font-bold text-white hover:text-[#f0a6e8]">
                 Tank Tails
               </Link>
               , o primeiro, pontuando um cone como na Charged Up de 2023.
@@ -53,7 +53,7 @@ export default function RobotsPage() {
               <span aria-hidden className="absolute left-[10%] right-[10%] top-[60px] h-0.5 bg-gradient-to-r from-line via-brand to-accent" />
               {robots.map((r) => (
                 <li key={r.slug} className="relative w-full text-center">
-                  <Link href={`/robos/${r.slug}`} className="group block">
+                  <Link href={`/robots/${r.slug}`} className="group block">
                     <div className="relative mx-auto size-[120px] overflow-hidden rounded-full border-4 border-surface bg-surface-2 shadow-md ring-2 ring-line transition-all duration-300 group-hover:-translate-y-1 group-hover:ring-accent">
                       {r.thumb || r.photo ? (
                         <Image

@@ -128,7 +128,7 @@ export function SeasonExplorer({ seasons, initial }: { seasons: ExplorerSeason[]
                 {s.robotNames.length > 1 ? "Robôs" : "Robô"}: <strong className="text-fg">{s.robotNames.join(" e ")}</strong>
               </p>
             )}
-            <Link href={`/temporadas/${s.slug}`} className="text-link mt-6 inline-block">
+            <Link href={`/seasons/${s.slug}`} className="text-link mt-6 inline-block">
               {s.status === "upcoming" ? "O que já sabemos" : `Ler sobre ${s.game}`} →
             </Link>
           </div>

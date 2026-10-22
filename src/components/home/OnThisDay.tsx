@@ -84,10 +84,10 @@ export function OnThisDay({ memories }: { memories: Memory[] }) {
         </p>
         <p className="mt-1 text-muted">{m.result}</p>
         <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-sm font-bold">
-          <Link href={`/competicoes/${m.key}`} className="inline-flex items-center gap-1 text-accent hover:underline">
+          <Link href={`/competitions/${m.key}`} className="inline-flex items-center gap-1 text-accent hover:underline">
             Relembrar a competição <ArrowRight className="size-4" />
           </Link>
-          <Link href="/museu" className="text-muted hover:text-fg">
+          <Link href="/museum" className="text-muted hover:text-fg">
             Ver mais momentos no museu
           </Link>
         </div>

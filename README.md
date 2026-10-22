@@ -57,4 +57,4 @@ Adicione um objeto em `src/content/seasons.ts`, os robôs em `src/content/robots
 `scripts/sync-tba.mjs` (`EVENT_SLUGS`) e em `src/content/allies.ts` (`matchEvents`).
 
 A paleta é fixa, com as cores da equipe. As temporadas se diferenciam pela foto real do jogo e pelo logo oficial, nunca
-pela cor. Toda foto de terceiros precisa de licença livre e de entrada em `src/content/credits.ts` (aparece em /creditos).
+pela cor. Toda foto de terceiros precisa de licença livre e de entrada em `src/content/credits.ts` (aparece em /credits).

@@ -2,7 +2,8 @@ import { nav, navMore } from "@/content/site";
 import { seasons } from "@/content/seasons";
 import { robots } from "@/content/robots";
 import { awards } from "@/content/awards";
-import { alumni, areas, mentors, roster } from "@/content/people";
+import { areas, mentors } from "@/content/people";
+import { alumni } from "@/content/alumni";
 import { glossary } from "@/content/glossary";
 import { rooms } from "@/content/museum";
 import { chapters } from "@/content/pioneers";
@@ -32,43 +33,42 @@ export const searchIndex: SearchItem[] = [
     { href: "/", label: "Início" },
     ...nav,
     ...navMore,
-    { href: "/patrocine", label: "Apoie a equipe" },
-    { href: "/creditos", label: "Créditos das fotos" },
+    { href: "/sponsor", label: "Apoie a equipe" },
+    { href: "/credits", label: "Créditos das fotos" },
   ].map((p): SearchItem => ({ t: p.label, s: "note" in p ? p.note : "Página do site", h: p.href, k: "página" })),
   ...seasons.map((s): SearchItem => ({
     t: `${s.game} · ${s.year}`,
     s: s.headline,
-    h: `/temporadas/${s.slug}`,
+    h: `/seasons/${s.slug}`,
     k: "temporada",
     x: [s.firstTheme, s.summary, ...s.highlights, ...s.gamePieces].join(" "),
   })),
   ...competitions.map((c): SearchItem => ({
     t: `${c.event.shortName} ${c.season.year}`,
     s: `${c.event.location} · ${c.event.dates} · ${c.event.result}`,
-    h: `/competicoes/${c.key}`,
+    h: `/competitions/${c.key}`,
     k: "competição",
     x: [c.event.name, c.robot?.name, c.season.game, ...(c.event.awards ?? [])].join(" "),
   })),
   ...robots.map((r): SearchItem => ({
     t: r.name,
     s: `${r.order} · ${r.year} · ${r.drivetrain}`,
-    h: `/robos/${r.slug}`,
+    h: `/robots/${r.slug}`,
     k: "robô",
     x: [r.tagline, r.description, ...r.features, ...r.events].join(" "),
   })),
-  ...awards.map((a): SearchItem => ({ t: a.title, s: `${a.event} · ${a.date}`, h: `/conquistas#${a.id}`, k: "prêmio", x: a.description })),
-  ...mentors.map((p): SearchItem => ({ t: p.name, s: `Mentor · ${p.role}`, h: "/equipe#mentores", k: "pessoa", x: p.area })),
-  ...alumni.map((p): SearchItem => ({ t: p.name, s: `Alumni · ${p.role}`, h: "/equipe#alumni", k: "pessoa", x: [p.instagram, p.now].join(" ") })),
-  ...roster.members.map((p): SearchItem => ({ t: p.name, s: `${roster.season} · ${p.role}`, h: "/equipe#membros", k: "pessoa", x: p.area })),
-  ...areas.map((a): SearchItem => ({ t: a.name, s: "Área da equipe", h: `/equipe#area-${a.slug}`, k: "página", x: a.description })),
-  ...glossary.map((g): SearchItem => ({ t: g.term, s: g.def, h: `/glossario#${g.id}`, k: "termo" })),
-  ...chapters.map((c): SearchItem => ({ t: c.title, s: `Os pioneiros · ${c.when}`, h: "/pioneiros", k: "diário", x: c.text })),
+  ...awards.map((a): SearchItem => ({ t: a.title, s: `${a.event} · ${a.date}`, h: `/awards#${a.id}`, k: "prêmio", x: a.description })),
+  ...mentors.map((p): SearchItem => ({ t: p.name, s: `Mentor · ${p.role}`, h: "/team#mentores", k: "pessoa", x: p.area })),
+  ...alumni.map((p): SearchItem => ({ t: p.name, s: `Alumni · ${p.role}`, h: "/alumni", k: "pessoa", x: [p.area, p.did, p.now, p.instagram].join(" ") })),
+  ...areas.map((a): SearchItem => ({ t: a.name, s: "Área da equipe", h: `/team#area-${a.slug}`, k: "página", x: [a.description, ...a.tasks].join(" ") })),
+  ...glossary.map((g): SearchItem => ({ t: g.term, s: g.def, h: `/glossary#${g.id}`, k: "termo" })),
+  ...chapters.map((c): SearchItem => ({ t: c.title, s: `Os pioneiros · ${c.when}`, h: "/pioneers", k: "diário", x: c.text })),
   ...rooms.flatMap((r) =>
     r.wings.flatMap((w) =>
       w.pieces.map((p): SearchItem => ({
         t: p.title,
         s: `Museu · Sala ${r.number} · ${w.name}${p.when ? ` · ${p.when}` : ""}`,
-        h: `/museu#${r.id}`,
+        h: `/museum#${r.id}`,
         k: "museu",
         x: [p.note, r.title].join(" "),
       })),
@@ -77,8 +77,8 @@ export const searchIndex: SearchItem[] = [
   ...Object.entries(teamNames).map(([n, t]): SearchItem => ({
     t: `${n} ${t.name}`,
     s: `Equipe que jogou com ou contra a gente · ${t.city}`,
-    h: "/recordes",
+    h: "/records",
     k: "equipe",
   })),
-  ...sponsors.map((s): SearchItem => ({ t: s.name, s: "Patrocinador", h: "/patrocine", k: "patrocinador" })),
+  ...sponsors.map((s): SearchItem => ({ t: s.name, s: "Patrocinador", h: "/sponsor", k: "patrocinador" })),
 ];

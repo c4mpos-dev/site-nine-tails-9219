@@ -71,7 +71,7 @@ export default function DenPage() {
         </ol>
 
         <div className="mt-16 flex flex-wrap gap-6">
-          <Link href="/arquivo" className="text-link">
+          <Link href="/archive" className="text-link">
             Mais páginas →
           </Link>
           <Link href="/" className="text-link">

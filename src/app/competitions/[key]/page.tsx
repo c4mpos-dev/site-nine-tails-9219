@@ -22,7 +22,7 @@ export function generateStaticParams() {
   return competitions.map((c) => ({ key: c.key }));
 }
 
-export async function generateMetadata({ params }: PageProps<"/competicoes/[key]">): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps<"/competitions/[key]">): Promise<Metadata> {
   const { key } = await params;
   const c = getCompetition(key);
   if (!c) return {};
@@ -39,7 +39,7 @@ const team = (n: number) => {
 };
 
 /** Ficha de uma competição: tudo o que a equipe viveu naquele evento. */
-export default async function CompetitionPage({ params }: PageProps<"/competicoes/[key]">) {
+export default async function CompetitionPage({ params }: PageProps<"/competitions/[key]">) {
   const { key } = await params;
   const c = getCompetition(key);
   if (!c) notFound();
@@ -68,9 +68,9 @@ export default async function CompetitionPage({ params }: PageProps<"/competicoe
     <>
       <PageHero
         crumbs={[
-          { href: "/temporadas", label: "Temporadas" },
-          { href: `/temporadas/${season.slug}`, label: String(season.year) },
-          { href: `/competicoes/${key}`, label: event.shortName },
+          { href: "/seasons", label: "Temporadas" },
+          { href: `/seasons/${season.slug}`, label: String(season.year) },
+          { href: `/competitions/${key}`, label: event.shortName },
         ]}
         kicker={`${kindLabel[event.kind]} · ${season.game} ${season.year}`}
         title={event.name}
@@ -158,7 +158,7 @@ export default async function CompetitionPage({ params }: PageProps<"/competicoe
                 <h2 className="heading mt-14 text-3xl">Fotos</h2>
                 <p className="mt-2 text-muted">
                   Do acervo do{" "}
-                  <Link href={`/museu#${museumRoom(season.slug)}`} className="text-link">
+                  <Link href={`/museum#${museumRoom(season.slug)}`} className="text-link">
                     Museu da Raposa
                   </Link>
                   .
@@ -192,7 +192,7 @@ export default async function CompetitionPage({ params }: PageProps<"/competicoe
 
           <aside className="space-y-6">
             {robot && (
-              <Link href={`/robos/${robot.slug}`} className="group block overflow-hidden rounded-lg border border-line transition-colors hover:border-accent">
+              <Link href={`/robots/${robot.slug}`} className="group block overflow-hidden rounded-lg border border-line transition-colors hover:border-accent">
                 {robot.photo && (
                   <div className="relative aspect-[4/3] bg-surface-2">
                     <Image
@@ -221,7 +221,7 @@ export default async function CompetitionPage({ params }: PageProps<"/competicoe
                 {prizes.length > 0 && (
                   <div className="mt-4 flex flex-wrap items-end justify-center gap-4 border-b-8 border-brand pb-1">
                     {prizes.map((a) => (
-                      <Link key={a.id} href={`/conquistas#${a.id}`} title={a.title} className="transition-transform hover:-translate-y-1">
+                      <Link key={a.id} href={`/awards#${a.id}`} title={a.title} className="transition-transform hover:-translate-y-1">
                         <Trophy art={a.art} className="h-28 w-auto drop-shadow-lg" />
                       </Link>
                     ))}
@@ -235,7 +235,7 @@ export default async function CompetitionPage({ params }: PageProps<"/competicoe
               </div>
             )}
 
-            <Link href={`/temporadas/${season.slug}`} className="group block rounded-lg border border-line p-4 transition-colors hover:border-accent">
+            <Link href={`/seasons/${season.slug}`} className="group block rounded-lg border border-line p-4 transition-colors hover:border-accent">
               <p className="kicker">Temporada {season.year}</p>
               <p className="heading mt-1 text-2xl group-hover:text-accent">{season.game}</p>
               <p className="text-sm text-muted">{season.headline}</p>
@@ -246,7 +246,7 @@ export default async function CompetitionPage({ params }: PageProps<"/competicoe
         {/* Navegação entre competições, em ordem cronológica */}
         <nav aria-label="Outras competições" className="mt-16 grid gap-3 border-t border-line pt-8 sm:grid-cols-2">
           {prev ? (
-            <Link href={`/competicoes/${prev.key}`} className="group rounded-lg border border-line p-4 transition-colors hover:border-accent">
+            <Link href={`/competitions/${prev.key}`} className="group rounded-lg border border-line p-4 transition-colors hover:border-accent">
               <span className="flex items-center gap-1 text-xs text-muted">
                 <ArrowLeft className="size-3" /> Anterior
               </span>
@@ -258,7 +258,7 @@ export default async function CompetitionPage({ params }: PageProps<"/competicoe
             <span />
           )}
           {next && (
-            <Link href={`/competicoes/${next.key}`} className="group rounded-lg border border-line p-4 text-right transition-colors hover:border-accent">
+            <Link href={`/competitions/${next.key}`} className="group rounded-lg border border-line p-4 text-right transition-colors hover:border-accent">
               <span className="flex items-center justify-end gap-1 text-xs text-muted">
                 Próxima <ArrowRight className="size-3" />
               </span>

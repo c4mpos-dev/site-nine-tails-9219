@@ -25,7 +25,7 @@ export default function ArchivePage() {
       />
       <Container className="py-14">
         <div className="grid gap-6 md:grid-cols-2">
-          <Link href="/museu" className="group grid overflow-hidden rounded-lg border border-line bg-[#160b20] text-white transition-colors hover:border-accent md:col-span-2 md:grid-cols-[1fr_1.2fr]">
+          <Link href="/museum" className="group grid overflow-hidden rounded-lg border border-line bg-[#160b20] text-white transition-colors hover:border-accent md:col-span-2 md:grid-cols-[1fr_1.2fr]">
             <div className="p-6 sm:p-8">
               <p className="kicker !text-[#f0a6e8]">Acervo · 2022 até hoje</p>
               <h2 className="heading mt-2 text-4xl group-hover:text-[#f0a6e8]">Museu da Raposa</h2>
@@ -49,7 +49,7 @@ export default function ArchivePage() {
             </div>
           </Link>
 
-          <Link href="/pioneiros" className="group overflow-hidden rounded-lg border border-line transition-colors hover:border-accent">
+          <Link href="/pioneers" className="group overflow-hidden rounded-lg border border-line transition-colors hover:border-accent">
             <div className="relative aspect-[16/9]">
               <Image quality={90} src="/team/2023-houston-space-center.webp" alt="" fill sizes="(min-width:768px) 50vw, 100vw" className="object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
             </div>
@@ -60,7 +60,7 @@ export default function ArchivePage() {
             </div>
           </Link>
 
-          <Link href="/embarque" className="group overflow-hidden rounded-lg border border-line transition-colors hover:border-accent">
+          <Link href="/travel" className="group overflow-hidden rounded-lg border border-line transition-colors hover:border-accent">
             <div className="flex aspect-[16/9] flex-col justify-center gap-2 bg-black px-6 font-mono text-sm">
               {trips.slice(0, 4).map((t, i) => (
                 <p key={i} className="flex gap-4 text-white/70">
@@ -79,7 +79,7 @@ export default function ArchivePage() {
             </div>
           </Link>
 
-          <Link href="/recordes" className="group rounded-lg border border-line p-6 transition-colors hover:border-accent">
+          <Link href="/records" className="group rounded-lg border border-line p-6 transition-colors hover:border-accent">
             <p className="kicker">Em quadra</p>
             <h2 className="heading mt-2 text-3xl group-hover:text-accent">Recordes e alianças</h2>
             <p className="mt-2 text-muted">
@@ -87,13 +87,13 @@ export default function ArchivePage() {
             </p>
           </Link>
 
-          <Link href="/glossario" className="group rounded-lg border border-line p-6 transition-colors hover:border-accent">
+          <Link href="/glossary" className="group rounded-lg border border-line p-6 transition-colors hover:border-accent">
             <p className="kicker">Dicionário</p>
             <h2 className="heading mt-2 text-3xl group-hover:text-accent">Fala FRC?</h2>
             <p className="mt-2 text-muted">Pick, swerve, coopertition: o dialeto da robótica explicado para quem está chegando.</p>
           </Link>
 
-          <Link href="/toca" className="group rounded-lg border border-line p-6 transition-colors hover:border-accent">
+          <Link href="/brand" className="group rounded-lg border border-line p-6 transition-colors hover:border-accent">
             <p className="kicker">Para baixar</p>
             <h2 className="heading mt-2 text-3xl group-hover:text-accent">Kit da marca</h2>
             <p className="mt-2 text-muted">Emblema, logos e letreiros da raposa, mais algumas curiosidades da equipe.</p>

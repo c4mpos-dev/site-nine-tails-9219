@@ -5,11 +5,11 @@ import { robots } from "@/content/robots";
 import { competitions } from "@/lib/events";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const pages = ["", "/temporadas", "/robos", "/conquistas", "/impacto", "/equipe", "/patrocine", "/creditos", "/arquivo", "/pioneiros", "/embarque", "/recordes", "/glossario", "/toca", "/museu"];
+  const pages = ["", "/seasons", "/robots", "/awards", "/impact", "/team", "/sponsor", "/credits", "/archive", "/pioneers", "/travel", "/records", "/glossary", "/brand", "/museum", "/alumni"];
   return [
     ...pages.map((p) => ({ url: `${site.url}${p}`, priority: p === "" ? 1 : 0.8 })),
-    ...seasons.map((s) => ({ url: `${site.url}/temporadas/${s.slug}`, priority: 0.7 })),
-    ...robots.map((r) => ({ url: `${site.url}/robos/${r.slug}`, priority: 0.6 })),
-    ...competitions.map((c) => ({ url: `${site.url}/competicoes/${c.key}`, priority: 0.5 })),
+    ...seasons.map((s) => ({ url: `${site.url}/seasons/${s.slug}`, priority: 0.7 })),
+    ...robots.map((r) => ({ url: `${site.url}/robots/${r.slug}`, priority: 0.6 })),
+    ...competitions.map((c) => ({ url: `${site.url}/competitions/${c.key}`, priority: 0.5 })),
   ];
 }

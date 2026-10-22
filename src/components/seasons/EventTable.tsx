@@ -19,7 +19,7 @@ export function EventTable({ events }: { events: EventResult[] }) {
           {events.map((e) => (
             <tr key={e.key} className="align-top">
               <td className="px-4 py-4">
-                <Link href={`/competicoes/${e.key}`} className="font-bold text-fg hover:text-accent">
+                <Link href={`/competitions/${e.key}`} className="font-bold text-fg hover:text-accent">
                   {e.name} <span className="text-accent">→</span>
                 </Link>
                 <p className="text-xs text-muted">

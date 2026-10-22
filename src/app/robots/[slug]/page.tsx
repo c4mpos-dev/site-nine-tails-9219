@@ -24,7 +24,7 @@ export function generateStaticParams() {
   return robots.map((r) => ({ slug: r.slug }));
 }
 
-export async function generateMetadata({ params }: PageProps<"/robos/[slug]">): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps<"/robots/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const robot = getRobot(slug);
   if (!robot) return {};
@@ -47,7 +47,7 @@ function Corners() {
 function NavCard({ robot, dir }: { robot: Robot; dir: "prev" | "next" }) {
   return (
     <Link
-      href={`/robos/${robot.slug}`}
+      href={`/robots/${robot.slug}`}
       className={`group flex items-center gap-4 rounded-lg border border-line p-3 transition-colors hover:border-accent ${dir === "next" ? "flex-row-reverse text-right" : ""}`}
     >
       <div className="relative aspect-[4/3] w-24 shrink-0 overflow-hidden rounded-md bg-surface-2">
@@ -78,7 +78,7 @@ function NavCard({ robot, dir }: { robot: Robot; dir: "prev" | "next" }) {
   );
 }
 
-export default async function RobotPage({ params }: PageProps<"/robos/[slug]">) {
+export default async function RobotPage({ params }: PageProps<"/robots/[slug]">) {
   const { slug } = await params;
   const robot = getRobot(slug);
   if (!robot) notFound();
@@ -114,7 +114,7 @@ export default async function RobotPage({ params }: PageProps<"/robos/[slug]">) 
                 Início
               </Link>
               <span aria-hidden>/</span>
-              <Link href="/robos" className="hover:text-white">
+              <Link href="/robots" className="hover:text-white">
                 Robôs
               </Link>
             </nav>
@@ -128,7 +128,7 @@ export default async function RobotPage({ params }: PageProps<"/robos/[slug]">) 
                 {robotAwards.map((a) => (
                   <li key={a.id}>
                     <Link
-                      href={`/conquistas#${a.id}`}
+                      href={`/awards#${a.id}`}
                       className="inline-flex items-center gap-2 rounded-full border border-white/20 px-3 py-1 text-sm font-bold hover:border-[#f0a6e8]"
                     >
                       <span className="size-1.5 rotate-45 bg-[#f0a6e8]" /> {a.title}
@@ -175,7 +175,7 @@ export default async function RobotPage({ params }: PageProps<"/robos/[slug]">) 
               <dt className="kicker">Temporada</dt>
               <dd className="heading mt-2 break-words text-xl sm:text-2xl">
                 {season ? (
-                  <Link href={`/temporadas/${season.slug}`} className="hover:text-accent">
+                  <Link href={`/seasons/${season.slug}`} className="hover:text-accent">
                     {season.game} {robot.year}
                   </Link>
                 ) : (
@@ -236,7 +236,7 @@ export default async function RobotPage({ params }: PageProps<"/robos/[slug]">) 
               <ul className="mt-4 grid grid-cols-2 gap-4">
                 {robotAwards.map((a) => (
                   <li key={a.id}>
-                    <Link href={`/conquistas#${a.id}`} className="group block rounded-lg border border-line p-4 text-center hover:border-accent">
+                    <Link href={`/awards#${a.id}`} className="group block rounded-lg border border-line p-4 text-center hover:border-accent">
                       <Trophy art={a.art} className="mx-auto h-28 w-auto transition-transform group-hover:-translate-y-1" />
                       <span className="mt-3 block text-sm font-bold group-hover:text-accent">{a.title}</span>
                     </Link>
@@ -301,7 +301,7 @@ export default async function RobotPage({ params }: PageProps<"/robos/[slug]">) 
             {events.map((e) => (
               <div key={e.key}>
                 <MatchStrip title={e.short} matches={e.matches} max={max} names={namesFor(e.matches)} />
-                <Link href={`/competicoes/${e.key}`} className="mt-5 inline-block text-sm font-bold text-accent hover:underline">
+                <Link href={`/competitions/${e.key}`} className="mt-5 inline-block text-sm font-bold text-accent hover:underline">
                   Ficha da competição →
                 </Link>
               </div>

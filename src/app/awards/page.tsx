@@ -6,13 +6,13 @@ import { Photo } from "@/components/ui/Photo";
 import { Loop } from "@/components/ui/Loop";
 import { Reveal } from "@/components/ui/Reveal";
 import { Trophy } from "@/components/graphics/Trophies";
+import { TrophyTurn } from "@/components/graphics/TrophyTurn";
 import { TrophyShelf } from "@/components/graphics/TrophyShelf";
 import { awards } from "@/content/awards";
 
 export const metadata: Metadata = {
   title: "Conquistas",
-  description:
-    "Rookie All Star, Rookie Inspiration no Mundial de Houston, Engineering Award, Prêmio de Impacto e mais: os prêmios da Nine Tails #9219.",
+  description: "Rookie All Star, Rookie Inspiration no Mundial de Houston, Engineering Award, Prêmio de Impacto e mais: os prêmios da Nine Tails #9219.",
 };
 
 const inWords = ["zero", "uma", "duas", "três", "quatro", "cinco"];
@@ -32,10 +32,12 @@ export default function AwardsPage() {
       <section className="border-b border-line bg-surface">
         <Container className="pb-12 pt-14">
           <p className="kicker">A estante</p>
-          <h2 className="heading mt-3 text-4xl sm:text-5xl">{awards.length} troféus em {inWords[seasonCount] ?? seasonCount} temporadas</h2>
+          <h2 className="heading mt-3 text-4xl sm:text-5xl">
+            {awards.length} troféus em {inWords[seasonCount] ?? seasonCount} temporadas
+          </h2>
           <p className="mt-3 max-w-2xl text-muted">
-            Cada um desenhado no formato do troféu de verdade: o cristal e a placa da FRC, os troféus do Festival SESI de
-            Robótica. Clique em um para ver a história.
+            Cada um desenhado no formato do troféu de verdade: o cristal e a placa da FRC, os troféus do Festival SESI de Robótica. Clique em um para ver a
+            história.
           </p>
           <TrophyShelf awards={awards} className="mt-12" />
         </Container>
@@ -51,7 +53,9 @@ export default function AwardsPage() {
           >
             <Reveal>
               <div className="grid aspect-square place-items-center rounded-lg border border-line bg-[radial-gradient(circle_at_50%_60%,color-mix(in_oklab,var(--brand)_22%,transparent),transparent_70%)] p-6">
-                <Trophy art={a.art} className="max-h-full w-auto drop-shadow-xl" />
+                <TrophyTurn className="size-full" innerClassName="grid size-full place-items-center">
+                  <Trophy art={a.art} className="max-h-full w-auto drop-shadow-xl" />
+                </TrophyTurn>
               </div>
             </Reveal>
             <div className="max-w-2xl">
@@ -67,22 +71,24 @@ export default function AwardsPage() {
                 <Loop src={a.clip.src} label={a.clip.label} aspect="aspect-[4/5]" />
                 <figcaption className="mt-2 text-sm text-muted">Logo depois de receber a placa.</figcaption>
               </figure>
-            ) : a.photo && (
-              <Photo
-                src={a.photo}
-                alt={`${a.title}, ${a.event}`}
-                caption="Na hora da premiação."
-                position={a.photoPosition}
-                className="md:col-span-2 lg:col-span-1"
-                aspect="aspect-[4/3]"
-                sizes="(min-width:1024px) 300px, 100vw"
-              />
+            ) : (
+              a.photo && (
+                <Photo
+                  src={a.photo}
+                  alt={`${a.title}, ${a.event}`}
+                  caption="Na hora da premiação."
+                  position={a.photoPosition}
+                  className="md:col-span-2 lg:col-span-1"
+                  aspect="aspect-[4/3]"
+                  sizes="(min-width:1024px) 300px, 100vw"
+                />
+              )
             )}
           </section>
         ))}
         <p className="py-10 text-muted">
           Quer os números de quadra?{" "}
-          <Link href="/recordes" className="text-link">
+          <Link href="/records" className="text-link">
             Veja os recordes e as alianças da raposa
           </Link>
           .

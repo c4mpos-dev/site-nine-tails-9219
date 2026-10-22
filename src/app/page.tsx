@@ -79,8 +79,8 @@ export default function Home() {
             Nine Tails <span className="text-[#f0a6e8]">#9219</span>
           </h1>
           <div className="mt-5 flex flex-wrap gap-2 sm:gap-3">
-            <Button href="/equipe">Conheça a equipe</Button>
-            <Button href="/temporadas" variant="outline" className="text-white">
+            <Button href="/team">Conheça a equipe</Button>
+            <Button href="/seasons" variant="outline" className="text-white">
               <span className="sm:hidden">Temporadas</span>
               <span className="hidden sm:inline">Nossas temporadas</span>
             </Button>
@@ -107,7 +107,7 @@ export default function Home() {
                 por perto.
               </p>
             </div>
-            <Link href="/equipe" className="text-link mt-6 inline-block">
+            <Link href="/team" className="text-link mt-6 inline-block">
               Nossa história →
             </Link>
           </Reveal>
@@ -142,7 +142,7 @@ export default function Home() {
           </div>
           <p className="mt-10 text-sm text-muted">
             Última temporada disputada: {seasons[lastCompleted].game} ({seasons[lastCompleted].year}).{" "}
-            <Link href="/temporadas" className="text-link">
+            <Link href="/seasons" className="text-link">
               Ver todas
             </Link>
           </p>
@@ -191,7 +191,7 @@ export default function Home() {
         <Container className="py-16">
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <SectionHeading kicker="Conquistas" title="Prêmios da equipe" />
-            <Link href="/conquistas" className="text-link shrink-0">
+            <Link href="/awards" className="text-link shrink-0">
               Ver todas →
             </Link>
           </div>
@@ -226,14 +226,14 @@ export default function Home() {
           </div>
           <div className="mt-14 grid gap-4 sm:grid-cols-3">
             {projects.slice(0, 3).map((p) => (
-              <Link key={p.name} href="/impacto" className="group rounded-lg bg-black/15 p-6 transition-colors hover:bg-black/25">
+              <Link key={p.name} href="/impact" className="group rounded-lg bg-black/15 p-6 transition-colors hover:bg-black/25">
                 <p className="text-xs font-bold uppercase tracking-wider text-white/70">{p.tag}</p>
                 <p className="heading mt-2 text-2xl">{p.name}</p>
                 <p className="mt-2 text-sm leading-relaxed text-white/80">{p.description}</p>
               </Link>
             ))}
           </div>
-          <Link href="/impacto" className="mt-8 inline-block font-bold underline decoration-white/50 underline-offset-4 hover:decoration-white">
+          <Link href="/impact" className="mt-8 inline-block font-bold underline decoration-white/50 underline-offset-4 hover:decoration-white">
             Todos os projetos →
           </Link>
         </Container>
@@ -244,7 +244,7 @@ export default function Home() {
         <Container className="py-20">
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
             <SectionHeading kicker="Robôs" title="Feitos na nossa oficina" lead="Do tank drive ao swerve: cada robô leva o que aprendemos com o anterior." />
-            <Link href="/robos" className="text-link shrink-0">
+            <Link href="/robots" className="text-link shrink-0">
               Todos os robôs →
             </Link>
           </div>
@@ -271,7 +271,7 @@ export default function Home() {
           />
           <SponsorWall className="mt-8" />
           <div className="mt-8">
-            <Button href="/patrocine">Seja um patrocinador</Button>
+            <Button href="/sponsor">Seja um patrocinador</Button>
           </div>
         </Container>
       </section>

@@ -17,8 +17,8 @@ export default function GlossaryPage() {
     <>
       <PageHero
         crumbs={[
-          { href: "/arquivo", label: "Mais" },
-          { href: "/glossario", label: "Fala FRC?" },
+          { href: "/archive", label: "Mais" },
+          { href: "/glossary", label: "Fala FRC?" },
         ]}
         kicker="Glossário"
         title="Fala FRC?"
@@ -57,7 +57,7 @@ export default function GlossaryPage() {
             <a href="mailto:ninetails9219@gmail.com?subject=Gloss%C3%A1rio" className="text-link">
               Manda pra gente
             </a>
-            . <Link href="/arquivo" className="text-link">Mais páginas</Link>
+            . <Link href="/archive" className="text-link">Mais páginas</Link>
           </p>
         </div>
       </Container>

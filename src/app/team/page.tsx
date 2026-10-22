@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { PageHero } from "@/components/layout/PageHero";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Photo } from "@/components/ui/Photo";
 import { Button } from "@/components/ui/Button";
 import { Loop } from "@/components/ui/Loop";
-import { InstagramIcon, LinkedinIcon } from "@/components/icons/Social";
-import { alumni, areas, mentors, roster } from "@/content/people";
-import { site } from "@/content/site";
+import { areas, mentors } from "@/content/people";
+import { alumni } from "@/content/alumni";
 
 export const metadata: Metadata = {
   title: "Equipe",
-  description: "A história, as áreas, os mentores, os membros e os alumni da Nine Tails #9219, equipe de FRC da Escola Firjan SENAI SESI Resende.",
+  description: "A história, as áreas, os mentores e os alumni da Nine Tails #9219, equipe de FRC da Escola Firjan SENAI SESI Resende.",
 };
 
 const facts = [
@@ -67,19 +67,15 @@ export default function TeamPage() {
       {/* 1. A história, curta, com os números ao lado */}
       <Container className="grid gap-12 py-16 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-16">
         <div className="prose-nt max-w-[66ch]">
-          <p className="text-xl !text-fg">
-            A Nine Tails nasceu em 2 de novembro de 2022, da parceria entre SESI e SENAI, na Escola Firjan de Resende (RJ).
+          <p className="text-xl !text-fg">A Nine Tails nasceu em 2 de novembro de 2022, da parceria entre SESI e SENAI, na Escola Firjan de Resende (RJ).</p>
+          <p>
+            Com três meses de equipe fomos para a primeira regional, em Brasília. Ficamos entre os 10 melhores robôs, ganhamos o{" "}
+            <strong>Rookie All Star</strong> e uma vaga para o Mundial de Houston, onde recebemos o <strong>Rookie Inspiration Award</strong>.
           </p>
           <p>
-            Com três meses de equipe fomos para a primeira regional, em Brasília. Ficamos entre os 10 melhores robôs, ganhamos
-            o <strong>Rookie All Star</strong> e uma vaga para o Mundial de Houston, onde recebemos o{" "}
-            <strong>Rookie Inspiration Award</strong>.
-          </p>
-          <p>
-            Desde então a equipe se renova a cada ano, mas a ideia é a mesma: aprender construindo, e levar a robótica para
-            escolas públicas e comunidades que nunca tiveram contato com ela. O processo seletivo dá prioridade a quem veio da
-            rede pública. A história da primeira formação está no{" "}
-            <Link href="/pioneiros" className="text-link">
+            Desde então a equipe se renova a cada ano, mas a ideia é a mesma: aprender construindo, e levar a robótica para escolas públicas e comunidades que
+            nunca tiveram contato com ela. O processo seletivo dá prioridade a quem veio da rede pública. A história da primeira formação está no{" "}
+            <Link href="/pioneers" className="text-link">
               diário dos pioneiros
             </Link>
             .
@@ -104,45 +100,43 @@ export default function TeamPage() {
           <div>
             <h2 className="heading text-3xl">Por que &quot;Nine Tails&quot;?</h2>
             <p className="mt-2 max-w-3xl leading-relaxed text-muted">
-              Na mitologia japonesa, a <strong className="text-fg">Kitsune</strong> é uma raposa que ganha uma nova cauda a cada
-              mil anos de sabedoria, até chegar a nove. O nome virou o jeito da equipe se enxergar: evolução constante, uma
-              temporada de cada vez.
+              Na mitologia japonesa, a <strong className="text-fg">Kitsune</strong> é uma raposa que ganha uma nova cauda a cada mil anos de sabedoria, até
+              chegar a nove. O nome virou o jeito da equipe se enxergar: evolução constante, uma temporada de cada vez.
             </p>
           </div>
         </div>
       </Container>
 
-      {/* 3. Áreas, cada uma com quem faz parte dela */}
-      <div id="membros" className="scroll-mt-16" />
+      {/* 3. Áreas e o que cada uma faz */}
       <Container className="py-20">
         <SectionHeading
           kicker="Áreas"
           title="Como a equipe se organiza"
-          lead={`Quatro áreas que trabalham juntas no mesmo robô. Abaixo de cada uma, quem fez parte dela na temporada ${roster.season}.`}
+          lead="Quatro áreas que trabalham juntas no mesmo robô, do primeiro esboço até a arena."
         />
         <div className="mt-12 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-4">
-          {areas.map((a) => {
-            const members = roster.members.filter((m) => m.area === a.name);
-            return (
-              <section key={a.slug} aria-labelledby={`area-${a.slug}`}>
-                <Photo src={a.photo} alt={`Área de ${a.name}`} aspect="aspect-[4/5]" sizes="(min-width:1024px) 22vw, (min-width:640px) 45vw, 100vw" />
-                <h3 id={`area-${a.slug}`} className="heading mt-5 text-2xl">
-                  {a.name}
-                </h3>
-                <p className="mt-1 text-sm leading-relaxed text-muted">{a.description}</p>
-                {members.length > 0 && (
-                  <ul className="mt-4 divide-y divide-line border-y border-line">
-                    {members.map((m) => (
-                      <li key={m.name} className="flex items-baseline justify-between gap-3 py-2">
-                        <span className="font-bold">{m.name}</span>
-                        <span className="text-right text-xs text-muted">{m.role}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </section>
-            );
-          })}
+          {areas.map((a) => (
+            <section key={a.slug} aria-labelledby={`area-${a.slug}`}>
+              <Photo
+                src={a.photo}
+                position={a.position}
+                alt={`Área de ${a.name} em ação`}
+                aspect="aspect-[4/5]"
+                sizes="(min-width:1024px) 22vw, (min-width:640px) 45vw, 100vw"
+              />
+              <h3 id={`area-${a.slug}`} className="heading mt-5 text-2xl">
+                {a.name}
+              </h3>
+              <p className="mt-1 text-sm leading-relaxed text-muted">{a.description}</p>
+              <ul className="mt-4 divide-y divide-line border-y border-line">
+                {a.tasks.map((t) => (
+                  <li key={t} className="py-2 text-sm font-bold">
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
         </div>
       </Container>
 
@@ -167,7 +161,7 @@ export default function TeamPage() {
         </ol>
       </Container>
 
-      {/* 4. Mentores e alumni */}
+      {/* 4. Mentores, e a porta para as cartas dos alumni */}
       <section className="border-y border-line bg-surface">
         <Container className="grid gap-16 py-20 lg:grid-cols-[1fr_1.4fr]">
           <div id="mentores" className="scroll-mt-24">
@@ -190,52 +184,28 @@ export default function TeamPage() {
               ))}
             </ul>
           </div>
-          <div id="alumni" className="scroll-mt-24">
+          <Link href="/alumni" className="group grid content-center rounded-lg border border-line bg-bg p-8 transition-colors hover:border-accent">
             <p className="kicker">Quem passou e continua por perto</p>
-            <h2 className="heading mt-3 text-4xl">Alumni</h2>
-            <p className="mt-3 max-w-lg text-muted">Onde anda quem já vestiu a camisa da raposa, e como achar cada um.</p>
-            <ul className="mt-8 grid gap-3 sm:grid-cols-2">
-              {alumni.map((a) => (
-                <li key={a.name} className="flex gap-3 rounded-lg border border-line bg-bg p-4">
-                  <span aria-hidden className="heading grid size-11 shrink-0 place-items-center rounded-full bg-surface-2 text-lg text-accent">
-                    {a.name
-                      .split(" ")
-                      .map((w) => w[0])
-                      .slice(0, 2)
-                      .join("")}
-                  </span>
-                  <span className="min-w-0">
-                    <span className="block font-bold">{a.name}</span>
-                    <span className="block text-sm text-muted">
-                      {a.now ?? a.role}
-                      {a.years && ` · na equipe em ${a.years}`}
-                    </span>
-                    {(a.instagram || a.linkedin) && (
-                      <span className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-sm font-bold">
-                        {a.instagram && (
-                          <a href={`https://www.instagram.com/${a.instagram}/`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-accent hover:underline">
-                            <InstagramIcon className="size-3.5" /> @{a.instagram}
-                          </a>
-                        )}
-                        {a.linkedin && (
-                          <a href={a.linkedin} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-accent hover:underline">
-                            <LinkedinIcon className="size-3.5" /> LinkedIn
-                          </a>
-                        )}
-                      </span>
-                    )}
-                  </span>
+            <h2 className="heading mt-3 text-4xl group-hover:text-accent">Alumni</h2>
+            <p className="mt-3 max-w-lg text-muted">Quem já vestiu a camisa: o que fazia na equipe, onde está hoje e como achar cada um.</p>
+            <ul aria-hidden className="mt-6 flex -space-x-3">
+              {alumni.slice(0, 7).map((a) => (
+                <li key={a.name} className="heading grid size-11 place-items-center rounded-full border-2 border-bg bg-surface-2 text-sm text-accent">
+                  {a.name
+                    .split(" ")
+                    .map((w) => w[0])
+                    .slice(0, 2)
+                    .join("")}
                 </li>
               ))}
+              <li className="grid size-11 place-items-center rounded-full border-2 border-bg bg-brand text-xs font-bold text-brand-ink">
+                +{alumni.length - 7}
+              </li>
             </ul>
-            <p className="mt-6 text-sm text-muted">
-              É alumni e quer aparecer aqui com o seu @?{" "}
-              <a href={`mailto:${site.email}?subject=${encodeURIComponent("Alumni no site")}`} className="text-link">
-                Mande para a equipe
-              </a>
-              .
+            <p className="mt-6 inline-flex items-center gap-1 font-bold text-accent">
+              Ver a lista <ArrowRight className="size-4" />
             </p>
-          </div>
+          </Link>
         </Container>
       </section>
 
@@ -252,7 +222,7 @@ export default function TeamPage() {
         </ol>
         <p className="mt-4 text-sm text-muted">
           Cada temporada em detalhe está em{" "}
-          <Link href="/temporadas" className="text-link">
+          <Link href="/seasons" className="text-link">
             Temporadas
           </Link>
           .

@@ -11,7 +11,7 @@ export function Term({ id, children }: { id: string; children?: React.ReactNode 
   return (
     <span className="group/term relative inline">
       <Link
-        href={`/glossario#${t.id}`}
+        href={`/glossary#${t.id}`}
         className="cursor-help underline decoration-accent decoration-dotted decoration-2 underline-offset-4"
         aria-describedby={`term-${t.id}`}
       >
