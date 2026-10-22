@@ -2,27 +2,31 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import type { Robot } from "@/content/robots";
+import { Tilt } from "@/components/ui/Tilt";
 import { RobotBlueprint } from "./RobotBlueprint";
 
 export function RobotCard({ robot }: { robot: Robot }) {
   return (
-    <Link href={`/robos/${robot.slug}`} className="group block">
-      <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-surface-2">
-        {robot.photo ? (
-          <Image
-            quality={90}
-            src={robot.photo}
-            alt={`Robô ${robot.name}`}
-            fill
-            sizes="(min-width:1024px) 30vw, 90vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-            style={robot.photoPosition ? { objectPosition: robot.photoPosition } : undefined}
-          />
-        ) : (
-          <RobotBlueprint drivetrain={robot.drivetrain} className="absolute inset-0 m-auto h-[80%] w-[80%] text-brand opacity-80" />
-        )}
-        <span className="absolute left-3 top-3 rounded bg-black/60 px-2 py-0.5 text-xs font-bold text-white">{robot.year}</span>
-      </div>
+    <Link href={`/robots/${robot.slug}`} className="group block">
+      <Tilt max={7} glare className="rounded-lg">
+        <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-surface-2">
+          {robot.photo ? (
+            <Image
+              quality={90}
+              src={robot.photo}
+              alt={`Robô ${robot.name}`}
+              fill
+              sizes="(min-width:1024px) 30vw, 90vw"
+              // A foto corre um pouco ao contrário da inclinação, como se estivesse atrás de um vidro
+              className="object-cover transition-[scale] duration-500 [translate:calc(var(--mx,0)*-10px)_calc(var(--my,0)*-10px)] group-hover:scale-[1.07]"
+              style={robot.photoPosition ? { objectPosition: robot.photoPosition } : undefined}
+            />
+          ) : (
+            <RobotBlueprint drivetrain={robot.drivetrain} className="absolute inset-0 m-auto h-[80%] w-[80%] text-brand opacity-80" />
+          )}
+          <span className="absolute left-3 top-3 rounded bg-black/60 px-2 py-0.5 text-xs font-bold text-white">{robot.year}</span>
+        </div>
+      </Tilt>
       <div className="mt-3 flex items-start justify-between gap-3">
         <div>
           <h3 className="heading text-2xl transition-colors group-hover:text-accent">{robot.name}</h3>

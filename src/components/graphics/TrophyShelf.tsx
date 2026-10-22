@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Trophy } from "@/components/graphics/Trophies";
+import { TrophyTurn } from "@/components/graphics/TrophyTurn";
 import type { Award } from "@/content/awards";
 import { cn } from "@/lib/cn";
 
@@ -15,13 +16,12 @@ export function TrophyShelf({ awards, className }: { awards: Award[]; className?
     <div className={cn("overflow-x-auto [scrollbar-width:thin]", className)}>
       <div className="min-w-[760px] px-2">
         <ul className="flex items-end justify-around gap-4 px-4">
-          {awards.map((a) => (
+          {awards.map((a, i) => (
             <li key={a.id} className="flex-1">
-              <Link href={`/conquistas#${a.id}`} className="group block" aria-label={`${a.title}, ${a.date}`}>
-                <Trophy
-                  art={a.art}
-                  className={cn("mx-auto w-auto drop-shadow-xl transition-transform duration-300 group-hover:-translate-y-1.5", height[a.art.kind])}
-                />
+              <Link href={`/awards#${a.id}`} className="group block" aria-label={`${a.title}, ${a.date}`}>
+                <TrophyTurn delay={i * 0.12} className="transition-[translate] duration-300 group-hover:-translate-y-1.5">
+                  <Trophy art={a.art} className={cn("mx-auto w-auto drop-shadow-xl", height[a.art.kind])} />
+                </TrophyTurn>
               </Link>
             </li>
           ))}
@@ -33,7 +33,7 @@ export function TrophyShelf({ awards, className }: { awards: Award[]; className?
         <ul className="mt-4 flex justify-around gap-4 px-4">
           {awards.map((a) => (
             <li key={a.id} className="flex-1 text-center">
-              <Link href={`/conquistas#${a.id}`} className="font-bold leading-tight hover:text-accent">
+              <Link href={`/awards#${a.id}`} className="font-bold leading-tight hover:text-accent">
                 {a.title}
               </Link>
               <p className="mt-0.5 text-xs text-muted">{a.date}</p>
