@@ -22,6 +22,8 @@ export type Robot = {
   beforeAfter?: { before: string; after: string; beforePosition?: string; afterPosition?: string };
   /** Trecho em loop (mp4 sem som em /clips, com pôster .webp de mesmo nome). */
   clip?: { src: string; caption: string; aspect?: string };
+  /** Fotos de gente trabalhando no robô (oficina, box). */
+  backstage?: { src: string; caption: string; position?: string }[];
 };
 
 export const robots: Robot[] = [
@@ -52,6 +54,9 @@ export const robots: Robot[] = [
       afterPosition: "50% 60%",
     },
     clip: { src: "/clips/tank-tails.mp4", caption: "Em campo na Regional do Brasil, no Mané Garrincha, março de 2023." },
+    backstage: [
+      { src: "/team/2023-houston-tank-tails-gabriel-rosa.webp", caption: "Gabriel Rosa ajustando o Tank Tails no box, no Mundial de Houston.", position: "50% 40%" },
+    ],
   },
   {
     slug: "the-answer",

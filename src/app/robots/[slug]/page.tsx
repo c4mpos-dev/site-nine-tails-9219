@@ -290,6 +290,24 @@ export default async function RobotPage({ params }: PageProps<"/robots/[slug]">)
         </section>
       )}
 
+      {/* Nos bastidores */}
+      {robot.backstage && (
+        <Container className="py-16">
+          <p className="kicker">Nos bastidores</p>
+          <h2 className="heading mt-3 text-4xl">Quem cuidou do {robot.name}</h2>
+          <div className={cn("mt-8 grid gap-6", robot.backstage.length > 1 ? "md:grid-cols-2" : "max-w-4xl")}>
+            {robot.backstage.map((b) => (
+              <figure key={b.src}>
+                <div className="zoomable relative aspect-[16/9] overflow-hidden rounded-lg bg-surface-2" {...zoom(b.src, b.caption)}>
+                  <Image quality={90} src={b.src} alt={b.caption} fill sizes="(min-width:1024px) 70vw, 100vw" className="object-cover" style={{ objectPosition: b.position }} />
+                </div>
+                <figcaption className="mt-2 text-sm text-muted">{b.caption}</figcaption>
+              </figure>
+            ))}
+          </div>
+        </Container>
+      )}
+
       {/* Partida a partida */}
       {events.length > 0 && (
         <Container className="py-16">
