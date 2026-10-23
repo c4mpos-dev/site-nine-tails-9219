@@ -3,8 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
-import { RobotCard } from "@/components/robots/RobotCard";
+import { Reveal } from "@/components/ui/Reveal";
+import { RobotSheet } from "@/components/robots/RobotSheet";
 import { RobotBlueprint } from "@/components/robots/RobotBlueprint";
 import { robots } from "@/content/robots";
 import { TankTails3D } from "@/components/robots/TankTails3D";
@@ -81,15 +81,16 @@ export default function RobotsPage() {
         </Container>
       </section>
 
-      <Container className="py-14">
-        <RevealGroup className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-          {[...robots].reverse().map((r) => (
-            <RevealItem key={r.slug}>
-              <RobotCard robot={r} />
-              <p className="mt-2 text-sm leading-relaxed text-muted">{r.tagline}</p>
-            </RevealItem>
+      {/* As fichas, do mais novo ao primeiro */}
+      <Container className="py-16">
+        <SectionHeading kicker="O hangar" title={`${robots.length} robôs, uma ficha cada`} />
+        <div className="mt-16 space-y-24 lg:space-y-32">
+          {[...robots].reverse().map((r, i) => (
+            <Reveal key={r.slug}>
+              <RobotSheet robot={r} flip={i % 2 === 1} />
+            </Reveal>
           ))}
-        </RevealGroup>
+        </div>
       </Container>
     </>
   );
