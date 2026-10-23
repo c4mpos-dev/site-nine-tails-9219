@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
+import { zoom } from "@/lib/zoom";
 import { Container } from "@/components/ui/Container";
 import { PageHero } from "@/components/layout/PageHero";
 import { Photo } from "@/components/ui/Photo";
@@ -65,6 +67,28 @@ export default function AwardsPage() {
               <h2 className="heading mt-2 text-3xl sm:text-4xl">{a.title}</h2>
               <p className="mt-1 font-bold text-muted">{a.event}</p>
               <p className="mt-3 leading-relaxed text-muted">{a.description}</p>
+              {a.highlight && (
+                <figure className="mt-6 flex items-center gap-5 rounded-lg border border-line bg-surface p-3 pr-5">
+                  <div
+                    className="zoomable relative aspect-[3/4] w-28 shrink-0 overflow-hidden rounded-md bg-surface-2 sm:w-36"
+                    {...zoom(a.highlight.src, `${a.highlight.name} com o ${a.title}.`)}
+                  >
+                    <Image
+                      quality={90}
+                      src={a.highlight.src}
+                      alt={`${a.highlight.name} com o cristal e a placa do ${a.title}`}
+                      fill
+                      sizes="144px"
+                      className="object-cover"
+                      style={{ objectPosition: a.highlight.position }}
+                    />
+                  </div>
+                  <figcaption>
+                    <span className="heading block text-2xl text-accent">{a.highlight.name}</span>
+                    <span className="mt-1 block text-sm leading-relaxed text-muted">{a.highlight.text}</span>
+                  </figcaption>
+                </figure>
+              )}
             </div>
             {a.clip ? (
               <figure className="md:col-span-2 lg:col-span-1">

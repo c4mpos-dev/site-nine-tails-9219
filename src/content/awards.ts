@@ -13,6 +13,8 @@ export type Award = {
   photoPosition?: string;
   /** Trecho em loop do momento (mp4 sem som em /clips), mostrado no lugar da foto. */
   clip?: { src: string; label: string };
+  /** Destaque de uma pessoa com o prêmio, abaixo do texto. */
+  highlight?: { src: string; name: string; text: string; position?: string };
 };
 
 /** Em ordem cronológica. */
@@ -55,6 +57,12 @@ export const awards: Award[] = [
     clip: {
       src: "/clips/houston-rookie-inspiration.mp4",
       label: "A equipe pula e comemora com a placa do Rookie Inspiration Award em Houston.",
+    },
+    highlight: {
+      src: "/team/2023-houston-rookie-inspiration-ana-clara.webp",
+      name: "Ana Clara",
+      text: "Com o cristal e a placa do Rookie Inspiration Award. Um prêmio de impacto se constrói na temporada inteira, por cada pessoa da equipe.",
+      position: "50% 30%",
     },
   },
   {

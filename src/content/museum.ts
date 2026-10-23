@@ -126,6 +126,7 @@ export const rooms: Room[] = [
         name: "Ala A volta",
         pieces: [
           { src: "/museu/23-volta-beijo-trofeu.webp", r: P, title: "o troféu chegou", frame: "polaroid", when: "Abr 2023" },
+          { src: "/team/2023-houston-rookie-inspiration-ana-clara.webp", r: P, title: "Ana Clara e o Rookie Inspiration", note: "O cristal e a placa da divisão Curie, em casa.", frame: "moldura", when: "Abr 2023" },
           { src: "/museu/23-volta-selfie.webp", r: P, title: "de volta em casa", frame: "polaroid", when: "Abr 2023" },
           { src: "/museu/23-volta-festa.webp", r: L, title: "A festa de boas-vindas", frame: "moldura", when: "Abr 2023" },
           { src: "/museu/23-volta-faixa.webp", r: L, title: "\"Sejam bem-vindos\"", note: "Foco e determinação são princípios de campeões.", frame: "fita", when: "Abr 2023" },
