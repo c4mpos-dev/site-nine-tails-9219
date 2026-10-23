@@ -220,3 +220,28 @@
   from { transform: scale(1.04); }
   to { transform: scale(1); }
 }
+
+/* Carregamento: as nove caudas acendem em sequência e o anel gira devagar */
+.fox-ring {
+  animation: fox-spin 9s linear infinite;
+}
+.fox-tail {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: fox-tail 0.99s ease-in-out infinite;
+}
+.fox-emblem {
+  animation: fox-pulse 1.98s ease-in-out infinite;
+}
+@keyframes fox-spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes fox-tail {
+  0%, 100% { opacity: 0.2; transform: scale(0.72); }
+  30% { opacity: 1; transform: scale(1.06); }
+}
+@keyframes fox-pulse {
+  0%, 100% { scale: 1; }
+  50% { scale: 1.05; }
+}
+

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Search, X } from "lucide-react";
 import type { SearchItem } from "@/lib/searchIndex";
 import { cn } from "@/lib/cn";
+import { startRouteTransition } from "@/components/layout/RouteTransition";
 
 /** Minúsculas e sem acento, para "cuiaba" achar "Cuiabá". */
 const norm = (s: string) => s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
@@ -105,6 +106,7 @@ export function SiteSearch({ className }: { className?: string }) {
 
   const go = (it: SearchItem) => {
     close();
+    startRouteTransition(it.h);
     router.push(it.h);
   };
 
