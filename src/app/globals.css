@@ -245,3 +245,14 @@
   50% { scale: 1.05; }
 }
 
+/* 404: pegadas de raposa atravessando a tela */
+.paw-step {
+  opacity: 0;
+  animation: paw-step 5s ease-out infinite;
+}
+@keyframes paw-step {
+  0% { opacity: 0; transform: scale(0.6); }
+  6% { opacity: 1; transform: scale(1); }
+  40% { opacity: 0.55; }
+  60%, 100% { opacity: 0; }
+}
