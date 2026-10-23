@@ -33,7 +33,7 @@ export const awards: Award[] = [
       frame: "black",
     },
     photo: "/team/2023-brasilia-rookie-all-star-trofeu.webp",
-    photoPosition: "50% 35%",
+    photoPosition: "50% 54%",
   },
   {
     id: "rookie-inspiration",
@@ -78,7 +78,8 @@ export const awards: Award[] = [
     description:
       "Com o Predator, a equipe ficou em 3º no ranking, foi a 1ª escolha da Aliança 2 e chegou à grande final.",
     art: { kind: "sesi", lines: ["Aliança", "Finalista"], event: "OFF-SEASON MATO GROSSO 2024", onca: true },
-    photo: "/team/2024-cuiaba-alianca-robos.webp",
+    photo: "/team/2024-cuiaba-alianca-finalista-trofeu.webp",
+    photoPosition: "50% 40%",
   },
   {
     id: "impacto",
@@ -89,7 +90,7 @@ export const awards: Award[] = [
     description:
       "O prêmio que reconhece o impacto da equipe fora da quadra: o Nine Learns, as ações em escolas públicas e a cultura STEAM levada para a comunidade de Resende.",
     art: { kind: "sesi", lines: ["Prêmio de", "Impacto"], event: "OFF-SEASON MATO GROSSO 2024", onca: true },
-    photo: "/team/2024-cuiaba-premiacao.webp",
-    photoPosition: "50% 40%",
+    photo: "/team/2024-cuiaba-premio-impacto.webp",
+    photoPosition: "50% 35%",
   },
 ];

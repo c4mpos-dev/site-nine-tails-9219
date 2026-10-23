@@ -7,16 +7,15 @@ export type TeamPhoto = { src: string; caption: string; position?: string };
 export const teamPhotos: Record<string, TeamPhoto[]> = {
   "2023-charged-up": [
     { src: "/team/2023-houston-tank-tails.webp", caption: "Tank Tails em campo no Mundial de Houston.", position: "50% 60%" },
-    { src: "/team/2023-brasilia-rookie-all-star.webp", caption: "Regional Brasil, em Brasília: a vaga para o Mundial." },
+    { src: "/team/2023-brasilia-arena-box.webp", caption: "Na arena da Regional Brasil, em Brasília: a campanha que valeu a vaga para o Mundial." },
     { src: "/team/2023-houston-placa.webp", caption: "A placa do Rookie Inspiration Award, divisão Curie." },
-    { src: "/team/2023-houston-abraco.webp", caption: "Houston, 2023." },
-    { src: "/team/2023-tank-tails-construcao.webp", caption: "Tank Tails sendo montado na oficina.", position: "50% 70%" },
+    { src: "/team/2023-oficina-treino.webp", caption: "Na oficina, durante o treino.", position: "50% 30%" },
     { src: "/team/2023-houston-equipe.webp", caption: "Nos corredores do George R. Brown Center." },
+    { src: "/team/2023-houston-pos-premiacao.webp", caption: "Houston, logo depois da premiação." },
   ],
   "2024-crescendo": [
     { src: "/team/2024-cuiaba-alianca-finalista.webp", caption: "A aliança finalista do Off-Season do Mato Grosso, com a 7033 e a 9994." },
     { src: "/team/2024-predator.webp", caption: "Predator em quadra, com a bandeira da raposa.", position: "50% 46%" },
-    { src: "/team/2024-equipe.webp", caption: "A equipe inteira na comemoração do Off-Season." },
     { src: "/team/2024-cuiaba-finalistas.webp", caption: "Finalistas no Off-Season do Mato Grosso, em Cuiabá.", position: "50% 55%" },
     { src: "/team/2024-cuiaba-pit-predator.webp", caption: "Ajustes no Predator, no box." },
     { src: "/team/2024-garuttinho.webp", caption: "Garuttinho em quadra na Regional de Brasília." },

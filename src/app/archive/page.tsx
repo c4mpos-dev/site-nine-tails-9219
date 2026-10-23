@@ -36,7 +36,7 @@ export default function ArchivePage() {
             </div>
             <div className="relative hidden min-h-56 md:block">
               {[
-                { src: "/museu/23-inicio-cone.webp", c: "left-[8%] top-8 -rotate-6" },
+                { src: "/museu/23-inicio-lanche.webp", c: "left-[8%] top-8 -rotate-6" },
                 { src: "/museu/23-volta-beijo-trofeu.webp", c: "left-[38%] top-4 rotate-3" },
                 { src: "/museu/24-festa-abraco-3.webp", c: "left-[66%] top-10 -rotate-2" },
               ].map((p) => (
