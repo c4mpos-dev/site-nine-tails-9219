@@ -47,12 +47,6 @@ export const robots: Robot[] = [
     matchEvents: ["2023-brasilia", "2023-houston"],
     photo: "/team/robo-tank-tails.webp",
     thumb: { src: "/team/robo-tank-tails-thumb.webp" },
-    beforeAfter: {
-      before: "/team/2023-tank-tails-construcao.webp",
-      after: "/team/2023-houston-tank-tails.webp",
-      beforePosition: "50% 65%",
-      afterPosition: "50% 60%",
-    },
     clip: { src: "/clips/tank-tails.mp4", caption: "Em campo na Regional do Brasil, no Mané Garrincha, março de 2023." },
     backstage: [
       { src: "/team/2023-houston-tank-tails-gabriel-rosa.webp", caption: "Gabriel Rosa ajustando o Tank Tails no box, no Mundial de Houston.", position: "50% 40%" },
@@ -84,6 +78,10 @@ export const robots: Robot[] = [
       beforePosition: "50% 50%",
     },
     clip: { src: "/clips/the-answer.mp4", caption: "Ligando os LEDs na oficina, semanas antes do Off-Season do Rio.", aspect: "aspect-[3/4]" },
+    backstage: [
+      { src: "/team/2023-the-answer-construcao.webp", caption: "Montagem do The Answer na oficina.", position: "50% 65%" },
+      { src: "/team/2023-the-answer-oficina.webp", caption: "O elevador do The Answer de pé, pronto para os testes.", position: "50% 60%" },
+    ],
   },
   {
     slug: "garuttinho",

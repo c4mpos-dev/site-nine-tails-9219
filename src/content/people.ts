@@ -15,7 +15,7 @@ export const areas: Area[] = [
     name: "Mecânica",
     description: "Projeta e constrói o chassi, os mecanismos e a estrutura do robô, do CAD até a última rebitada.",
     tasks: ["CAD do robô e dos mecanismos", "Protótipos para testar ideias", "Corte, usinagem e montagem", "Manutenção nos pits entre partidas"],
-    photo: "/team/2023-tank-tails-construcao.webp",
+    photo: "/team/2023-the-answer-construcao.webp",
     position: "70% 50%",
   },
   {

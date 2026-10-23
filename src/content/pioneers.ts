@@ -33,8 +33,8 @@ export const chapters: Chapter[] = [
     title: "Do zero ao Tank Tails",
     text: "Kickoff em janeiro, poucas semanas de oficina e um robô inteiro para construir sem nunca ter feito um. Assim nasceu o Tank Tails, que pontuava cones e cubos e se equilibrava na Charge Station.",
     photos: [
-      { src: "/team/2023-tank-tails-construcao.webp", caption: "Montagem do Tank Tails.", position: "50% 65%" },
-      { src: "/team/2023-tank-tails-oficina.webp", caption: "Testes na oficina.", position: "50% 60%" },
+      { src: "/team/2023-oficina-treino.webp", caption: "Na oficina, durante o treino.", position: "50% 30%" },
+      { src: "/museu/23-inicio-lanche.webp", caption: "Pausa para o lanche na oficina." },
     ],
     layout: "pair",
   },
