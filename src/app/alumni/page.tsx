@@ -51,7 +51,7 @@ export default function AlumniPage() {
         kicker="Alumni"
         title="Quem passou pela raposa"
         lead="A cada temporada, gente sai da equipe para a faculdade e para o trabalho. A camisa fica, e muitos continuam por perto."
-        image={{ src: "/team/2023-houston-equipe-bandeira.webp", alt: "A equipe com a bandeira do Brasil no Mundial de Houston, em 2023." }}
+        image={{ src: "/photos/equipe-2.webp", alt: "A primeira turma da Nine Tails, de camisa roxa, em 2023.", position: "50% 55%" }}
       />
 
       {/* O que é ser alumni */}

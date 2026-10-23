@@ -24,7 +24,7 @@ export default function SeasonsPage() {
         kicker="Temporadas"
         title="Nossa trajetória na FRC"
         lead={`${completedSeasons.length} temporadas e ${events.length} eventos desde 2023. Cada ano tem um jogo novo e um robô construído do zero.`}
-        image={{ src: "/seasons/2024-crescendo-wide.webp", alt: "Partida da temporada Crescendo", credit: "Dmhll, CC BY 4.0" }}
+        image={{ src: "/team/2025-brasilia-arak-alianca.webp", alt: "O Arak, robô da Nine Tails, em quadra com a aliança na Regional de Brasília 2025", position: "50% 92%" }}
       />
       <Container className="py-14">
         <RevealGroup className="divide-y divide-line">

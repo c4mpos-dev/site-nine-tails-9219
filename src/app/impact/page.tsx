@@ -28,7 +28,7 @@ export default function ImpactPage() {
         kicker="Impacto"
         title="Mais que um torneio"
         lead="Nossa missão é transformar vidas através da robótica, levando STEAM para a rede pública e para as comunidades de Resende e região."
-        image={{ src: "/team/2024-cuiaba-pit-visitas.webp", alt: "Visitantes no box da Nine Tails conhecendo o Nine Learns" }}
+        image={{ src: "/team/2025-maua-escola-visita.webp", alt: "Alunos da Escola Francisco Quirino Diniz, em Mauá, com os projetos feitos na visita da Nine Tails", position: "50% 55%" }}
       >
         <dl className="mt-10 grid max-w-3xl grid-cols-2 gap-6 sm:grid-cols-4">
           {numbers.map((x) => (

@@ -61,7 +61,7 @@ export default function TeamPage() {
         kicker="Equipe"
         title="Quem faz a raposa"
         lead="Estudantes de escola técnica, mentores e ex-integrantes que constroem robôs e levam a robótica para mais gente."
-        image={{ src: "/team/2025-equipe.webp", alt: "Equipe Nine Tails com a bandeira da Firjan na Regional de Brasília 2025", position: "50% 60%" }}
+        image={{ src: "/team/2025-sp-box-equipe.webp", alt: "A equipe Nine Tails reunida no box da Regional de São Paulo 2025, com a faixa da equipe e o robô", position: "50% 40%" }}
       />
 
       {/* 1. A história, curta, com os números ao lado */}
