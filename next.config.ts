@@ -4,6 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
+  experimental: { agentUpgrade: "security" },
   // Fotos grandes (topos, galerias) usam 90; o resto fica no padrão 75.
   images: { qualities: [75, 90] },
   // As rotas passaram para inglês; os links antigos, em português, continuam funcionando.
