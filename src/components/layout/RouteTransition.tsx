@@ -1,26 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { FoxLoader } from "@/components/brand/FoxLoader";
+import { animate, motion, useMotionValue, useTransform, type AnimationPlaybackControls } from "motion/react";
 
 const EVENT = "nt:navigate";
-/** Tempo mínimo da cortina na tela, para a animação não piscar em navegações instantâneas. */
-const MIN_MS = 520;
-/** Se a página nunca chegar (erro de rede), a cortina sai sozinha. */
+/** Se a página nunca chegar (erro de rede), a barra sai sozinha. */
 const MAX_MS = 8000;
-const EASE = [0.76, 0, 0.24, 1] as const;
-
-const phrases = [
-  "Ligando o robô",
-  "Conferindo os bumpers",
-  "Calibrando o swerve",
-  "Trocando a bateria",
-  "Alinhando com a aliança",
-  "Esperando o sinal do juiz",
-  "Apertando os parafusos",
-];
 
 const isOtherPage = (href: string) => {
   const url = new URL(href, location.href);
@@ -33,21 +20,22 @@ export function startRouteTransition(href: string) {
 }
 
 /**
- * Troca de página com cortina: uma faixa magenta sobe, o fundo do tema cobre a tela e as nove caudas
- * acendem em volta do emblema. Quando a página nova chega, a cortina continua subindo e sai.
+ * Troca de página discreta: uma barra magenta corre no topo com o emblema da raposa na ponta.
+ * Avança rápido no começo e desacelera enquanto espera; quando a página chega, completa e some.
  */
 export function RouteTransition() {
   const pathname = usePathname();
-  const reduce = useReducedMotion();
   const [on, setOn] = useState(false);
-  const [phrase, setPhrase] = useState(phrases[0]);
-  const since = useRef(0);
+  const progress = useMotionValue(0);
+  const width = useTransform(progress, (v) => `${v * 100}%`);
+  const run = useRef<AnimationPlaybackControls | null>(null);
 
   useEffect(() => {
     const start = () => {
-      since.current = performance.now();
-      setPhrase(phrases[Math.floor(Math.random() * phrases.length)]);
+      run.current?.stop();
+      progress.set(0);
       setOn(true);
+      run.current = animate(progress, [0, 0.45, 0.8, 0.92], { duration: 6, times: [0, 0.08, 0.4, 1], ease: "easeOut" });
     };
     const onClick = (e: MouseEvent) => {
       if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
@@ -62,49 +50,37 @@ export function RouteTransition() {
       document.removeEventListener("click", onClick, true);
       window.removeEventListener(EVENT, start);
     };
-  }, []);
+  }, [progress]);
 
-  // Página nova na tela: espera o mínimo e abre a cortina
+  const finish = () => {
+    run.current?.stop();
+    run.current = animate(progress, 1, { duration: 0.22, ease: "easeOut", onComplete: () => setOn(false) });
+  };
+
+  // Página nova na tela: completa a barra
   useEffect(() => {
-    if (!on) return;
-    const t = setTimeout(() => setOn(false), Math.max(0, MIN_MS - (performance.now() - since.current)));
-    return () => clearTimeout(t);
+    if (on) finish();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
   useEffect(() => {
     if (!on) return;
-    const t = setTimeout(() => setOn(false), MAX_MS);
+    const t = setTimeout(finish, MAX_MS);
     return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [on]);
 
-  const wipe = (enterDelay: number, exitDelay: number) =>
-    reduce
-      ? { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 }, transition: { duration: 0.2 } }
-      : {
-          initial: { clipPath: "inset(100% 0 0 0)" },
-          animate: { clipPath: "inset(0% 0 0 0)", transition: { duration: 0.42, ease: EASE, delay: enterDelay } },
-          exit: { clipPath: "inset(0 0 100% 0)", transition: { duration: 0.48, ease: EASE, delay: exitDelay } },
-        };
-
   return (
-    <AnimatePresence>
-      {on && (
-        <div key="cortina" className="fixed inset-0 z-[90] cursor-progress" aria-hidden>
-          <motion.div className="absolute inset-0 bg-accent" {...wipe(0, 0.08)} />
-          <motion.div className="absolute inset-0 grid place-items-center bg-bg" {...wipe(0.07, 0)}>
-            <motion.div
-              className="flex flex-col items-center"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0, transition: { delay: 0.22, duration: 0.3 } }}
-              exit={{ opacity: 0, y: -12, transition: { duration: 0.18 } }}
-            >
-              <FoxLoader className="size-36 sm:size-44" />
-              <p className="mt-6 font-mono text-[11px] uppercase tracking-[0.3em] text-muted">{phrase}…</p>
-            </motion.div>
-          </motion.div>
-        </div>
-      )}
-    </AnimatePresence>
+    <motion.div
+      aria-hidden
+      className="pointer-events-none fixed inset-x-0 top-0 z-[90] h-[3px]"
+      initial={false}
+      animate={{ opacity: on ? 1 : 0 }}
+      transition={{ duration: on ? 0.1 : 0.35, delay: on ? 0 : 0.1 }}
+    >
+      <motion.div style={{ width }} className="relative h-full bg-gradient-to-r from-brand to-accent shadow-[0_0_10px_var(--accent)]">
+        <Image src="/brand/emblem.webp" alt="" width={48} height={44} className="absolute -right-3 top-1 w-6 drop-shadow" />
+      </motion.div>
+    </motion.div>
   );
 }

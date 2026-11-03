@@ -19,7 +19,7 @@ export function FoxLoader({ className, emblem = true }: { className?: string; em
             <stop offset="0.75" stopColor="var(--accent)" />
           </linearGradient>
         </defs>
-        <g className="fox-ring">
+        <g>
           {Array.from({ length: TAILS }, (_, i) => (
             <g key={i} transform={`rotate(${(360 / TAILS) * i}) translate(0 -60)`}>
               <path
@@ -37,7 +37,7 @@ export function FoxLoader({ className, emblem = true }: { className?: string; em
       </svg>
       {emblem && (
         <div className="absolute inset-0 grid place-items-center">
-          <Image src="/brand/emblem.webp" alt="" width={240} height={220} className="fox-emblem w-[50%]" />
+          <Image src="/brand/emblem.webp" alt="" width={240} height={220} className="w-[50%]" />
         </div>
       )}
     </div>
