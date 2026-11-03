@@ -5,6 +5,9 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
 import { RobotSheet } from "@/components/robots/RobotSheet";
+import { RobotGallery } from "@/components/robots/RobotGallery";
+import { RobotTable } from "@/components/robots/RobotTable";
+import { HangarViews } from "@/components/robots/HangarViews";
 import { RobotBlueprint } from "@/components/robots/RobotBlueprint";
 import { robots } from "@/content/robots";
 import { TankTails3D } from "@/components/robots/TankTails3D";
@@ -15,6 +18,7 @@ export const metadata: Metadata = {
 };
 
 export default function RobotsPage() {
+  const newestFirst = [...robots].reverse();
   return (
     <>
       {/* Topo: o Tank Tails, o primeiro robô, repetindo uma jogada da Charged Up */}
@@ -44,10 +48,38 @@ export default function RobotsPage() {
         </Container>
       </section>
 
-      {/* Linhagem: a evolução da tração, robô a robô */}
-      <section className="border-b border-line bg-surface">
+      {/* O hangar, do mais novo ao primeiro: fichas, galeria ou tabela */}
+      <Container className="py-16">
+        <HangarViews
+          title={<SectionHeading kicker="O hangar" title={`${robots.length} robôs da raposa`} />}
+          views={{
+            sheets: (
+              <div className="mt-16 space-y-24 lg:space-y-32">
+                {newestFirst.map((r, i) => (
+                  <Reveal key={r.slug}>
+                    <RobotSheet robot={r} flip={i % 2 === 1} />
+                  </Reveal>
+                ))}
+              </div>
+            ),
+            grid: (
+              <div className="mt-10">
+                <RobotGallery robots={newestFirst} />
+              </div>
+            ),
+            table: (
+              <div className="mt-10">
+                <RobotTable robots={newestFirst} />
+              </div>
+            ),
+          }}
+        />
+      </Container>
+
+      {/* Linhagem: do primeiro robô ao mais novo */}
+      <section className="border-t border-line bg-surface">
         <Container className="py-14">
-          <SectionHeading kicker="Linhagem" title="Do tank drive ao swerve" />
+          <SectionHeading kicker="Linhagem" title={`Do ${robots[0].name} ao ${robots[robots.length - 1].name}`} />
           <div className="mt-10 overflow-x-auto [scrollbar-width:thin]">
             <ol className="relative flex min-w-[720px] justify-between gap-4">
               <span aria-hidden className="absolute left-[10%] right-[10%] top-[60px] h-0.5 bg-gradient-to-r from-line via-brand to-accent" />
@@ -70,9 +102,6 @@ export default function RobotsPage() {
                     </div>
                     <p className="heading mt-4 text-xl group-hover:text-accent">{r.name}</p>
                     <p className="text-xs text-muted">{r.year}</p>
-                    <span className="mt-2 inline-block rounded-full border border-line px-2.5 py-0.5 text-[11px] font-bold text-muted group-hover:border-accent group-hover:text-accent">
-                      {r.drivetrain}
-                    </span>
                   </Link>
                 </li>
               ))}
@@ -80,18 +109,6 @@ export default function RobotsPage() {
           </div>
         </Container>
       </section>
-
-      {/* As fichas, do mais novo ao primeiro */}
-      <Container className="py-16">
-        <SectionHeading kicker="O hangar" title={`${robots.length} robôs, uma ficha cada`} />
-        <div className="mt-16 space-y-24 lg:space-y-32">
-          {[...robots].reverse().map((r, i) => (
-            <Reveal key={r.slug}>
-              <RobotSheet robot={r} flip={i % 2 === 1} />
-            </Reveal>
-          ))}
-        </div>
-      </Container>
     </>
   );
 }
