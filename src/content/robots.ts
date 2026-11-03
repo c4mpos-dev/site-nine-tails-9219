@@ -58,7 +58,7 @@ export const robots: Robot[] = [
     year: 2023,
     seasonSlug: "2023-charged-up",
     order: "Robô #2",
-    drivetrain: "Omnidirecional",
+    drivetrain: "Rodas omnidirecionais",
     tagline: "A resposta, construída em menos de um mês.",
     description:
       "Criado para o Off-Season do Rio de Janeiro com base no que a equipe aprendeu com o Tank Tails. Ficou mais rápido e mais estável e ganhou um autônomo capaz de entregar cone ou cubo no nível High. Foi reconhecido com o Engineering Award, que premia o processo de design mais profissional e elegante do evento.",
