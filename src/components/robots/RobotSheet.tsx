@@ -31,8 +31,7 @@ export function RobotSheet({ robot, flip }: { robot: Robot; flip?: boolean }) {
   const won = awards.filter((a) => robot.awards?.includes(a.id));
   const specs = [
     { k: "Temporada", v: season ? `${robot.year} · ${season.game}` : String(robot.year) },
-    { k: "Tração", v: robot.drivetrain },
-    { k: "Competições", v: String(robot.events.length) },
+    { k: robot.events.length > 1 ? "Competições" : "Competição", v: robot.events },
   ];
 
   return (
@@ -78,7 +77,9 @@ export function RobotSheet({ robot, flip }: { robot: Robot; flip?: boolean }) {
           {specs.map((s) => (
             <div key={s.k} className="flex items-baseline justify-between gap-4 py-2.5">
               <dt className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted">{s.k}</dt>
-              <dd className="text-right font-bold">{s.v}</dd>
+              <dd className="text-right font-bold">
+                {Array.isArray(s.v) ? s.v.map((e) => <span key={e} className="block">{e}</span>) : s.v}
+              </dd>
             </div>
           ))}
         </dl>
