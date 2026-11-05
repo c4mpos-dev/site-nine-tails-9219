@@ -122,9 +122,9 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* Neste dia: a lembrança mais perto da data de hoje */}
+      {/* Neste dia: só aparece quando uma competição faz aniversário nestes dias */}
       <section>
-        <Container className="pb-16">
+        <Container>
           <OnThisDay memories={memories} />
         </Container>
       </section>

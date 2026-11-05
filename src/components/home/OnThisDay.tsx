@@ -39,31 +39,36 @@ function anniversary(now: Date, m: Memory) {
   return next < past && next <= 21 ? { days: -next, years: y + 1 - m.y } : { days: past, years: y - m.y };
 }
 
+/** Só aparece perto de um aniversário de verdade: fora dessa janela, o bloco some. */
+const WINDOW = 10;
+
 function phrase(days: number, years: number) {
   const anos = `${years} ${years === 1 ? "ano" : "anos"}`;
-  if (years === 0) return days < 45 ? `Há ${days} dias` : `Há ${Math.round(days / 30.4)} meses`;
+  if (years === 0) return days === 1 ? "Foi ontem" : `Foi há ${days} dias`;
   if (days === 0) return `Hoje faz ${anos}`;
-  if (days < 0) return `Daqui a ${-days} ${days === -1 ? "dia" : "dias"} faz ${anos}`;
-  if (days <= 7) return `Faz ${anos}, nesta semana`;
-  return `Faz ${anos} e ${days} dias`;
+  if (days === 1) return `Ontem fez ${anos}`;
+  if (days === -1) return `Amanhã faz ${anos}`;
+  if (days < 0) return `Daqui a ${-days} dias faz ${anos}`;
+  return `Há ${anos}, nestes dias`;
 }
 
-/** "Neste dia": a competição cujo aniversário está mais perto de hoje, com uma foto daquele evento. */
+/** "Neste dia": a competição que faz aniversário nestes dias, com uma foto daquele evento. Nos outros dias, nada. */
 export function OnThisDay({ memories }: { memories: Memory[] }) {
   const day = useSyncExternalStore(subscribe, today, serverToday);
-  if (!day) return <div aria-hidden className="h-[22rem] rounded-lg border border-line bg-surface sm:h-72" />;
+  if (!day) return null;
 
   const now = new Date(day);
   const ranked = memories
     .filter((m) => m.y < now.getFullYear() || (m.y === now.getFullYear() && new Date(Date.UTC(m.y, m.m, m.d)) < now))
     .map((m) => ({ m, ...anniversary(now, m) }))
+    .filter((r) => Math.abs(r.days) <= WINDOW && (r.years > 0 || r.days > 0))
     .sort((a, b) => Math.abs(a.days) - Math.abs(b.days));
   const pick = ranked.find((r) => r.m.photo) ?? ranked[0];
   if (!pick) return null;
   const { m, days, years } = pick;
 
   return (
-    <div className="grid overflow-hidden rounded-lg border border-line bg-surface sm:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
+    <div className="mb-16 grid overflow-hidden rounded-lg border border-line bg-surface sm:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
       {m.photo && (
         <div {...zoom(m.photo.src, m.photo.title)} className="zoomable relative min-h-56 bg-surface-2">
           <Image
