@@ -81,9 +81,9 @@ export default function ArchivePage() {
 
           <Link href="/records" className="group rounded-lg border border-line p-6 transition-colors hover:border-accent">
             <p className="kicker">Em quadra</p>
-            <h2 className="heading mt-2 text-3xl group-hover:text-accent">Recordes e alianças</h2>
+            <h2 className="heading mt-2 text-3xl group-hover:text-accent">Recordes</h2>
             <p className="mt-2 text-muted">
-              {rec.total.total} partidas, o maior placar ({rec.best.score} pontos) e as equipes que mais jogaram do nosso lado.
+              {rec.total.total} partidas, o maior placar ({rec.best.score} pontos), a maior sequência de vitórias e a evolução de cada temporada.
             </p>
           </Link>
 

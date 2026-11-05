@@ -2,28 +2,64 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { PageHero } from "@/components/layout/PageHero";
-import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
-import { records, topAllies, topRivals } from "@/lib/matchStats";
-import { teamInfo } from "@/content/allies";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { Counter } from "@/components/ui/Counter";
+import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { WatchButton } from "@/components/seasons/VideoDialog";
+import { MatchTrail, TrailLegend } from "@/components/records/MatchTrail";
+import { bySeason, byEvent, reach, records, videoOf } from "@/lib/matchStats";
+import { matches } from "@/content/matches";
+import { matchEvents } from "@/content/allies";
+import { completedSeasons } from "@/content/seasons";
 
 export const metadata: Metadata = {
-  title: "Recordes e alianças",
-  description: "Os recordes da Nine Tails #9219 em partidas oficiais e as equipes que mais jogaram ao nosso lado.",
+  title: "Recordes",
+  description: "Os recordes da Nine Tails #9219 em partidas oficiais: maiores placares, sequências de vitórias e o aproveitamento de cada temporada.",
 };
 
-/** Números tirados das 122 partidas registradas no The Blue Alliance. */
+const score = (s: string) => s.split(" x ").map(Number);
+
+/** Recordes da raposa, tirados das partidas oficiais registradas no The Blue Alliance. */
 export default function RecordsPage() {
   const r = records();
-  const allies = topAllies(10);
-  const rivals = topRivals(6);
-  const maxAlly = allies[0]?.total ?? 1;
+  const total = r.total;
+  const points = matches.reduce((a, m) => a + m[5], 0);
 
-  const cards = [
-    { k: "Maior placar", v: String(r.best.score), d: `${r.best.score} x ${r.best.against} · ${r.best.where}`, video: r.best.video },
-    { k: "Maior vitória", v: `+${r.biggest.margin}`, d: `${r.biggest.score} · ${r.biggest.where}`, video: r.biggest.video },
-    { k: "Vitória mais apertada", v: `+${r.closest.margin}`, d: `${r.closest.score} · ${r.closest.where}`, video: r.closest.video },
+  // Melhor posição no ranking de qualificação, entre todas as competições
+  const ranked = completedSeasons.flatMap((s) => s.events).filter((e) => typeof e.rank === "number");
+  const bestRank = ranked.reduce((a, b) => (b.rank! < a.rank! ? b : a));
+
+  const [bigOurs, bigTheirs] = score(r.biggest.score);
+  const [closeOurs, closeTheirs] = score(r.closest.score);
+  const scoreboards = [
+    { k: "Maior placar", ours: r.best.score, theirs: r.best.against, where: r.best.where, video: r.best.video, note: `${r.best.score} pontos numa partida` },
+    { k: "Maior vitória", ours: bigOurs, theirs: bigTheirs, where: r.biggest.where, video: r.biggest.video, note: `+${r.biggest.margin} de diferença` },
+    { k: "Vitória mais apertada", ours: closeOurs, theirs: closeTheirs, where: r.closest.where, video: r.closest.video, note: `por ${r.closest.margin} ponto${r.closest.margin === 1 ? "" : "s"}` },
   ];
+
+  const marks = [
+    { k: "Maior sequência", v: r.streak.count, unit: "vitórias seguidas", d: r.streak.where },
+    { k: "Melhor campanha", v: r.bestEvent.pct, unit: "% de vitórias", d: `${r.bestEvent.name} · ${r.bestEvent.w}-${r.bestEvent.l}-${r.bestEvent.t}` },
+    { k: "Melhor ranking", v: bestRank.rank!, unit: "º nas qualificações", d: `${bestRank.shortName} · ${bestRank.dates.split(" ").slice(-1)[0]}` },
+  ];
+
+  const events = completedSeasons.flatMap((s) => s.events);
+  const playoffs = events.filter((e) => reach(e.result) > 0).length;
+
+  // Temporada a temporada: o melhor de cada jogo (resultado, ranking, prêmios e o maior placar)
+  const perSeason = completedSeasons.map((s) => {
+    const ms = bySeason(s.slug).flatMap((e) => e.matches);
+    const top = ms.reduce((a, b) => (b[5] > a[5] ? b : a));
+    const best = s.events.reduce((a, b) => (reach(b.result) > reach(a.result) ? b : a));
+    const ranks = s.events.filter((e) => typeof e.rank === "number");
+    const rank = ranks.length ? ranks.reduce((a, b) => (b.rank! < a.rank! ? b : a)) : undefined;
+    const awards = s.events.flatMap((e) => e.awards ?? []).filter((a) => !a.startsWith("Wildcard"));
+    return { s, best, rank, awards, top, video: videoOf(top) };
+  });
+
+  const groups = Object.entries(matchEvents)
+    .map(([key, e]) => ({ key, name: e.short, matches: byEvent(key) }))
+    .filter((g) => g.matches.length > 0);
 
   return (
     <>
@@ -33,87 +69,148 @@ export default function RecordsPage() {
           { href: "/records", label: "Recordes" },
         ]}
         kicker="Em quadra"
-        title="Recordes e alianças"
-        lead={`${r.total.total} partidas oficiais desde 2023. Estes são os momentos e as parcerias que a raposa deixou em quadra.`}
-        image={{ src: "/team/2025-brasilia-arak-campo.webp", alt: "Arak em campo", position: "50% 60%" }}
-      />
+        title="Recordes da raposa"
+        lead={`${total.total} partidas oficiais desde 2023. Os maiores placares, as sequências e o melhor de cada temporada da Nine Tails.`}
+        image={{ src: "/team/2023-the-answer-partida.webp", alt: "O The Answer, robô 9219, em partida no Off-Season do Rio de Janeiro 2023", position: "50% 78%" }}
+      >
+        <dl className="mt-10 grid max-w-3xl grid-cols-2 gap-6 sm:grid-cols-4">
+          {[
+            { v: total.total, k: "partidas oficiais" },
+            { v: total.w, k: "vitórias" },
+            { v: playoffs, k: "vezes nos playoffs" },
+            { v: points, k: "pontos marcados" },
+          ].map((x) => (
+            <div key={x.k} className="border-t border-white/30 pt-3">
+              <dd className="heading text-4xl">
+                <Counter value={x.v} />
+              </dd>
+              <dt className="text-sm text-white/75">{x.k}</dt>
+            </div>
+          ))}
+        </dl>
+      </PageHero>
 
-      {/* Recordes */}
-      <Container className="py-14">
-        <RevealGroup className="grid gap-6 sm:grid-cols-3">
-          {cards.map((c) => (
-            <RevealItem key={c.k} className="border-t-2 border-accent pt-4">
-              <p className="text-sm text-muted">{c.k}</p>
-              <p className="heading mt-1 text-4xl">{c.v}</p>
-              <p className="mt-1 text-sm text-muted">{c.d}</p>
-              {c.video && <WatchButton video={c.video} className="mt-2" />}
+      {/* Placares recordes, no estilo do telão da arena */}
+      <Container className="py-16">
+        <SectionHeading kicker="No telão" title="Os placares que ficaram" />
+        <RevealGroup className="mt-10 grid gap-4 md:grid-cols-3">
+          {scoreboards.map((b) => (
+            <RevealItem key={b.k} className="h-full">
+              <div className="flex h-full flex-col rounded-xl bg-[#160b20] p-6 text-white ring-1 ring-white/10">
+                <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#f0a6e8]">{b.k}</p>
+                <div className="mt-5 grid grid-cols-[1fr_auto_1fr] items-end gap-3 text-center">
+                  <div>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/60">Nine Tails</p>
+                    <p className="heading text-6xl tabular-nums text-[#f0a6e8]">{b.ours}</p>
+                  </div>
+                  <span className="heading pb-3 text-3xl text-white/40">x</span>
+                  <div>
+                    <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/60">Adversários</p>
+                    <p className="heading text-6xl tabular-nums text-white/70">{b.theirs}</p>
+                  </div>
+                </div>
+                <div className="mt-auto flex items-end justify-between gap-3 border-t border-white/10 pt-4">
+                  <p className="text-sm text-white/70">
+                    <span className="block font-bold text-white">{b.note}</span>
+                    {b.where}
+                  </p>
+                  {b.video && <WatchButton video={b.video} className="shrink-0 !text-[#f0a6e8]" />}
+                </div>
+              </div>
+            </RevealItem>
+          ))}
+        </RevealGroup>
+
+        <RevealGroup className="mt-4 grid gap-4 md:grid-cols-3">
+          {marks.map((m) => (
+            <RevealItem key={m.k} className="rounded-xl border border-line p-6">
+              <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">{m.k}</p>
+              <p className="mt-3 flex items-baseline gap-2">
+                <span className="heading text-5xl">
+                  <Counter value={m.v} />
+                </span>
+                <span className="text-muted">{m.unit}</span>
+              </p>
+              <p className="mt-2 text-sm text-muted">{m.d}</p>
             </RevealItem>
           ))}
         </RevealGroup>
       </Container>
 
-      {/* Alianças */}
+      {/* Todas as partidas */}
       <section className="border-y border-line bg-surface">
-        <Container className="grid gap-12 py-14 lg:grid-cols-[1fr_1.5fr]">
-          <Reveal>
-            <p className="kicker">Coopertition em quadra</p>
-            <h2 className="heading mt-3 text-4xl sm:text-5xl">Quem mais jogou do nosso lado</h2>
-            <p className="mt-4 text-lg leading-relaxed text-muted">
-              Na FRC, a aliança muda a cada partida: quem é adversário agora pode ser parceiro daqui a pouco. Estas são as
-              equipes com quem a Nine Tails mais dividiu a quadra.
-            </p>
-            <p className="mt-4 text-sm text-muted">Equipes de demonstração (números 9990+) usadas em off-seasons ficam de fora.</p>
-          </Reveal>
-          <ol className="space-y-4">
-            {allies.map((a, i) => {
-              const info = teamInfo(a.team);
-              return (
-                <li key={a.team} className="grid grid-cols-[2rem_1fr] gap-3">
-                  <span className="heading pt-0.5 text-xl text-muted">{i + 1}</span>
-                  <div>
-                    <div className="flex flex-wrap items-baseline justify-between gap-x-4">
-                      <a
-                        href={`https://www.thebluealliance.com/team/${a.team}`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="font-bold hover:text-accent"
-                      >
-                        #{a.team} {info?.name ?? ""}
-                      </a>
-                      <span className="text-sm tabular-nums text-muted">
-                        {a.total} partidas juntas
-                      </span>
-                    </div>
-                    {/* Barra: partidas juntas */}
-                    <div className="mt-1.5 h-2 rounded-full bg-brand" style={{ width: `${(a.total / maxAlly) * 100}%` }} />
-                    <p className="mt-1 text-xs text-muted">
-                      {info?.city ? `${info.city} · ` : ""}
-                      {a.events.join(", ")}
-                    </p>
-                  </div>
-                </li>
-              );
-            })}
-          </ol>
+        <Container className="py-16">
+          <SectionHeading
+            kicker="Partida a partida"
+            title={`As ${total.total} partidas, em ordem`}
+            lead="Cada quadrado é uma partida oficial. Nas qualificações, os parceiros de aliança são sorteados a cada partida, então o resultado é de três equipes, não de uma. Passe o mouse para ver o placar e clique para assistir."
+          />
+          <div className="mt-6">
+            <TrailLegend />
+          </div>
+          <div className="mt-10">
+            <MatchTrail groups={groups} streak={r.streak.ids} />
+          </div>
         </Container>
       </section>
 
-      {/* Adversários */}
-      <Container className="py-14">
-        <h2 className="heading text-3xl">Velhos conhecidos</h2>
-        <p className="mt-2 text-muted">As equipes que mais cruzaram com a raposa do outro lado da quadra.</p>
-        <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {rivals.map((x) => (
-            <li key={x.team} className="rounded-lg border border-line p-4">
-              <a href={`https://www.thebluealliance.com/team/${x.team}`} target="_blank" rel="noreferrer" className="font-bold hover:text-accent">
-                #{x.team} {teamInfo(x.team)?.name ?? ""}
-              </a>
-              <p className="text-sm text-muted tabular-nums">
-                {x.total} partidas frente a frente{teamInfo(x.team)?.city ? ` · ${teamInfo(x.team)?.city}` : ""}
-              </p>
+      {/* Temporada a temporada */}
+      <Container className="py-16">
+        <SectionHeading kicker="Ano a ano" title="O melhor de cada temporada" lead="Cada jogo tem regras e pontuação próprias, então cada temporada conta a sua história." />
+        <ol className="mt-10 divide-y divide-line border-y border-line">
+          {perSeason.map(({ s, best, rank, awards, top, video }) => (
+            <li key={s.slug} className="grid gap-x-8 gap-y-4 py-6 sm:grid-cols-2 lg:grid-cols-[10rem_minmax(0,1.1fr)_minmax(0,1fr)_minmax(0,1.3fr)_11rem] lg:items-start">
+              <Link href={`/seasons/${s.slug}`} className="group sm:col-span-2 lg:col-span-1">
+                <span className="font-mono text-xs text-muted">{s.year}</span>
+                <span className="heading block text-2xl transition-colors group-hover:text-accent">{s.game}</span>
+              </Link>
+              <div className="text-sm">
+                <p className="text-muted">Melhor resultado</p>
+                <p className="mt-0.5 font-bold">{best.result}</p>
+                <Link href={`/competitions/${best.key}`} className="text-muted hover:text-accent">
+                  {best.shortName}
+                </Link>
+              </div>
+              {/* Ranking quando a raposa ficou no top 10; senão, a aliança dos playoffs */}
+              <div className="text-sm">
+                {rank && rank.rank! <= 10 ? (
+                  <>
+                    <p className="text-muted">Melhor ranking</p>
+                    <p className="heading text-3xl">{rank.rank}º</p>
+                    <p className="text-muted">{rank.shortName}</p>
+                  </>
+                ) : (
+                  <>
+                    <p className="text-muted">Nos playoffs</p>
+                    <p className="mt-0.5 font-bold">{best.alliance ?? "—"}</p>
+                  </>
+                )}
+              </div>
+              {/* Prêmios; sem prêmio, o destaque da temporada */}
+              <div className="text-sm">
+                <p className="text-muted">{awards.length ? "Prêmios" : "Destaque"}</p>
+                {awards.length ? (
+                  <ul className="mt-1 flex flex-wrap gap-1.5">
+                    {awards.map((a) => (
+                      <li key={a} className="rounded bg-accent/10 px-2 py-0.5 text-xs font-bold text-accent">
+                        {a}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="mt-0.5 font-bold">{s.highlights[0]}</p>
+                )}
+              </div>
+              <div className="text-sm">
+                <p className="text-muted">Maior placar</p>
+                <p className="font-bold tabular-nums">
+                  {top[5]} x {top[6]} <span className="font-normal text-muted">· {matchEvents[top[0]]?.short}</span>
+                </p>
+                {video && <WatchButton video={video} className="mt-1" />}
+              </div>
             </li>
           ))}
-        </ul>
+        </ol>
         <p className="mt-10 text-sm text-muted">
           Fonte: todas as partidas registradas no{" "}
           <a href="https://www.thebluealliance.com/team/9219" target="_blank" rel="noreferrer" className="text-link">

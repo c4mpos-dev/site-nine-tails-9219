@@ -131,7 +131,7 @@ timeline
 |---|---|---|
 | Museu da Raposa | `/museum` | O acervo da equipe, sala por sala, com passaporte de visita |
 | Alumni | `/alumni` | Quem passou pela raposa e onde está hoje |
-| Recordes e alianças | `/records` | As 122 partidas em números |
+| Recordes | `/records` | As 122 partidas em números |
 | Os pioneiros | `/pioneers` | O diário da primeira temporada |
 | Viagens | `/travel` | Todas as competições, de Brasília a Houston |
 | Glossário | `/glossary` | O vocabulário da FRC explicado |

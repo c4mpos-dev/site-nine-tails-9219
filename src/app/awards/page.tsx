@@ -113,7 +113,7 @@ export default function AwardsPage() {
         <p className="py-10 text-muted">
           Quer os números de quadra?{" "}
           <Link href="/records" className="text-link">
-            Veja os recordes e as alianças da raposa
+            Veja os recordes da raposa
           </Link>
           .
         </p>

@@ -7,7 +7,6 @@ import { alumni } from "@/content/alumni";
 import { glossary } from "@/content/glossary";
 import { rooms } from "@/content/museum";
 import { chapters } from "@/content/pioneers";
-import { teamNames } from "@/content/allies";
 import { sponsors } from "@/content/sponsors";
 import { competitions } from "@/lib/events";
 
@@ -74,11 +73,5 @@ export const searchIndex: SearchItem[] = [
       })),
     ),
   ),
-  ...Object.entries(teamNames).map(([n, t]): SearchItem => ({
-    t: `${n} ${t.name}`,
-    s: `Equipe que jogou com ou contra a gente · ${t.city}`,
-    h: "/records",
-    k: "equipe",
-  })),
   ...sponsors.map((s): SearchItem => ({ t: s.name, s: "Patrocinador", h: "/sponsor", k: "patrocinador" })),
 ];

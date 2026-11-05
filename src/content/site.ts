@@ -37,7 +37,7 @@ export const nav = [
 export const navMore = [
   { href: "/museum", label: "Museu da Raposa", note: "O acervo da equipe, sala por sala" },
   { href: "/alumni", label: "Alumni", note: "Quem passou pela raposa e onde está hoje" },
-  { href: "/records", label: "Recordes e alianças", note: "As 122 partidas em números" },
+  { href: "/records", label: "Recordes", note: "As 122 partidas em números" },
   { href: "/pioneers", label: "Os pioneiros", note: "O diário da primeira temporada" },
   { href: "/travel", label: "Viagens", note: "Todas as competições, de Brasília a Houston" },
   { href: "/glossary", label: "Glossário", note: "O vocabulário da FRC explicado" },
