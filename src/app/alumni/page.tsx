@@ -3,21 +3,44 @@ import Link from "next/link";
 import { GraduationCap, Handshake, Mail, Megaphone, Wrench } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { PageHero } from "@/components/layout/PageHero";
-import { AlumniDirectory } from "@/components/alumni/AlumniDirectory";
-import { alumni } from "@/content/alumni";
+import { AlumniBoard } from "@/components/alumni/AlumniBoard";
+import { Reveal } from "@/components/ui/Reveal";
+import { alumni, paths } from "@/content/alumni";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Alumni",
-  description: "Quem já vestiu a camisa da Nine Tails #9219: o que fazia na equipe, onde está hoje e como encontrar cada um.",
+  description: "Quem já vestiu a camisa da Nine Tails #9219: o que fazia na equipe, o que faz hoje e como continua perto da raposa.",
 };
-
-const has = (re: RegExp) => alumni.filter((a) => re.test(`${a.role} ${a.now ?? ""}`)).length;
 
 const stats = [
   { value: alumni.length, label: "alumni na lista" },
-  { value: has(/mentor/i), label: "voltaram como mentores" },
-  { value: has(/volunt[áa]ri[ao] FIRST|juiz/i), label: "são voluntários ou juízes da FIRST" },
+  { value: 2023, label: "a primeira temporada" },
+  { value: paths.length, label: "caminhos depois da equipe" },
+];
+
+const intro = [
+  {
+    title: "Quem conta como alumni",
+    text: "É como a FIRST chama quem já foi integrante de uma equipe. Na Nine Tails, é todo mundo que vestiu a camisa em pelo menos uma temporada, desde a primeira turma, selecionada no fim de 2022.",
+  },
+  {
+    title: "Para onde eles vão",
+    text: "A equipe é de escola técnica, então a turma muda todo ano. Quem sai leva projeto, prazo, trabalho em equipe e muita pressão de partida para a faculdade e o trabalho.",
+  },
+  {
+    title: "Para que serve esta página",
+    text: (
+      <>
+        Mostrar quem fez parte da história e onde cada um está agora. Se você é de uma empresa ou faculdade, é um bom lugar para conhecer gente que já
+        entrou em quadra. A primeira temporada está no{" "}
+        <Link href="/pioneers" className="text-link">
+          diário dos pioneiros
+        </Link>
+        .
+      </>
+    ),
+  },
 ];
 
 const ways = [
@@ -31,15 +54,17 @@ const template = [
   "Nome:",
   "Área (Mecânica, Elétrica, Programação, Social & Marketing):",
   "Pelo que eu era responsável na equipe:",
-  "Anos na equipe (ex.: 2022–2024):",
-  "O que faço hoje:",
+  "Anos na equipe (ex.: 2023–2024):",
+  "O que faço hoje (curso, cargo, empresa):",
+  "Uma frase de como a turma lembra de mim:",
+  "Foto (opcional, pode anexar):",
   "Instagram (@):",
   "LinkedIn (link):",
   "",
   "Autorizo a publicação destes dados no site da Nine Tails.",
 ].join("\n");
 
-/** Alumni: quem passou pela equipe, numa lista compacta que cresce a cada temporada. */
+/** Alumni: quem passou pela equipe, numa órbita em volta do emblema e em crachás de "na raposa" e "hoje". */
 export default function AlumniPage() {
   return (
     <>
@@ -51,48 +76,46 @@ export default function AlumniPage() {
         kicker="Alumni"
         title="Quem passou pela raposa"
         lead="A cada temporada, gente sai da equipe para a faculdade e para o trabalho. A camisa fica, e muitos continuam por perto."
-        image={{ src: "/photos/equipe-2.webp", alt: "A primeira turma da Nine Tails, de camisa roxa, em 2023.", position: "50% 55%" }}
+        image={{ src: "/team/2023-houston-equipe-bandeira.webp", alt: "A primeira turma da Nine Tails reunida com a bandeira do Brasil no Mundial de Houston, em 2023.", position: "50% 36%" }}
       />
 
-      {/* O que é ser alumni */}
-      <Container className="grid gap-10 py-14 lg:grid-cols-[1.4fr_1fr] lg:items-start">
-        <div className="max-w-2xl space-y-4 text-lg leading-relaxed text-muted">
-          <p>
-            <strong className="text-fg">Alumni</strong> é como a FIRST chama quem já foi integrante de uma equipe. Na Nine Tails, é todo mundo que vestiu a
-            camisa em pelo menos uma temporada, desde a primeira turma, de 2022.
+      {/* O que é ser alumni: uma frase grande, os números e três respostas curtas */}
+      <Container className="grid gap-12 py-16 lg:grid-cols-[1fr_1.25fr] lg:gap-16">
+        <div className="lg:sticky lg:top-24 lg:self-start">
+          <p className="kicker">O que é alumni</p>
+          <p className="heading mt-3 text-5xl leading-[0.95] sm:text-6xl">
+            A turma muda.
+            <br />
+            <span className="text-accent">A camisa fica.</span>
           </p>
-          <p>
-            A equipe é de escola técnica, então a turma muda todo ano. Quem sai leva o que aprendeu na oficina e na arena para a engenharia, a programação, o
-            design e a comunicação. E boa parte não vai embora de vez: volta como mentor, trabalha como voluntário nos eventos da FIRST ou aparece para ajudar
-            os novatos.
-          </p>
-          <p>
-            Esta página serve para lembrar quem fez parte da história e facilitar achar cada um. A primeira temporada está contada no{" "}
-            <Link href="/pioneers" className="text-link">
-              diário dos pioneiros
-            </Link>
-            .
-          </p>
+          <dl className="mt-10 grid grid-cols-3 gap-4">
+            {stats.map((s) => (
+              <div key={s.label} className="border-t-2 border-accent pt-3">
+                <dd className="heading text-4xl">{s.value}</dd>
+                <dt className="mt-1 text-xs leading-snug text-muted">{s.label}</dt>
+              </div>
+            ))}
+          </dl>
         </div>
-        <dl className="grid grid-cols-3 gap-4 border-y border-line py-6 lg:grid-cols-1 lg:gap-6 lg:border-y-0 lg:border-l lg:py-0 lg:pl-8">
-          {stats.map((s) => (
-            <div key={s.label} className="flex flex-col-reverse">
-              <dt className="mt-1 text-sm text-muted">{s.label}</dt>
-              <dd className="heading text-5xl text-accent">{s.value}</dd>
-            </div>
+        <ol className="divide-y divide-line border-y border-line">
+          {intro.map((x, i) => (
+            <li key={x.title}>
+              <Reveal delay={i * 0.08} className="grid grid-cols-[2.5rem_1fr] gap-4 py-6">
+                <span className="font-mono text-sm text-accent">{String(i + 1).padStart(2, "0")}</span>
+                <div>
+                  <p className="heading text-2xl">{x.title}</p>
+                  <p className="mt-2 leading-relaxed text-muted">{x.text}</p>
+                </div>
+              </Reveal>
+            </li>
           ))}
-        </dl>
+        </ol>
       </Container>
 
-      {/* Lista */}
-      <section className="border-y border-line bg-surface">
-        <Container className="py-14">
-          <p className="kicker">Onde estão</p>
-          <h2 className="heading mt-2 text-4xl">A lista</h2>
-          <p className="mt-2 max-w-xl text-muted">Ícone apagado é rede que a pessoa ainda não mandou.</p>
-          <div className="mt-8">
-            <AlumniDirectory alumni={alumni} />
-          </div>
+      {/* Órbita e crachás */}
+      <section className="overflow-hidden border-y border-line bg-surface">
+        <Container className="py-16">
+          <AlumniBoard alumni={alumni} />
         </Container>
       </section>
 
@@ -113,10 +136,10 @@ export default function AlumniPage() {
         <div className="mt-14 grid gap-8 rounded-lg border border-line bg-surface p-6 sm:p-8 lg:grid-cols-2 lg:items-center">
           <div>
             <p className="kicker">É alumni?</p>
-            <p className="heading mt-2 text-3xl">Entre na lista</p>
+            <p className="heading mt-2 text-3xl">Pegue o seu crachá</p>
             <p className="mt-2 max-w-lg text-muted">
-              Mande pelo e-mail o que quiser mostrar: área, pelo que era responsável, onde está hoje, Instagram e LinkedIn. Só entra no site o que você
-              autorizar.
+              Mande pelo e-mail o que quiser mostrar: o que fazia na equipe, o que faz hoje e uma frase sua. Só entra no site o que
+              você autorizar.
             </p>
             <a
               href={`mailto:${site.email}?subject=${encodeURIComponent("Alumni no site")}&body=${encodeURIComponent(template)}`}

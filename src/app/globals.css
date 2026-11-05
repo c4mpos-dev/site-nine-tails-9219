@@ -231,3 +231,10 @@
   0%, 100% { opacity: 0.2; transform: scale(0.72); }
   30% { opacity: 1; transform: scale(1.06); }
 }
+
+/* Alumni: o ponto que desce do "na raposa" para o "hoje" no crachá */
+@keyframes alumni-trail {
+  0% { top: 0.25rem; opacity: 0; }
+  20%, 80% { opacity: 1; }
+  100% { top: calc(100% - 0.5rem); opacity: 0; }
+}
