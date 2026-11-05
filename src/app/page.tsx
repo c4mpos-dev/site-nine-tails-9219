@@ -25,7 +25,7 @@ import { zoom } from "@/lib/zoom";
 
 
 const mosaic = [
-  teamPhotos["2023-charged-up"][3],
+  { src: "/team/2023-the-answer-ajustes.webp", caption: "Mão na massa: ajustes na transmissão do The Answer, na oficina.", position: "50% 40%" },
   teamPhotos["2024-crescendo"][1],
   teamPhotos["2025-reefscape"][1],
   teamPhotos["2024-crescendo"][0],
