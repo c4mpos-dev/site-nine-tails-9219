@@ -6,6 +6,7 @@ import { Container } from "@/components/ui/Container";
 import { PageHero } from "@/components/layout/PageHero";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
+import { ClipReveal } from "@/components/ui/ClipReveal";
 import { Counter } from "@/components/ui/Counter";
 import { completedSeasons, seasons } from "@/content/seasons";
 import { getRobot, robots } from "@/content/robots";
@@ -82,31 +83,33 @@ export default function SeasonsPage() {
               <Reveal key={s.slug}>
                 <article className="grid gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-start">
                   {/* Foto com o ano gigante e a logo do jogo */}
-                  <Link href={`/seasons/${s.slug}`} className="group relative block aspect-[4/3] overflow-hidden rounded-lg bg-surface-2 ring-1 ring-line">
-                    {cover ? (
-                      <Image
-                        quality={90}
-                        src={cover.src}
-                        alt={cover.caption}
-                        fill
-                        sizes="(min-width:1024px) 40vw, 95vw"
-                        className="object-cover transition-transform duration-700 group-hover:scale-105"
-                        style={{ objectPosition: cover.position }}
-                      />
-                    ) : (
-                      // Temporada sem foto ainda: a raposa esperando, com a cauda da vez tracejada em volta
-                      <div className="absolute inset-0 grid place-items-center bg-[#160b20]">
-                        <div className="absolute size-[62%] animate-[spin_40s_linear_infinite] rounded-full border-2 border-dashed border-[#f0a6e8]/40 motion-reduce:animate-none" />
-                        <Image src="/brand/emblem.webp" alt="" width={240} height={220} className="w-[38%] opacity-60" />
-                        <span className="absolute right-4 top-4 rounded bg-white/10 px-2 py-1 font-mono text-xs uppercase tracking-[0.2em] text-[#f0a6e8]">
-                          Em preparação
-                        </span>
-                      </div>
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
-                    <span className="heading absolute bottom-2 left-4 text-7xl text-white/90 sm:text-8xl">{s.year}</span>
-                    {logo && <SeasonLogo src={logo} game={s.game} className="absolute right-3 top-3 shadow-md" />}
-                  </Link>
+                  <ClipReveal>
+                    <Link href={`/seasons/${s.slug}`} className="group relative block aspect-[4/3] overflow-hidden rounded-lg bg-surface-2 ring-1 ring-line">
+                      {cover ? (
+                        <Image
+                          quality={90}
+                          src={cover.src}
+                          alt={cover.caption}
+                          fill
+                          sizes="(min-width:1024px) 40vw, 95vw"
+                          className="object-cover transition-transform duration-700 group-hover:scale-105"
+                          style={{ objectPosition: cover.position }}
+                        />
+                      ) : (
+                        // Temporada sem foto ainda: a raposa esperando, com a cauda da vez tracejada em volta
+                        <div className="absolute inset-0 grid place-items-center bg-[#160b20]">
+                          <div className="absolute size-[62%] animate-[spin_40s_linear_infinite] rounded-full border-2 border-dashed border-[#f0a6e8]/40 motion-reduce:animate-none" />
+                          <Image src="/brand/emblem.webp" alt="" width={240} height={220} className="w-[38%] opacity-60" />
+                          <span className="absolute right-4 top-4 rounded bg-white/10 px-2 py-1 font-mono text-xs uppercase tracking-[0.2em] text-[#f0a6e8]">
+                            Em preparação
+                          </span>
+                        </div>
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
+                      <span className="heading absolute bottom-2 left-4 text-7xl text-white/90 sm:text-8xl">{s.year}</span>
+                      {logo && <SeasonLogo src={logo} game={s.game} className="absolute right-3 top-3 shadow-md" />}
+                    </Link>
+                  </ClipReveal>
 
                   <div>
                     <p className="kicker">

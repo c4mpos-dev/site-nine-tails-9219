@@ -6,6 +6,7 @@ import { Term } from "@/components/ui/Term";
 import { Container } from "@/components/ui/Container";
 import { PageHero } from "@/components/layout/PageHero";
 import { Photo } from "@/components/ui/Photo";
+import { ClipReveal } from "@/components/ui/ClipReveal";
 import { EventTable } from "@/components/seasons/EventTable";
 import { MatchLegend, MatchStrip } from "@/components/seasons/MatchStrip";
 import { bySeason, namesFor } from "@/lib/matchStats";
@@ -168,18 +169,20 @@ export default async function SeasonPage({ params }: PageProps<"/seasons/[slug]"
                   {...zoom(t.src, t.caption)}
                   className={"zoomable relative overflow-hidden rounded-lg bg-surface-2 " + (i === 0 ? "col-span-2 row-span-2" : "")}
                 >
-                  <Image
-                    quality={90}
-                    src={t.src}
-                    alt={t.caption}
-                    fill
-                    sizes="(min-width:1024px) 40vw, 90vw"
-                    className="object-cover"
-                    style={{ objectPosition: t.position }}
-                  />
-                  <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent p-3 text-xs text-white">
-                    {t.caption}
-                  </figcaption>
+                  <ClipReveal className="absolute inset-0" delay={(i % 3) * 0.08}>
+                    <Image
+                      quality={90}
+                      src={t.src}
+                      alt={t.caption}
+                      fill
+                      sizes="(min-width:1024px) 40vw, 90vw"
+                      className="object-cover"
+                      style={{ objectPosition: t.position }}
+                    />
+                    <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent p-3 text-xs text-white">
+                      {t.caption}
+                    </figcaption>
+                  </ClipReveal>
                 </figure>
               ))}
             </div>

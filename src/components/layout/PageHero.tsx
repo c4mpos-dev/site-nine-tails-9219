@@ -1,11 +1,13 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Maximize2 } from "lucide-react";
 import { Container } from "@/components/ui/Container";
+import { Kicker } from "@/components/ui/Kicker";
+import { HeroBackdrop, HeroFade, HeroTitle } from "./HeroMotion";
 
 /**
  * Topo das páginas internas: foto real ao fundo, escurecida com o roxo da equipe.
  * Sem foto, vira uma faixa lisa. O botão no canto mostra a foto inteira, sem o texto por cima.
+ * A foto abre com zoom lento e desce devagar ao rolar; o título sobe palavra por palavra.
  */
 export function PageHero({
   kicker,
@@ -26,17 +28,7 @@ export function PageHero({
     <section className="relative isolate overflow-hidden bg-[#160b20] text-white">
       {image && (
         <>
-          <Image
-            quality={90}
-            src={image.src}
-            alt={image.alt}
-            fill
-            sizes="100vw"
-            loading="eager"
-            fetchPriority="high"
-            className="-z-20 object-cover"
-            style={{ objectPosition: image.position ?? "center" }}
-          />
+          <HeroBackdrop src={image.src} alt={image.alt} position={image.position} />
           <div className="absolute inset-0 -z-10 bg-[var(--hero-overlay)]" />
           <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#160b20] via-transparent to-transparent" />
         </>
@@ -57,10 +49,16 @@ export function PageHero({
             ))}
           </nav>
         )}
-        {kicker && <p className="kicker !text-[#f0a6e8]">{kicker}</p>}
-        <h1 className="heading mt-3 max-w-4xl text-5xl sm:text-7xl">{title}</h1>
-        {lead && <p className="mt-5 max-w-2xl text-lg leading-relaxed text-white/80">{lead}</p>}
-        {children}
+        {kicker && (
+          <Kicker className="!text-[#f0a6e8]" line="bg-[#f0a6e8]">
+            {kicker}
+          </Kicker>
+        )}
+        <HeroTitle className="heading mt-3 max-w-4xl text-5xl sm:text-7xl">{title}</HeroTitle>
+        <HeroFade>
+          {lead && <p className="mt-5 max-w-2xl text-lg leading-relaxed text-white/80">{lead}</p>}
+          {children}
+        </HeroFade>
       </Container>
       {image && (
         <div className="absolute bottom-3 right-4 flex items-center gap-3">
