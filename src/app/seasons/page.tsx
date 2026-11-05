@@ -13,7 +13,7 @@ import { seasonLogos, seasonPhotos } from "@/content/credits";
 import { SeasonLogo } from "@/components/seasons/SeasonLogo";
 import { Countdown } from "@/components/seasons/Countdown";
 import { teamPhotos } from "@/content/gallery";
-import { bySeason, record } from "@/lib/matchStats";
+import { bySeason, reach, record } from "@/lib/matchStats";
 import { matches } from "@/content/matches";
 
 export const metadata: Metadata = {
@@ -23,10 +23,9 @@ export const metadata: Metadata = {
 };
 
 const awardsOf = (s: (typeof seasons)[number]) => s.events.flatMap((e) => e.awards ?? []).filter((a) => !a.startsWith("Wildcard"));
-const recordOf = (slug: string) => {
-  const ms = bySeason(slug).flatMap((e) => e.matches);
-  return ms.length ? record(ms) : undefined;
-};
+const topScore = (slug: string) => Math.max(0, ...bySeason(slug).flatMap((e) => e.matches.map((m) => m[5])));
+// "Playoffs — Round 5" vira "Round 5"; finalista fica como está
+const short = (result: string) => result.replace(/^Playoffs — /, "");
 
 export default function SeasonsPage() {
   const events = completedSeasons.flatMap((s) => s.events);
@@ -74,8 +73,8 @@ export default function SeasonsPage() {
             const stock = s.photos[0] ? seasonPhotos[s.photos[0]] : undefined;
             const cover = team ?? (stock ? { src: stock.src, caption: stock.caption, position: undefined } : undefined);
             const awards = awardsOf(s);
-            const rec = recordOf(s.slug);
-            const ranks = s.events.map((e) => e.rank).filter((r): r is number => typeof r === "number");
+            const best = s.events.length ? s.events.reduce((a, b) => (reach(b.result) > reach(a.result) ? b : a)) : undefined;
+            const playoffs = s.events.filter((e) => reach(e.result) > 0).length;
             const bots = s.robots.map((r) => getRobot(r)).filter((r) => r !== undefined);
             const logo = seasonLogos[s.motif];
             const upcoming = s.status === "upcoming";
@@ -134,17 +133,27 @@ export default function SeasonsPage() {
                             <dd className="heading text-3xl">{s.events.length}</dd>
                           </div>
                           <div>
-                            <dt className="text-xs text-muted" title="Vitórias, derrotas e empates">V-D-E</dt>
-                            <dd className="heading text-3xl">{rec?.label ?? "—"}</dd>
+                            <dt className="text-xs text-muted">Nos playoffs</dt>
+                            <dd className="heading text-3xl">
+                              {playoffs} <span className="text-lg text-muted">de {s.events.length}</span>
+                            </dd>
                           </div>
                           <div>
-                            <dt className="text-xs text-muted">Melhor ranking</dt>
-                            <dd className="heading text-3xl">{ranks.length ? `${Math.min(...ranks)}º` : "—"}</dd>
+                            <dt className="text-xs text-muted">Melhor resultado</dt>
+                            <dd className="heading text-3xl">{best ? short(best.result) : "—"}</dd>
                           </div>
-                          <div>
-                            <dt className="text-xs text-muted">Prêmios</dt>
-                            <dd className={awards.length ? "heading text-3xl text-accent" : "heading text-3xl text-muted"}>{awards.length}</dd>
-                          </div>
+                          {/* Sem prêmio no ano, o maior placar ocupa o lugar */}
+                          {awards.length ? (
+                            <div>
+                              <dt className="text-xs text-muted">Prêmios</dt>
+                              <dd className="heading text-3xl text-accent">{awards.length}</dd>
+                            </div>
+                          ) : (
+                            <div>
+                              <dt className="text-xs text-muted">Maior placar</dt>
+                              <dd className="heading text-3xl">{topScore(s.slug)}</dd>
+                            </div>
+                          )}
                         </dl>
 
                         <ul className="mt-5 space-y-2 text-sm">
@@ -153,7 +162,8 @@ export default function SeasonsPage() {
                               <Link href={`/competitions/${e.key}`} className="group flex flex-wrap items-baseline gap-x-2">
                                 <span className="font-bold transition-colors group-hover:text-accent">{e.shortName}</span>
                                 <span className="text-muted">
-                                  {e.dates} · {e.result}
+                                  {e.dates}
+                                  {reach(e.result) > 0 && ` · ${e.result}`}
                                 </span>
                                 {e.awards
                                   ?.filter((a) => !a.startsWith("Wildcard"))

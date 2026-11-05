@@ -130,7 +130,8 @@ export default async function SeasonPage({ params }: PageProps<"/seasons/[slug]"
                   <p>
                     Todas as {seasonMatches.reduce((a, e) => a + e.matches.length, 0)} partidas da temporada, das{" "}
                     <Term id="qualificacoes">qualificações</Term> aos <Term id="playoffs">playoffs</Term>, na ordem em que
-                    aconteceram. Cada partida tem uma <Term id="alianca">aliança</Term> diferente.
+                    aconteceram. Nas qualificações, os parceiros de <Term id="alianca">aliança</Term> são sorteados a cada partida,
+                    então o resultado é de três equipes, não de uma.
                   </p>
                   <div className="not-prose !mt-6 space-y-8 rounded-lg border border-line p-5">
                     {seasonMatches.map((e) => (
