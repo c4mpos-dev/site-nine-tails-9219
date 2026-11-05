@@ -46,7 +46,7 @@ export default function NotFound() {
               <li key={w.href}>
                 <Link
                   href={w.href}
-                  className="group flex items-center justify-between gap-4 rounded-lg border border-line bg-surface px-5 py-4 transition-colors hover:border-accent"
+                  className="card group flex items-center justify-between gap-4 rounded-lg border border-line bg-surface px-5 py-4"
                 >
                   <span>
                     <span className="heading block text-xl">{w.label}</span>

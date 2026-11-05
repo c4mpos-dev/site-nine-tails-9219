@@ -192,9 +192,9 @@ export default async function CompetitionPage({ params }: PageProps<"/competitio
 
           <aside className="space-y-6">
             {robot && (
-              <Link href={`/robots/${robot.slug}`} className="group block overflow-hidden rounded-lg border border-line transition-colors hover:border-accent">
+              <Link href={`/robots/${robot.slug}`} className="card group block overflow-hidden rounded-lg border border-line">
                 {robot.photo && (
-                  <div className="relative aspect-[4/3] bg-surface-2">
+                  <div className="card-media relative aspect-[4/3] overflow-hidden bg-surface-2">
                     <Image
                       src={robot.photo}
                       alt={`Robô ${robot.name}`}
@@ -207,7 +207,9 @@ export default async function CompetitionPage({ params }: PageProps<"/competitio
                 )}
                 <div className="p-4">
                   <p className="kicker">Em quadra</p>
-                  <p className="heading mt-1 text-2xl group-hover:text-accent">{robot.name}</p>
+                  <p className="heading mt-1 text-2xl group-hover:text-accent">
+                    {robot.name} <span aria-hidden className="card-arrow">→</span>
+                  </p>
                   <p className="text-sm text-muted">
                     {robot.order} · {robot.drivetrain}
                   </p>
@@ -235,9 +237,11 @@ export default async function CompetitionPage({ params }: PageProps<"/competitio
               </div>
             )}
 
-            <Link href={`/seasons/${season.slug}`} className="group block rounded-lg border border-line p-4 transition-colors hover:border-accent">
+            <Link href={`/seasons/${season.slug}`} className="card group block rounded-lg border border-line p-4">
               <p className="kicker">Temporada {season.year}</p>
-              <p className="heading mt-1 text-2xl group-hover:text-accent">{season.game}</p>
+              <p className="heading mt-1 text-2xl group-hover:text-accent">
+                {season.game} <span aria-hidden className="card-arrow">→</span>
+              </p>
               <p className="text-sm text-muted">{season.headline}</p>
             </Link>
           </aside>
@@ -246,7 +250,7 @@ export default async function CompetitionPage({ params }: PageProps<"/competitio
         {/* Navegação entre competições, em ordem cronológica */}
         <nav aria-label="Outras competições" className="mt-16 grid gap-3 border-t border-line pt-8 sm:grid-cols-2">
           {prev ? (
-            <Link href={`/competitions/${prev.key}`} className="group rounded-lg border border-line p-4 transition-colors hover:border-accent">
+            <Link href={`/competitions/${prev.key}`} className="card group rounded-lg border border-line p-4">
               <span className="flex items-center gap-1 text-xs text-muted">
                 <ArrowLeft className="size-3" /> Anterior
               </span>
@@ -258,7 +262,7 @@ export default async function CompetitionPage({ params }: PageProps<"/competitio
             <span />
           )}
           {next && (
-            <Link href={`/competitions/${next.key}`} className="group rounded-lg border border-line p-4 text-right transition-colors hover:border-accent">
+            <Link href={`/competitions/${next.key}`} className="card group rounded-lg border border-line p-4 text-right">
               <span className="flex items-center justify-end gap-1 text-xs text-muted">
                 Próxima <ArrowRight className="size-3" />
               </span>

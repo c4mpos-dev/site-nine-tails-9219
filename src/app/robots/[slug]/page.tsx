@@ -236,7 +236,7 @@ export default async function RobotPage({ params }: PageProps<"/robots/[slug]">)
               <ul className="mt-4 grid grid-cols-2 gap-4">
                 {robotAwards.map((a) => (
                   <li key={a.id}>
-                    <Link href={`/awards#${a.id}`} className="group block rounded-lg border border-line p-4 text-center hover:border-accent">
+                    <Link href={`/awards#${a.id}`} className="card group block rounded-lg border border-line p-4 text-center">
                       <Trophy art={a.art} className="mx-auto h-28 w-auto transition-transform group-hover:-translate-y-1" />
                       <span className="mt-3 block text-sm font-bold group-hover:text-accent">{a.title}</span>
                     </Link>

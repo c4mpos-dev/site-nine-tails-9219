@@ -25,14 +25,16 @@ export default function ArchivePage() {
       />
       <Container className="py-14">
         <div className="grid gap-6 md:grid-cols-2">
-          <Link href="/museum" className="group grid overflow-hidden rounded-lg border border-line bg-[#160b20] text-white transition-colors hover:border-accent md:col-span-2 md:grid-cols-[1fr_1.2fr]">
+          <Link href="/museum" className="group grid overflow-hidden rounded-lg border border-line bg-[#160b20] text-white card md:col-span-2 md:grid-cols-[1fr_1.2fr]">
             <div className="p-6 sm:p-8">
               <p className="kicker !text-[#f0a6e8]">Acervo · 2022 até hoje</p>
               <h2 className="heading mt-2 text-4xl group-hover:text-[#f0a6e8]">Museu da Raposa</h2>
               <p className="mt-2 max-w-md text-white/75">
                 Fotos sérias e de resenha, robôs, troféus e objetos de cada temporada, expostos em salas.
               </p>
-              <p className="mt-4 font-bold">Entrar no museu →</p>
+              <p className="mt-4 font-bold">
+                Entrar no museu <span aria-hidden className="card-arrow !text-[#f0a6e8]">→</span>
+              </p>
             </div>
             <div className="relative hidden min-h-56 md:block">
               {[
@@ -49,18 +51,20 @@ export default function ArchivePage() {
             </div>
           </Link>
 
-          <Link href="/pioneers" className="group overflow-hidden rounded-lg border border-line transition-colors hover:border-accent">
-            <div className="relative aspect-[16/9]">
-              <Image quality={90} src="/team/2023-houston-space-center.webp" alt="" fill sizes="(min-width:768px) 50vw, 100vw" className="object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
+          <Link href="/pioneers" className="card group overflow-hidden rounded-lg border border-line">
+            <div className="card-media relative aspect-[16/9] overflow-hidden">
+              <Image quality={90} src="/team/2023-houston-space-center.webp" alt="" fill sizes="(min-width:768px) 50vw, 100vw" className="object-cover" />
             </div>
             <div className="p-6">
               <p className="kicker">Charged Up · 2023</p>
-              <h2 className="heading mt-2 text-3xl group-hover:text-accent">Os pioneiros</h2>
+              <h2 className="heading mt-2 text-3xl group-hover:text-accent">
+                Os pioneiros <span aria-hidden className="card-arrow">→</span>
+              </h2>
               <p className="mt-2 text-muted">O diário da primeira temporada em sete capítulos: da prova da seletiva ao Engineering Award.</p>
             </div>
           </Link>
 
-          <Link href="/travel" className="group overflow-hidden rounded-lg border border-line transition-colors hover:border-accent">
+          <Link href="/travel" className="card group overflow-hidden rounded-lg border border-line">
             <div className="flex aspect-[16/9] flex-col justify-center gap-2 bg-black px-6 font-mono text-sm">
               {trips.slice(0, 4).map((t, i) => (
                 <p key={i} className="flex gap-4 text-white/70">
@@ -72,24 +76,30 @@ export default function ArchivePage() {
             </div>
             <div className="p-6">
               <p className="kicker">Partidas · {home.city}</p>
-              <h2 className="heading mt-2 text-3xl group-hover:text-accent">Painel de embarque</h2>
+              <h2 className="heading mt-2 text-3xl group-hover:text-accent">
+                Painel de embarque <span aria-hidden className="card-arrow">→</span>
+              </h2>
               <p className="mt-2 text-muted">
                 Todas as viagens de competição, de Brasília a Houston: {km.toLocaleString("pt-BR")} km na conta.
               </p>
             </div>
           </Link>
 
-          <Link href="/records" className="group rounded-lg border border-line p-6 transition-colors hover:border-accent">
+          <Link href="/records" className="card group rounded-lg border border-line p-6">
             <p className="kicker">Em quadra</p>
-            <h2 className="heading mt-2 text-3xl group-hover:text-accent">Recordes</h2>
+            <h2 className="heading mt-2 text-3xl group-hover:text-accent">
+              Recordes <span aria-hidden className="card-arrow">→</span>
+            </h2>
             <p className="mt-2 text-muted">
               {rec.total.total} partidas, o maior placar ({rec.best.score} pontos), a maior sequência de vitórias e a evolução de cada temporada.
             </p>
           </Link>
 
-          <Link href="/glossary" className="group rounded-lg border border-line p-6 transition-colors hover:border-accent">
+          <Link href="/glossary" className="card group rounded-lg border border-line p-6">
             <p className="kicker">Dicionário</p>
-            <h2 className="heading mt-2 text-3xl group-hover:text-accent">Fala FRC?</h2>
+            <h2 className="heading mt-2 text-3xl group-hover:text-accent">
+              Fala FRC? <span aria-hidden className="card-arrow">→</span>
+            </h2>
             <p className="mt-2 text-muted">Pick, swerve, coopertition: o dialeto da robótica explicado para quem está chegando.</p>
           </Link>
         </div>

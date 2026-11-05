@@ -226,7 +226,7 @@ export default function Home() {
           </div>
           <div className="mt-14 grid gap-4 sm:grid-cols-3">
             {projects.slice(0, 3).map((p) => (
-              <Link key={p.name} href="/impact" className="group rounded-lg bg-black/15 p-6 transition-colors hover:bg-black/25">
+              <Link key={p.name} href="/impact" className="card group rounded-lg bg-black/15 p-6 transition-colors hover:bg-black/25">
                 <p className="text-xs font-bold uppercase tracking-wider text-white/70">{p.tag}</p>
                 <p className="heading mt-2 text-2xl">{p.name}</p>
                 <p className="mt-2 text-sm leading-relaxed text-white/80">{p.description}</p>

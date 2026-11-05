@@ -184,9 +184,11 @@ export default function TeamPage() {
               ))}
             </ul>
           </div>
-          <Link href="/alumni" className="group grid content-center rounded-lg border border-line bg-bg p-8 transition-colors hover:border-accent">
+          <Link href="/alumni" className="card group grid content-center rounded-lg border border-line bg-bg p-8">
             <p className="kicker">Quem passou e continua por perto</p>
-            <h2 className="heading mt-3 text-4xl group-hover:text-accent">Alumni</h2>
+            <h2 className="heading mt-3 text-4xl group-hover:text-accent">
+              Alumni <span aria-hidden className="card-arrow">→</span>
+            </h2>
             <p className="mt-3 max-w-lg text-muted">Quem já vestiu a camisa: o que fazia na equipe, onde está hoje e como achar cada um.</p>
             <ul aria-hidden className="mt-6 flex -space-x-3">
               {alumni.slice(0, 7).map((a) => (

@@ -187,6 +187,38 @@
     opacity: 1;
     transform: scale(1);
   }
+
+  /* Card clicável: o mesmo hover em todo o site. Sobe um pouco, a borda acende, a foto aproxima e a seta anda. */
+  .card {
+    transition:
+      border-color 0.3s,
+      translate 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+      box-shadow 0.3s;
+  }
+  .card-media img {
+    transition: scale 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .card-arrow {
+    display: inline-block;
+    color: var(--accent);
+    transition: translate 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  @media (hover: hover) {
+    .card:hover {
+      border-color: var(--accent);
+      translate: 0 -3px;
+      box-shadow: 0 18px 36px -24px var(--brand);
+    }
+    .card:hover .card-media img {
+      scale: 1.05;
+    }
+    .card:hover .card-arrow {
+      translate: 4px 0;
+    }
+  }
+  .card:focus-visible {
+    border-color: var(--accent);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
