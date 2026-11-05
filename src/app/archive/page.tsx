@@ -8,7 +8,7 @@ import { records } from "@/lib/matchStats";
 
 export const metadata: Metadata = {
   title: "Mais",
-  description: "Recordes, viagens, o diário dos pioneiros, glossário e kit da marca da Nine Tails #9219.",
+  description: "Recordes, viagens, o diário dos pioneiros e glossário da Nine Tails #9219.",
 };
 
 /** Página "Mais": reúne as seções extras do site, todas também no menu. */
@@ -91,12 +91,6 @@ export default function ArchivePage() {
             <p className="kicker">Dicionário</p>
             <h2 className="heading mt-2 text-3xl group-hover:text-accent">Fala FRC?</h2>
             <p className="mt-2 text-muted">Pick, swerve, coopertition: o dialeto da robótica explicado para quem está chegando.</p>
-          </Link>
-
-          <Link href="/brand" className="group rounded-lg border border-line p-6 transition-colors hover:border-accent">
-            <p className="kicker">Para baixar</p>
-            <h2 className="heading mt-2 text-3xl group-hover:text-accent">Kit da marca</h2>
-            <p className="mt-2 text-muted">Emblema, logos e letreiros da raposa, mais algumas curiosidades da equipe.</p>
           </Link>
         </div>
       </Container>

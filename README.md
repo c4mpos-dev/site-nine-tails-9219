@@ -135,7 +135,6 @@ timeline
 | Os pioneiros | `/pioneers` | O diário da primeira temporada |
 | Viagens | `/travel` | Todas as competições, de Brasília a Houston |
 | Glossário | `/glossary` | O vocabulário da FRC explicado |
-| Kit da marca | `/brand` | Logos para baixar e curiosidades |
 | Créditos | `/credits` | Autoria e licença de toda foto de terceiros |
 
 </details>

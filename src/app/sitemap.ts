@@ -5,7 +5,7 @@ import { robots } from "@/content/robots";
 import { competitions } from "@/lib/events";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const pages = ["", "/seasons", "/robots", "/awards", "/impact", "/team", "/sponsor", "/credits", "/archive", "/pioneers", "/travel", "/records", "/glossary", "/brand", "/museum", "/alumni"];
+  const pages = ["", "/seasons", "/robots", "/awards", "/impact", "/team", "/sponsor", "/credits", "/archive", "/pioneers", "/travel", "/records", "/glossary", "/museum", "/alumni"];
   return [
     ...pages.map((p) => ({ url: `${site.url}${p}`, priority: p === "" ? 1 : 0.8 })),
     ...seasons.map((s) => ({ url: `${site.url}/seasons/${s.slug}`, priority: 0.7 })),

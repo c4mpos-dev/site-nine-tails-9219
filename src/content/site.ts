@@ -41,7 +41,6 @@ export const navMore = [
   { href: "/pioneers", label: "Os pioneiros", note: "O diário da primeira temporada" },
   { href: "/travel", label: "Viagens", note: "Todas as competições, de Brasília a Houston" },
   { href: "/glossary", label: "Glossário", note: "O vocabulário da FRC explicado" },
-  { href: "/brand", label: "Kit da marca", note: "Logos para baixar e curiosidades" },
 ] as const;
 
 /** Números de destaque — fonte: portfólio "all book tails" (fev/2024) + TBA. */
