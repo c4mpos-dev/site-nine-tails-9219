@@ -5,6 +5,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { Counter } from "@/components/ui/Counter";
 import { Photo } from "@/components/ui/Photo";
+import { NineLearnsFox } from "@/components/impact/NineLearnsFox";
 import { communityActions, coopertition, foundedTeams, projects, reach, schools } from "@/content/impact";
 
 export const metadata: Metadata = {
@@ -21,7 +22,6 @@ const numbers = [
 ];
 
 export default function ImpactPage() {
-  const maxSchool = Math.max(...schools.map((s) => s.impact));
   return (
     <>
       <PageHero
@@ -74,30 +74,17 @@ export default function ImpactPage() {
 
       {/* Nine Learns por escola */}
       <section className="border-y border-line bg-surface">
-        <Container className="grid gap-12 py-14 lg:grid-cols-[1fr_1.1fr] lg:items-center">
-          <div>
-            <SectionHeading
-              kicker="Nine Learns · 2023"
-              title="6.222 crianças em três semanas"
-              lead="Entre novembro e dezembro de 2023, o Nine Learns e o Nine Learns Kids passaram por cinco escolas públicas de Resende, com atividades de baixo custo feitas com material reciclável."
-            />
-            <Photo src="/team/2024-cuiaba-pit.webp" alt="Box da Nine Tails com o painel do Nine Learns" caption="O box da equipe em Cuiabá, com o painel do Nine Learns." className="mt-8" aspect="aspect-[4/3]" />
-          </div>
-          <div className="space-y-5">
-            {schools.map((s) => (
-              <div key={s.name}>
-                <div className="flex items-baseline justify-between gap-4 text-sm">
-                  <p className="font-bold">
-                    {s.name} <span className="font-normal text-muted">· {s.date}</span>
-                  </p>
-                  <p className="heading text-2xl">{s.impact.toLocaleString("pt-BR")}</p>
-                </div>
-                <div className="mt-2 h-2 overflow-hidden rounded-full bg-surface-2">
-                  <div className="h-full rounded-full bg-brand" style={{ width: `${(s.impact / maxSchool) * 100}%` }} />
-                </div>
-              </div>
-            ))}
-          </div>
+        <Container className="py-14">
+          <NineLearnsFox
+            schools={schools}
+            heading={
+              <SectionHeading
+                kicker="Nine Learns · 2023"
+                title="6.222 crianças em três semanas"
+                lead="Entre novembro e dezembro de 2023, o Nine Learns e o Nine Learns Kids passaram por cinco escolas públicas de Resende, com atividades de baixo custo feitas com material reciclável."
+              />
+            }
+          />
         </Container>
       </section>
 
