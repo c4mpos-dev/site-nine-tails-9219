@@ -22,7 +22,7 @@ export default function RobotsPage() {
   return (
     <>
       {/* Topo: o Tank Tails, o primeiro robô, repetindo uma jogada da Charged Up */}
-      <section className="relative isolate overflow-hidden bg-[#160b20] text-white">
+      <section className="relative isolate overflow-hidden bg-band text-white">
         {/* Linhas da quadra ao fundo */}
         <div
           aria-hidden
@@ -86,7 +86,7 @@ export default function RobotsPage() {
               {robots.map((r) => (
                 <li key={r.slug} className="relative w-full text-center">
                   <Link href={`/robots/${r.slug}`} className="group block">
-                    <div className="relative mx-auto size-[120px] overflow-hidden rounded-full border-4 border-surface bg-surface-2 shadow-md ring-2 ring-line transition-all duration-300 group-hover:-translate-y-1 group-hover:ring-accent">
+                    <div className="relative mx-auto size-[120px] overflow-hidden rounded-full border-4 border-surface bg-surface-2 shadow-md ring-2 ring-line transition-[box-shadow,transform] duration-300 group-hover:-translate-y-1 group-hover:ring-accent">
                       {r.thumb || r.photo ? (
                         <Image
                           src={r.thumb?.src ?? r.photo!}

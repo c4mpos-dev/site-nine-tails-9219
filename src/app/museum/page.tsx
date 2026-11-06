@@ -177,7 +177,7 @@ export default function MuseumPage() {
   return (
     <div className={cn(hand.variable, "-mb-24 pb-24")}>
       {/* Entrada */}
-      <section id="entrada" className="relative isolate overflow-hidden bg-[#160b20] text-white">
+      <section id="entrada" className="relative isolate overflow-hidden bg-band text-white">
         <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(rgb(255_255_255/0.06)_1px,transparent_1px)] bg-[length:22px_22px]" />
         <Container className="grid gap-14 py-16 sm:py-24 lg:grid-cols-[1.2fr_1fr] lg:items-center">
           <div>

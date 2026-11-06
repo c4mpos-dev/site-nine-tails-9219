@@ -22,13 +22,13 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image" },
 };
 
-export const viewport: Viewport = { themeColor: "#120a19" };
+export const viewport: Viewport = { themeColor: "#ffffff" };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="pt-BR"
-      data-theme="dark"
+      data-theme="light"
       suppressHydrationWarning
       className={`${display.variable} ${sans.variable} antialiased`}
     >

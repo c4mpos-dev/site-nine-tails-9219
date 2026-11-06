@@ -12,9 +12,9 @@ export const socialLinks = [
 
 export function Footer() {
   return (
-    <footer className="mt-16 border-t border-line bg-surface">
+    <footer className="border-t border-line bg-surface">
       {/* Fio na cor da equipe, como a faixa da camisa */}
-      <div className="h-1 bg-gradient-to-r from-brand via-accent to-brand" />
+      <div className="h-1 bg-brand" />
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-9 sm:px-6 lg:grid-cols-[1fr_2fr] lg:gap-12">
         <div>
           <div className="flex items-center gap-3">

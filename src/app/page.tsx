@@ -16,6 +16,11 @@ import { getRobot, robots } from "@/content/robots";
 import { seasonLogos, seasonPhotos } from "@/content/credits";
 import { heroTeamPhotos, teamPhotos } from "@/content/gallery";
 import { HeroTeam } from "@/components/home/HeroTeam";
+import { MosaicIntro, type IntroStat } from "@/components/home/MosaicIntro";
+import { matches } from "@/content/matches";
+import { teams } from "@/content/teams";
+import { record } from "@/lib/matchStats";
+import { getSeason } from "@/content/seasons";
 import { projects } from "@/content/impact";
 import { SponsorWall } from "@/components/ui/SponsorWall";
 import { OnThisDay, type Memory } from "@/components/home/OnThisDay";
@@ -55,6 +60,17 @@ const memories: Memory[] = competitions.map((c) => {
   };
 });
 
+/** Números da abertura: partidas e equipes vêm do The Blue Alliance (scripts/sync-tba.mjs). */
+const introStats: IntroStat[] = [
+  { value: matches.length, label: "partidas oficiais" },
+  { value: record(matches).w, label: "vitórias" },
+  { value: Math.max(...matches.map((m) => m[5])), label: "maior placar" },
+  { value: Object.keys(teams).length, label: "equipes na mesma quadra" },
+  { value: robots.length, label: "robôs construídos" },
+  { value: awards.length, label: "prêmios" },
+];
+const latestRobot = robots[robots.length - 1];
+
 export default function Home() {
   const explorer: ExplorerSeason[] = seasons.map((s) => {
     const team = teamPhotos[s.slug] ?? [];
@@ -71,13 +87,25 @@ export default function Home() {
 
   return (
     <>
+      {/* Abertura: pôsteres da equipe montando um robô */}
+      <MosaicIntro
+        stats={introStats}
+        robot={{
+          name: latestRobot.name,
+          year: latestRobot.year,
+          game: getSeason(latestRobot.seasonSlug)?.game ?? "",
+          drivetrain: latestRobot.drivetrain,
+          href: `/robots/${latestRobot.slug}`,
+        }}
+      />
+
       {/* Topo: a equipe inteira, uma foto por temporada */}
       <HeroTeam photos={heroTeamPhotos}>
         <Container className="flex min-h-[72svh] flex-col justify-end pb-24 pt-24 sm:min-h-[85vh] sm:pb-32">
-          <p className="kicker !text-[#f0a6e8] [text-shadow:0_1px_8px_rgb(0_0_0/0.7)]">FRC 9219 · Resende, RJ · desde 2022</p>
-          <h1 className="heading mt-2 text-[2.6rem] [text-shadow:0_2px_24px_rgb(0_0_0/0.45)] sm:text-6xl">
+          <p className="kicker text-[#f0a6e8] [text-shadow:0_1px_8px_rgb(0_0_0/0.7)]">FRC 9219 · Resende, RJ · desde 2022</p>
+          <h2 className="heading mt-2 text-[2.6rem] [text-shadow:0_2px_24px_rgb(0_0_0/0.45)] sm:text-6xl">
             Nine Tails <span className="text-[#f0a6e8]">#9219</span>
-          </h1>
+          </h2>
           <div className="mt-5 flex flex-wrap gap-2 sm:gap-3">
             <Button href="/team">Conheça a equipe</Button>
             <Button href="/seasons" variant="outline" className="text-white">
@@ -173,7 +201,7 @@ export default function Home() {
                   src={m.src}
                   alt={m.caption}
                   fill
-                  sizes="(min-width:768px) 25vw, 50vw"
+                  sizes={i === 0 ? "(min-width:768px) 50vw, 100vw" : "(min-width:768px) 25vw, 50vw"}
                   className="object-cover"
                   style={{ objectPosition: m.position }}
                 />
@@ -206,7 +234,7 @@ export default function Home() {
         <Container className="py-20">
           <div className="grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:items-end">
             <Reveal>
-              <p className="kicker !text-white/80">Impacto</p>
+              <p className="kicker text-white/80">Impacto</p>
               <h2 className="heading mt-3 text-4xl sm:text-5xl">Robótica para quem nunca viu um robô</h2>
               <p className="mt-4 text-lg leading-relaxed text-white/85">
                 Levamos STEAM para a rede pública de Resende, formamos professores, ajudamos a fundar times e compartilhamos
@@ -224,10 +252,10 @@ export default function Home() {
               ))}
             </RevealGroup>
           </div>
-          <div className="mt-14 grid gap-4 sm:grid-cols-3">
+          <div className="mt-14 grid gap-8 sm:grid-cols-3">
             {projects.slice(0, 3).map((p) => (
-              <Link key={p.name} href="/impact" className="card group rounded-lg bg-black/15 p-6 transition-colors hover:bg-black/25">
-                <p className="text-xs font-bold uppercase tracking-wider text-white/70">{p.tag}</p>
+              <Link key={p.name} href="/impact" className="group border-t border-white/30 pt-5 transition-colors hover:border-white">
+                <p className="text-xs font-bold uppercase tracking-wider text-white/85">{p.tag}</p>
                 <p className="heading mt-2 text-2xl">{p.name}</p>
                 <p className="mt-2 text-sm leading-relaxed text-white/80">{p.description}</p>
               </Link>

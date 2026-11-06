@@ -75,7 +75,7 @@ export function MuseumMap({ stops }: { stops: Stop[] }) {
       <nav
         aria-label="Salas do museu"
         className={cn(
-          "fixed inset-x-3 bottom-3 z-40 transition-all duration-300 xl:hidden",
+          "fixed inset-x-3 bottom-3 z-40 transition-[transform,opacity] duration-300 xl:hidden",
           visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-4 opacity-0",
         )}
       >

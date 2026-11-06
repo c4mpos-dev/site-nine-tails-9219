@@ -99,7 +99,7 @@ export default async function RobotPage({ params }: PageProps<"/robots/[slug]">)
   return (
     <>
       {/* Topo: ficha do robô */}
-      <section className="relative isolate overflow-hidden bg-[#160b20] text-white">
+      <section className="relative isolate overflow-hidden bg-band text-white">
         <div
           aria-hidden
           className="absolute inset-0 -z-10 opacity-[0.07] [background-image:linear-gradient(#fff_1px,transparent_1px),linear-gradient(90deg,#fff_1px,transparent_1px)] [background-size:48px_48px]"
@@ -250,7 +250,7 @@ export default async function RobotPage({ params }: PageProps<"/robots/[slug]">)
 
       {/* Em movimento */}
       {robot.clip && (
-        <section className="relative isolate overflow-hidden bg-[#160b20] text-white">
+        <section className="relative isolate overflow-hidden bg-band text-white">
           <div
             aria-hidden
             className="absolute inset-0 -z-10 opacity-[0.05] [background-image:linear-gradient(#fff_1px,transparent_1px),linear-gradient(90deg,#fff_1px,transparent_1px)] [background-size:48px_48px]"

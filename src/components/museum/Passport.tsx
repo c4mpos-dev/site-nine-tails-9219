@@ -34,7 +34,7 @@ export function Passport({ stops }: { stops: Stop[] }) {
   const stamps = (
     <div className={cn(card, "bg-[#f6efe2] text-[#1b0d26]")}>
       <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#7d1394]">Seu ingresso · carimbos</p>
+        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#4a0061]">Seu ingresso · carimbos</p>
         <p className="font-mono text-xs font-bold">
           {done}/{stops.length} salas
         </p>
@@ -49,7 +49,7 @@ export function Passport({ stops }: { stops: Stop[] }) {
                   number={s.number}
                   label={s.title}
                   year={s.year}
-                  className={cn("size-20 !mix-blend-multiply", i % 2 ? "rotate-[9deg] text-[#9e19b8]/80" : "-rotate-[11deg] text-[#b5139f]/75")}
+                  className={cn("size-20 !mix-blend-multiply", i % 2 ? "rotate-[9deg] text-[#9e19b8]/80" : "-rotate-[11deg] text-[#de0cc8]/75")}
                 />
               ) : (
                 <span className="grid size-20 place-items-center rounded-full border-2 border-dashed border-[#1b0d26]/20 font-mono text-sm text-[#1b0d26]/30">

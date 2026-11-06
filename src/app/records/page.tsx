@@ -96,7 +96,7 @@ export default function RecordsPage() {
         <RevealGroup className="mt-10 grid gap-4 md:grid-cols-3">
           {scoreboards.map((b) => (
             <RevealItem key={b.k} className="h-full">
-              <div className="flex h-full flex-col rounded-xl bg-[#160b20] p-6 text-white ring-1 ring-white/10">
+              <div className="flex h-full flex-col rounded-xl bg-band p-6 text-white ring-1 ring-white/10">
                 <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#f0a6e8]">{b.k}</p>
                 <div className="mt-5 grid grid-cols-[1fr_auto_1fr] items-end gap-3 text-center">
                   <div>

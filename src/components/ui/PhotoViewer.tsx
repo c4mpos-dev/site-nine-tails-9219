@@ -100,7 +100,7 @@ export function PhotoViewer() {
             transition={{ duration: 0.25, ease: [0.2, 0.7, 0.2, 1] }}
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="relative overflow-hidden rounded-lg bg-[#160b20] shadow-2xl" style={{ aspectRatio: ratio }}>
+            <div className="relative overflow-hidden rounded-lg bg-band shadow-2xl" style={{ aspectRatio: ratio }}>
               <Image
                 quality={90}
                 src={item.src}
@@ -122,7 +122,7 @@ export function PhotoViewer() {
               type="button"
               onClick={close}
               aria-label="Fechar"
-              className="absolute -right-2 -top-2 grid size-9 place-items-center rounded-full bg-white text-[#160b20] shadow-lg transition-colors hover:bg-[#f0a6e8] sm:-right-3 sm:-top-3"
+              className="absolute -right-2 -top-2 grid size-9 place-items-center rounded-full bg-white text-band shadow-lg transition-colors hover:bg-[#f0a6e8] sm:-right-3 sm:-top-3"
             >
               <X className="size-5" />
             </button>

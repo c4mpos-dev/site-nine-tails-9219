@@ -88,7 +88,7 @@ export function Exhibit({ piece, no, seed }: { piece: Piece; no: string; seed: n
         <div className="bg-[#fdfcf8] p-2.5 pb-3 shadow-[0_12px_24px_-12px_rgb(0_0_0/0.55)] transition-transform duration-300 hover:-translate-y-1">
           <Photo piece={piece} sizes={sizes} />
           <p className="font-hand mt-2 text-center text-xl leading-tight text-[#2a2230]">{piece.title}</p>
-          <p className="mt-0.5 text-right font-mono text-[10px] text-[#8a7f92]">
+          <p className="mt-0.5 text-right font-mono text-[10px] text-[#6b5f75]">
             Nº {no}
             {piece.when && ` · ${piece.when}`}
           </p>
@@ -126,7 +126,7 @@ export function Exhibit({ piece, no, seed }: { piece: Piece; no: string; seed: n
         </div>
         {/* Pedestal */}
         <div className="h-3 bg-gradient-to-b from-[#3a2a48] to-[#241532]" />
-        <div className="mx-4 h-12 bg-gradient-to-b from-[#241532] to-[#160b20] shadow-[0_16px_24px_-14px_rgb(0_0_0/0.7)]" />
+        <div className="mx-4 h-12 bg-gradient-to-b from-[#241532] to-band shadow-[0_16px_24px_-14px_rgb(0_0_0/0.7)]" />
         <Placard no={no} title={piece.title} note={piece.note} when={piece.when} />
       </figure>
     );
