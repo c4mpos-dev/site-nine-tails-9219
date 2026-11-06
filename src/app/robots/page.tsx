@@ -10,43 +10,41 @@ import { RobotTable } from "@/components/robots/RobotTable";
 import { HangarViews } from "@/components/robots/HangarViews";
 import { RobotBlueprint } from "@/components/robots/RobotBlueprint";
 import { robots } from "@/content/robots";
-import { TankTails3D } from "@/components/robots/TankTails3D";
+import { MosaicRobot, type MosaicSource } from "@/components/robots/MosaicRobot";
+import { teamPhotos, heroTeamPhotos } from "@/content/gallery";
+import { matches } from "@/content/matches";
+import { record } from "@/lib/matchStats";
 
 export const metadata: Metadata = {
   title: "Robôs",
   description: "Tank Tails, The Answer, Garuttinho, Predator, Arak e Pharaoh: todos os robôs da Nine Tails #9219, do tank drive ao swerve.",
 };
 
+// Peças do mosaico: os robôs (que também viram o bumper, nas cores das alianças), as fotos de cada temporada e a equipe
+const mosaicPhotos: MosaicSource[] = [
+  ...robots.filter((r) => r.photo).map((r) => ({ src: r.photo!, caption: `${r.name}, ${r.year}.`, robot: true })),
+  ...Object.values(teamPhotos).flat().map((p) => ({ src: p.src, caption: p.caption })),
+  ...heroTeamPhotos.map((p) => ({ src: p.src, caption: p.caption })),
+];
+
 export default function RobotsPage() {
   const newestFirst = [...robots].reverse();
   return (
     <>
-      {/* Topo: o Tank Tails, o primeiro robô, repetindo uma jogada da Charged Up */}
-      <section className="relative isolate overflow-hidden bg-band text-white">
-        {/* Linhas da quadra ao fundo */}
-        <div
-          aria-hidden
-          className="absolute inset-0 -z-10 opacity-[0.07] [background-image:linear-gradient(#fff_1px,transparent_1px),linear-gradient(90deg,#fff_1px,transparent_1px)] [background-size:56px_56px] [mask-image:radial-gradient(ellipse_at_70%_60%,#000_30%,transparent_75%)]"
-        />
-        <Container className="grid items-center gap-4 py-12 sm:py-16 lg:grid-cols-[1fr_1.15fr] lg:gap-8">
-          <div>
-            <p className="kicker !text-[#f0a6e8]">Robôs</p>
-            <h1 className="heading mt-3 text-5xl sm:text-7xl">Feitos na nossa oficina</h1>
-            <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/80">
-              Cada robô leva meses de projeto, fabricação, programação e testes, e nasce do que o anterior ensinou.
-            </p>
-          </div>
-          <figure>
-            <TankTails3D className="aspect-[4/3] w-full" />
-            <figcaption className="-mt-2 text-center text-sm text-white/60">
-              <Link href="/robots/tank-tails" className="font-bold text-white hover:text-[#f0a6e8]">
-                Tank Tails
-              </Link>
-              , o primeiro, pontuando um cone como na Charged Up de 2023.
-            </figcaption>
-          </figure>
-        </Container>
-      </section>
+      {/* Topo: o Tank Tails, o primeiro robô, montado com fotos da equipe e dos robôs */}
+      <MosaicRobot
+        photos={mosaicPhotos}
+        kicker="Robôs"
+        title="Feitos na nossa oficina"
+        lead="Cada robô nasce do que o anterior ensinou. Este aqui é o Tank Tails, montado com fotos. De vez em quando ele mostra uma de perto; clique numa peça para abrir a sua."
+        featured={{ href: "/robots/tank-tails", label: "O primeiro", name: "Tank Tails", note: "2023 · Charged Up · tank drive" }}
+        stats={[
+          { value: robots.length, label: "robôs construídos" },
+          { value: matches.length, label: "partidas oficiais" },
+          { value: record(matches).w, label: "vitórias" },
+          { value: Math.max(...matches.map((m) => m[5])), label: "maior placar" },
+        ]}
+      />
 
       {/* O hangar, do mais novo ao primeiro: fichas, galeria ou tabela */}
       <Container className="py-16">

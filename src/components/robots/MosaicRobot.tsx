@@ -2,27 +2,17 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Pause, Play } from "lucide-react";
 import { Counter } from "@/components/ui/Counter";
 import { useReducedMotion } from "motion/react";
+import { cn } from "@/lib/cn";
 import { createMosaic, type MosaicHandle } from "./mosaic/engine";
 
-/** Fotos dos pôsteres, servidas já reduzidas pelo otimizador de imagens do Next. */
-const PHOTOS: Record<string, string> = {
-  robot: "/team/2023-houston-tank-tails.webp",
-  ras: "/team/2023-brasilia-rookie-all-star.webp",
-  ri: "/team/2023-houston-rookie-inspiration.webp",
-  pharaoh: "/team/robo-pharaoh.webp",
-  answer: "/team/2023-the-answer-partida.webp",
-  arak: "/team/robo-arak.webp",
-  impacto: "/team/2024-cuiaba-premio-impacto.webp",
-  equipe: "/team/2025-equipe.webp",
-};
-const optimized = (src: string) => `/_next/image?url=${encodeURIComponent(src)}&w=256&q=75`;
-const STILL = 3; // quadro de repouso: o robô já montado
-/** Depois de entrar e andar ~5 s, o robô assenta (WCAG 2.2.2); passar o mouse, focar ou tocar faz andar de novo. */
-const SETTLE_AFTER = 1.6 + 5;
-const SETTLE_FRAME = 1.6 + (4 / 7) * 8; // um quadro com o braço na pose inicial
+export type MosaicStat = { value: number; label: string };
+export type MosaicSource = { src: string; caption: string; robot?: boolean };
+
+/** Fotos servidas já reduzidas pelo otimizador de imagens do Next (384px: a foto aberta ocupa ~60% da altura; q=75 é uma das qualidades liberadas no next.config). */
+const optimized = (src: string) => `/_next/image?url=${encodeURIComponent(src)}&w=384&q=75`;
 
 /**
  * Ajusta a resolução do canvas à proporção da tela: 1080 de altura no desktop; em tela estreita,
@@ -41,72 +31,88 @@ function fit(canvas: HTMLCanvasElement) {
 }
 
 function load(src: string) {
-  return new Promise<HTMLImageElement>((resolve, reject) => {
+  return new Promise<HTMLImageElement | null>((resolve) => {
     const img = new Image();
     img.decoding = "async";
     img.onload = () => resolve(img);
-    img.onerror = reject;
+    img.onerror = () => resolve(null); // uma foto que falhar só fica de fora
     img.src = src;
   });
 }
 
 /**
- * Abertura da home, ocupando a tela abaixo do cabeçalho: um robô feito de pôsteres da equipe
- * entra correndo, freia no centro e fica andando. Rolando a página, ele arranca e sai pela direita.
- * Ocupa a largura toda: o canvas segue o tamanho da seção. Para sozinha fora da tela e na aba escondida;
- * com "reduzir movimento", mostra o robô parado no centro.
+ * Topo da página de robôs: o Tank Tails montado com fotos da equipe e dos robôs entra correndo e fica andando.
+ * De tempos em tempos a câmera mergulha numa peça, revela a foto original e a legenda, e volta para o robô.
+ * Clicar numa peça abre ela; o botão no canto pausa tudo (WCAG 2.2.2). Rolando a página, ele arranca e sai
+ * pela direita. Para sozinho fora da tela e na aba escondida; com "reduzir movimento", fica parado e montado.
  */
-export type IntroStat = { value: number; label: string };
-export type IntroRobot = { name: string; year: number; game: string; drivetrain: string; href: string };
-
-export function MosaicIntro({ stats, robot }: { stats: IntroStat[]; robot: IntroRobot }) {
+export function MosaicRobot({
+  photos,
+  stats,
+  kicker,
+  title,
+  lead,
+  featured,
+}: {
+  photos: MosaicSource[];
+  stats: MosaicStat[];
+  kicker: string;
+  title: string;
+  lead: string;
+  featured: { href: string; label: string; name: string; note: string };
+}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const engine = useRef<MosaicHandle | null>(null);
-  const time = useRef(0);
   const exit = useRef(0);
   const reduce = useReducedMotion();
   const [ready, setReady] = useState(false);
-  // com "reduzir movimento", fica parado no quadro final
-  const playing = !reduce;
   const [visible, setVisible] = useState(true);
-  const [settled, setSettled] = useState(false);
-  const playingRef = useRef(playing);
+  const [paused, setPaused] = useState(false);
+  // com uma foto aberta, o painel por cima sai da frente
+  const [focused, setFocused] = useState(false);
+  const running = ready && !reduce && visible && !paused;
+  const runningRef = useRef(running);
   useEffect(() => {
-    playingRef.current = playing && visible && !settled;
+    runningRef.current = running;
   });
-  const wake = () => {
-    if (!settled || reduce) return;
-    time.current = 1.6;
-    setSettled(false);
+
+  const click = (e: React.MouseEvent) => {
+    const c = canvasRef.current;
+    if (!c || !engine.current || reduce) return;
+    const r = c.getBoundingClientRect();
+    if (engine.current.click(((e.clientX - r.left) * c.width) / r.width, ((e.clientY - r.top) * c.height) / r.height)) {
+      setPaused(false);
+      if (!runningRef.current) engine.current.render(exit.current);
+    }
   };
 
-  // Monta o motor quando as fotos e as fontes estiverem prontas.
+  // Monta o motor quando as fotos e a fonte estiverem prontas.
   useEffect(() => {
     let alive = true;
     const root = getComputedStyle(document.documentElement);
-    const oswald = root.getPropertyValue("--font-oswald").trim() || "Oswald";
     const manrope = root.getPropertyValue("--font-manrope").trim() || "Manrope";
-    const display = `${oswald}, "Arial Narrow", sans-serif`;
     const body = `${manrope}, system-ui, sans-serif`;
     Promise.all([
-      Promise.all(Object.entries(PHOTOS).map(async ([k, src]) => [k, await load(optimized(src))] as const)),
-      document.fonts.load(`700 100px ${display}`).catch(() => null),
-      document.fonts.load(`700 24px ${body}`).catch(() => null),
+      Promise.all(photos.map(async (p) => ({ ...p, img: await load(optimized(p.src)) }))),
+      document.fonts.load(`600 24px ${body}`).catch(() => null),
     ])
-      .then(([pairs]) => {
+      .then(([loaded]) => {
         if (!alive || !canvasRef.current) return;
-        if (matchMedia("(prefers-reduced-motion: reduce)").matches) time.current = STILL;
+        const ok = loaded.filter((p): p is typeof p & { img: HTMLImageElement } => p.img !== null);
+        if (!ok.length) return;
+        const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
         fit(canvasRef.current);
-        engine.current = createMosaic(canvasRef.current, Object.fromEntries(pairs), { display, body });
+        engine.current = createMosaic(canvasRef.current, ok, { body, tour: !still, onFocus: setFocused });
+        if (still) engine.current.still();
         setReady(true);
       })
-      .catch((err) => console.error("Abertura em mosaico não carregou:", err));
+      .catch((err) => console.error("Robô em mosaico não carregou:", err));
     return () => {
       alive = false;
       engine.current?.destroy();
       engine.current = null;
     };
-  }, []);
+  }, [photos]);
 
   // Acompanha o tamanho da seção (largura toda, altura da tela).
   useEffect(() => {
@@ -115,7 +121,7 @@ export function MosaicIntro({ stats, robot }: { stats: IntroStat[]; robot: Intro
     const ro = new ResizeObserver(() => {
       if (fit(el)) {
         engine.current?.resize();
-        engine.current?.render(time.current, exit.current);
+        engine.current?.render(exit.current);
       }
     });
     ro.observe(el);
@@ -133,7 +139,7 @@ export function MosaicIntro({ stats, robot }: { stats: IntroStat[]; robot: Intro
       const next = reduceMq.matches ? 0 : Math.min(1, Math.max(0, -r.top / (r.height * 0.6)));
       if (next === exit.current) return;
       exit.current = next;
-      if (!playingRef.current && r.bottom > 0) engine.current?.render(time.current, next);
+      if (!runningRef.current && r.bottom > 0) engine.current?.render(next);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -157,73 +163,57 @@ export function MosaicIntro({ stats, robot }: { stats: IntroStat[]; robot: Intro
   useEffect(() => {
     const e = engine.current;
     if (!ready || !e) return;
-    if (!playing || !visible || settled) {
-      e.render(time.current, exit.current);
+    if (!running) {
+      e.render(exit.current);
       return;
     }
     let raf = 0;
     let prev = performance.now();
     const tick = (now: number) => {
-      time.current += Math.min(0.05, (now - prev) / 1000);
+      e.frame(Math.min(0.05, (now - prev) / 1000), exit.current);
       prev = now;
-      if (time.current > SETTLE_AFTER) {
-        time.current = SETTLE_FRAME;
-        e.render(time.current, exit.current);
-        setSettled(true);
-        return;
-      }
-      e.render(time.current, exit.current);
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [ready, playing, visible, settled]);
+  }, [ready, running]);
 
   return (
-    <section
-      aria-label="Abertura"
-      className="relative h-[calc(100svh-65px)] min-h-80 overflow-hidden bg-band"
-      onPointerEnter={wake}
-      onPointerDown={wake}
-      onFocus={wake}
-    >
+    <section aria-label="Abertura" className="relative h-[calc(100svh-65px)] min-h-80 overflow-hidden bg-band">
       <canvas
         ref={canvasRef}
         width={1920}
         height={1080}
         role="img"
-        aria-label="Animação: um robô feito de miniaturas de pôsteres da equipe entra correndo, freia no centro e fica andando com um cone no braço."
-        className={`absolute inset-0 size-full transition-opacity duration-500 ${ready ? "opacity-100" : "opacity-0"}`}
+        aria-label={`Animação: o Tank Tails montado com ${photos.length} fotos da equipe e dos robôs. De tempos em tempos a câmera se aproxima de uma das fotos e mostra a legenda.`}
+        onClick={click}
+        className={cn("absolute inset-0 size-full cursor-pointer transition-opacity duration-500", ready ? "opacity-100" : "opacity-0")}
       />
 
-      {/* Painel por cima do robô: lema, último robô e os números das partidas (tudo vindo do conteúdo e do TBA) */}
-      <div className="pointer-events-none absolute inset-0 mx-auto flex max-w-6xl flex-col justify-between px-[max(1rem,env(safe-area-inset-left,0px))] pb-5 pt-8 text-white sm:px-6 sm:pb-8 sm:pt-12">
+      {/* Painel por cima do robô: título, o robô em destaque e os números. Sai da frente com uma foto aberta. */}
+      <div
+        className={cn(
+          "pointer-events-none absolute inset-0 mx-auto flex max-w-6xl flex-col justify-between px-[max(1rem,env(safe-area-inset-left,0px))] pb-5 pt-8 text-white transition-[opacity,translate] duration-500 sm:px-6 sm:pb-8 sm:pt-12",
+          focused && "-translate-y-3 opacity-0",
+        )}
+      >
         <div className="flex flex-wrap items-start justify-between gap-6">
           <div>
-            <p className="kicker text-[#ef4fdd]">FRC 9219 · Resende, RJ</p>
-            <h1 className="heading mt-2 text-4xl leading-none sm:text-5xl">
-              <span className="sr-only">Nine Tails #9219: </span>
-              Evolução constante
-              <br />
-              <span className="text-white/45">desde 2022.</span>
-            </h1>
+            <p className="kicker text-[#ef4fdd]">{kicker}</p>
+            <h1 className="heading mt-2 text-4xl leading-none sm:text-5xl">{title}</h1>
+            <p className="mt-3 max-w-sm text-sm leading-relaxed text-white/65">{lead}</p>
           </div>
-          <Link
-            href={robot.href}
-            className="pointer-events-auto group hidden border-l-2 border-[#ef4fdd] pl-4 transition-colors sm:block"
-          >
-            <span className="block text-[11px] font-bold uppercase tracking-[0.16em] text-white/55">Robô atual</span>
+          <Link href={featured.href} className={cn("group hidden border-l-2 border-[#ef4fdd] pl-4 sm:block", !focused && "pointer-events-auto")}>
+            <span className="block text-[11px] font-bold uppercase tracking-[0.16em] text-white/55">{featured.label}</span>
             <span className="heading mt-1 flex items-center gap-1 text-2xl">
-              {robot.name}
+              {featured.name}
               <ArrowUpRight className="size-4 text-white/50 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white" aria-hidden />
             </span>
-            <span className="block text-sm text-white/65">
-              {robot.year} · {robot.game} · {robot.drivetrain}
-            </span>
+            <span className="block text-sm text-white/65">{featured.note}</span>
           </Link>
         </div>
 
-        <dl className="grid grid-cols-3 gap-x-4 gap-y-4 border-t border-white/15 pt-4 sm:grid-cols-6 sm:pt-5">
+        <dl className="grid grid-cols-2 gap-x-4 gap-y-4 border-t border-white/15 pt-4 sm:grid-cols-4 sm:pt-5">
           {stats.map((st) => (
             <div key={st.label} className="flex flex-col-reverse">
               <dt className="mt-1 text-xs leading-snug text-white/60">{st.label}</dt>
@@ -234,6 +224,18 @@ export function MosaicIntro({ stats, robot }: { stats: IntroStat[]; robot: Intro
           ))}
         </dl>
       </div>
+
+      {!reduce && ready && (
+        <button
+          type="button"
+          onClick={() => setPaused((v) => !v)}
+          aria-label={paused ? "Continuar a animação" : "Pausar a animação"}
+          aria-pressed={paused}
+          className="absolute bottom-5 right-4 grid size-10 place-items-center rounded-full bg-white/10 text-white/80 backdrop-blur transition-colors hover:bg-white/20 hover:text-white sm:bottom-8 sm:right-6"
+        >
+          {paused ? <Play className="size-4" /> : <Pause className="size-4" />}
+        </button>
+      )}
     </section>
   );
 }

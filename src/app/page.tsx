@@ -16,11 +16,6 @@ import { getRobot, robots } from "@/content/robots";
 import { seasonLogos, seasonPhotos } from "@/content/credits";
 import { heroTeamPhotos, teamPhotos } from "@/content/gallery";
 import { HeroTeam } from "@/components/home/HeroTeam";
-import { MosaicIntro, type IntroStat } from "@/components/home/MosaicIntro";
-import { matches } from "@/content/matches";
-import { teams } from "@/content/teams";
-import { record } from "@/lib/matchStats";
-import { getSeason } from "@/content/seasons";
 import { projects } from "@/content/impact";
 import { SponsorWall } from "@/components/ui/SponsorWall";
 import { OnThisDay, type Memory } from "@/components/home/OnThisDay";
@@ -60,17 +55,6 @@ const memories: Memory[] = competitions.map((c) => {
   };
 });
 
-/** Números da abertura: partidas e equipes vêm do The Blue Alliance (scripts/sync-tba.mjs). */
-const introStats: IntroStat[] = [
-  { value: matches.length, label: "partidas oficiais" },
-  { value: record(matches).w, label: "vitórias" },
-  { value: Math.max(...matches.map((m) => m[5])), label: "maior placar" },
-  { value: Object.keys(teams).length, label: "equipes na mesma quadra" },
-  { value: robots.length, label: "robôs construídos" },
-  { value: awards.length, label: "prêmios" },
-];
-const latestRobot = robots[robots.length - 1];
-
 export default function Home() {
   const explorer: ExplorerSeason[] = seasons.map((s) => {
     const team = teamPhotos[s.slug] ?? [];
@@ -87,25 +71,13 @@ export default function Home() {
 
   return (
     <>
-      {/* Abertura: pôsteres da equipe montando um robô */}
-      <MosaicIntro
-        stats={introStats}
-        robot={{
-          name: latestRobot.name,
-          year: latestRobot.year,
-          game: getSeason(latestRobot.seasonSlug)?.game ?? "",
-          drivetrain: latestRobot.drivetrain,
-          href: `/robots/${latestRobot.slug}`,
-        }}
-      />
-
       {/* Topo: a equipe inteira, uma foto por temporada */}
       <HeroTeam photos={heroTeamPhotos}>
         <Container className="flex min-h-[72svh] flex-col justify-end pb-24 pt-24 sm:min-h-[85vh] sm:pb-32">
           <p className="kicker text-[#f0a6e8] [text-shadow:0_1px_8px_rgb(0_0_0/0.7)]">FRC 9219 · Resende, RJ · desde 2022</p>
-          <h2 className="heading mt-2 text-[2.6rem] [text-shadow:0_2px_24px_rgb(0_0_0/0.45)] sm:text-6xl">
+          <h1 className="heading mt-2 text-[2.6rem] [text-shadow:0_2px_24px_rgb(0_0_0/0.45)] sm:text-6xl">
             Nine Tails <span className="text-[#f0a6e8]">#9219</span>
-          </h2>
+          </h1>
           <div className="mt-5 flex flex-wrap gap-2 sm:gap-3">
             <Button href="/team">Conheça a equipe</Button>
             <Button href="/seasons" variant="outline" className="text-white">
