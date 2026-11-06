@@ -4,12 +4,12 @@ import { motion, type HTMLMotionProps } from "motion/react";
 
 type RevealProps = HTMLMotionProps<"div"> & { delay?: number };
 
-/** Entrada discreta quando o bloco aparece na tela (uma vez). */
+/** Deslize curto quando o bloco aparece na tela (uma vez). O conteúdo nunca fica invisível esperando a rolagem. */
 export function Reveal({ delay = 0, children, ...rest }: RevealProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ y: 12 }}
+      whileInView={{ y: 0 }}
       viewport={{ once: true, margin: "0px 0px -10% 0px" }}
       transition={{ duration: 0.5, delay, ease: "easeOut" }}
       {...rest}
@@ -37,8 +37,8 @@ export function RevealItem({ children, ...rest }: HTMLMotionProps<"div">) {
   return (
     <motion.div
       variants={{
-        hidden: { opacity: 0, y: 14 },
-        show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: "easeOut" } },
+        hidden: { y: 10 },
+        show: { y: 0, transition: { duration: 0.45, ease: "easeOut" } },
       }}
       {...rest}
     >

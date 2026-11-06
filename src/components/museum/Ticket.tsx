@@ -11,8 +11,8 @@ function Holes({ side }: { side: "left" | "right" }) {
   const x = side === "right" ? "right-14" : "left-14";
   return (
     <>
-      <span aria-hidden className={`absolute -top-2 ${x} size-4 rounded-full bg-[#160b20]`} />
-      <span aria-hidden className={`absolute -bottom-2 ${x} size-4 rounded-full bg-[#160b20]`} />
+      <span aria-hidden className={`absolute -top-2 ${x} size-4 rounded-full bg-band`} />
+      <span aria-hidden className={`absolute -bottom-2 ${x} size-4 rounded-full bg-band`} />
     </>
   );
 }
@@ -25,7 +25,7 @@ export function Ticket({ roomCount, pieceCount }: { roomCount: number; pieceCoun
     <div className="relative h-full">
       <div className={paper}>
         <div className="flex-1 border-r-2 border-dashed border-[#1b0d26]/25 p-5">
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#7d1394]">Ingresso · entrada franca</p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#4a0061]">Ingresso · entrada franca</p>
           <p className="heading mt-2 text-3xl leading-none">Museu da Raposa</p>
           <p className="mt-1 text-xs">Acervo Nine Tails · FRC 9219</p>
           <dl className="mt-4 grid grid-cols-3 gap-2 font-mono text-[10px] uppercase">
@@ -65,7 +65,7 @@ export function Ticket({ roomCount, pieceCount }: { roomCount: number; pieceCoun
           <p className="rotate-90 whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.3em]">Guarde este ingresso</p>
         </div>
         <div className="flex-1 border-l-2 border-dashed border-[#1b0d26]/25 p-5">
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#7d1394]">Verso · regras da casa</p>
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-[#4a0061]">Verso · regras da casa</p>
           <ol className="mt-3 list-decimal space-y-1.5 pl-4 text-sm leading-snug">
             <li>É permitido tocar nas fotos: elas ampliam.</li>
             <li>Cada sala percorrida ganha um carimbo.</li>

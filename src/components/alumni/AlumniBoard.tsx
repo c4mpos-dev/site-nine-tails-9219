@@ -84,7 +84,7 @@ function Orbit({ alumni, active, setActive, onPick }: { alumni: Alumnus[]; activ
                         <circle r={30} fill="transparent" />
                         <circle
                           r={on ? 25 : 21}
-                          className={cn("transition-all duration-300", on ? "fill-brand stroke-accent" : "fill-surface-2 stroke-line")}
+                          className={cn("transition-[fill,stroke] duration-300", on ? "fill-brand stroke-accent" : "fill-surface-2 stroke-line")}
                           strokeWidth={2}
                         />
                         <text
@@ -147,10 +147,10 @@ function Badge({ a, active, open, setActive, toggle }: { a: Alumnus; active: boo
       )}
     >
       {/* Faixa do crachá na lateral, que engrossa quando abre */}
-      <span aria-hidden className={cn("absolute inset-y-0 left-0 bg-brand transition-all duration-300", open ? "w-1.5" : "w-1 group-hover/badge:w-1.5")} />
+      <span aria-hidden className={cn("absolute inset-y-0 left-0 w-1.5 origin-left bg-brand transition-transform duration-300", open ? "scale-x-100" : "scale-x-[0.67] group-hover/badge:scale-x-100")} />
 
       <button type="button" onClick={toggle} aria-expanded={open} aria-controls={panel} className="flex w-full items-center gap-3 py-3 pl-5 pr-3 text-left">
-        <span className="relative grid size-11 shrink-0 place-items-center overflow-hidden rounded-full bg-surface-2 ring-2 ring-line transition-all duration-300 group-hover/badge:ring-accent">
+        <span className="relative grid size-11 shrink-0 place-items-center overflow-hidden rounded-full bg-surface-2 ring-2 ring-line transition-shadow duration-300 group-hover/badge:ring-accent">
           {a.photo ? (
             <Image src={a.photo.src} alt="" fill sizes="44px" className="object-cover" style={{ objectPosition: a.photo.position }} />
           ) : (
@@ -164,7 +164,7 @@ function Badge({ a, active, open, setActive, toggle }: { a: Alumnus; active: boo
         <span
           aria-hidden
           className={cn(
-            "grid size-8 shrink-0 place-items-center rounded-full border transition-all duration-300",
+            "grid size-8 shrink-0 place-items-center rounded-full border transition-[transform,background-color,border-color,color] duration-300",
             open ? "rotate-45 border-accent bg-accent text-brand-ink" : "border-line text-muted group-hover/badge:border-accent group-hover/badge:text-accent",
           )}
         >

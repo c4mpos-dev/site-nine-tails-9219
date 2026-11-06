@@ -10,13 +10,13 @@ import { cn } from "@/lib/cn";
 
 /** Cantos de visor, como num desenho técnico. */
 function Corners() {
-  const c = "absolute z-10 size-5 border-accent transition-all duration-300";
+  const c = "absolute z-10 size-5 border-accent transition-transform duration-300";
   return (
     <>
-      <span aria-hidden className={`${c} -left-2 -top-2 border-l-2 border-t-2 group-hover:-left-3 group-hover:-top-3`} />
-      <span aria-hidden className={`${c} -right-2 -top-2 border-r-2 border-t-2 group-hover:-right-3 group-hover:-top-3`} />
-      <span aria-hidden className={`${c} -bottom-2 -left-2 border-b-2 border-l-2 group-hover:-bottom-3 group-hover:-left-3`} />
-      <span aria-hidden className={`${c} -bottom-2 -right-2 border-b-2 border-r-2 group-hover:-bottom-3 group-hover:-right-3`} />
+      <span aria-hidden className={`${c} -left-2 -top-2 border-l-2 border-t-2 group-hover:-translate-x-1 group-hover:-translate-y-1`} />
+      <span aria-hidden className={`${c} -right-2 -top-2 border-r-2 border-t-2 group-hover:translate-x-1 group-hover:-translate-y-1`} />
+      <span aria-hidden className={`${c} -bottom-2 -left-2 border-b-2 border-l-2 group-hover:-translate-x-1 group-hover:translate-y-1`} />
+      <span aria-hidden className={`${c} -bottom-2 -right-2 border-b-2 border-r-2 group-hover:translate-x-1 group-hover:translate-y-1`} />
     </>
   );
 }

@@ -26,8 +26,8 @@ export default function ImpactPage() {
     <>
       <PageHero
         kicker="Impacto"
-        title="Mais que um torneio"
-        lead="Nossa missão é transformar vidas através da robótica, levando STEAM para a rede pública e para as comunidades de Resende e região."
+        title="Robótica na rede pública de Resende"
+        lead="O Nine Learns já passou por 5 escolas públicas de Resende, com 6.222 crianças, e o material está com 55 equipes em 16 países."
         image={{ src: "/team/2025-maua-escola-visita.webp", alt: "Alunos da Escola Francisco Quirino Diniz, em Mauá, com os projetos feitos na visita da Nine Tails", position: "50% 55%" }}
       >
         <dl className="mt-10 grid max-w-3xl grid-cols-2 gap-6 sm:grid-cols-4">
@@ -45,9 +45,9 @@ export default function ImpactPage() {
       {/* Projetos */}
       <Container className="py-14">
         <SectionHeading kicker="Projetos" title="O que fazemos fora da arena" />
-        <RevealGroup className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <RevealGroup className="mt-10 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((p) => (
-            <RevealItem key={p.name} className="flex flex-col rounded-lg border border-line p-6">
+            <RevealItem key={p.name} className="flex flex-col border-t-2 border-line pt-5">
               <p className="kicker">{p.tag}</p>
               <h3 className="heading mt-2 text-2xl">{p.name}</h3>
               <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">{p.description}</p>

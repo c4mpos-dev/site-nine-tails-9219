@@ -10,11 +10,11 @@ function subscribe(cb: () => void) {
   obs.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
   return () => obs.disconnect();
 }
-const getTheme = (): Theme => (document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark");
+const getTheme = (): Theme => (document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light");
 
-/** Alterna entre o tema escuro (padrão) e o claro, e lembra a escolha. */
+/** Alterna entre o tema claro (padrão) e o escuro, e lembra a escolha. */
 export function ThemeToggle({ className }: { className?: string }) {
-  const theme = useSyncExternalStore(subscribe, getTheme, () => "dark" as Theme);
+  const theme = useSyncExternalStore(subscribe, getTheme, () => "light" as Theme);
   const next: Theme = theme === "dark" ? "light" : "dark";
 
   return (
@@ -22,6 +22,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       type="button"
       onClick={() => {
         document.documentElement.setAttribute("data-theme", next);
+        document.querySelector('meta[name="theme-color"]')?.setAttribute("content", next === "dark" ? "#14071a" : "#ffffff");
         try {
           localStorage.setItem("theme", next);
         } catch {}
@@ -36,4 +37,4 @@ export function ThemeToggle({ className }: { className?: string }) {
 }
 
 /** Script que aplica o tema salvo antes da primeira pintura (sem "piscar"). */
-export const themeScript = `(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}})()`;
+export const themeScript = `(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t);var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",t==="dark"?"#14071a":"#ffffff")}}catch(e){}})()`;

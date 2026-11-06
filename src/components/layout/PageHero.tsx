@@ -25,12 +25,12 @@ export function PageHero({
   children?: React.ReactNode;
 }) {
   return (
-    <section className="relative isolate overflow-hidden bg-[#160b20] text-white">
+    <section className="relative isolate overflow-hidden bg-band text-white">
       {image && (
         <>
           <HeroBackdrop src={image.src} alt={image.alt} position={image.position} />
           <div className="absolute inset-0 -z-10 bg-[var(--hero-overlay)]" />
-          <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#160b20] via-transparent to-transparent" />
+          <div className="absolute inset-0 -z-10 bg-gradient-to-t from-band via-transparent to-transparent" />
         </>
       )}
       <Container className="py-16 sm:py-24">

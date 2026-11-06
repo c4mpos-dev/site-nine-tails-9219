@@ -97,7 +97,7 @@ export default function SeasonsPage() {
                         />
                       ) : (
                         // Temporada sem foto ainda: a raposa esperando, com a cauda da vez tracejada em volta
-                        <div className="absolute inset-0 grid place-items-center bg-[#160b20]">
+                        <div className="absolute inset-0 grid place-items-center bg-band">
                           <div className="absolute size-[62%] animate-[spin_40s_linear_infinite] rounded-full border-2 border-dashed border-[#f0a6e8]/40 motion-reduce:animate-none" />
                           <Image src="/brand/emblem.webp" alt="" width={240} height={220} className="w-[38%] opacity-60" />
                           <span className="absolute right-4 top-4 rounded bg-white/10 px-2 py-1 font-mono text-xs uppercase tracking-[0.2em] text-[#f0a6e8]">
@@ -185,7 +185,7 @@ export default function SeasonsPage() {
                     <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-4">
                       {bots.map((r) => (
                         <Link key={r.slug} href={`/robots/${r.slug}`} className="group flex items-center gap-3">
-                          <span className="relative size-12 overflow-hidden rounded-full bg-surface-2 ring-2 ring-line transition-all group-hover:ring-accent">
+                          <span className="relative size-12 overflow-hidden rounded-full bg-surface-2 ring-2 ring-line transition-shadow group-hover:ring-accent">
                             {(r.thumb || r.photo) && (
                               <Image
                                 src={r.thumb?.src ?? r.photo!}

@@ -6,52 +6,54 @@
 /*
  * Nine Tails #9219: sistema de cores.
  *
- * Dois temas, a mesma marca. O roxo da camisa (brand) e o magenta da raposa (accent)
- * aparecem nos detalhes dos dois temas; só o fundo e o texto mudam.
+ * As cores vêm da identidade que a equipe já usa (ninetails9219.com.br e a camisa):
+ * roxo #9E19B8, magenta #DE0CC8 e roxo escuro #4A0061, sobre fundo branco.
+ * O tema claro é o padrão; o escuro usa a mesma marca sobre um roxo bem fechado.
  *
  *   bg         fundo da página
  *   surface    blocos e faixas alternadas
  *   surface-2  cartões dentro de faixas
  *   line       bordas e divisórias
- *   fg         texto principal
+ *   fg         texto principal (tinta puxada do roxo escuro)
  *   muted      texto de apoio
  *   brand      roxo da camisa (botões, faixas, destaques grandes)
- *   accent     magenta da raposa (links, detalhes pequenos)
+ *   brand-strong roxo escuro #4A0061 (hover, texto sobre fundo claro de marca)
+ *   accent     magenta da raposa (links, rótulos); no claro, um tom abaixo de #DE0CC8 para passar no AA
  *   brand-ink  texto sobre brand/accent
  */
 :root,
-[data-theme="dark"] {
-  --bg: #120a19;
-  --surface: #1a0f24;
-  --surface-2: #241532;
-  --line: rgb(255 255 255 / 0.1);
-  --fg: #f4eff7;
-  --muted: #b6a7c4;
-  --brand: #9e19b8;
-  --brand-strong: #7d1394;
-  --accent: #e55ad8;
-  --brand-ink: #ffffff;
-  --hero-overlay: rgb(18 10 25 / 0.72);
-  --win: #d24bc6;
-  --loss: #7a6a8a;
-  color-scheme: dark;
-}
-
 [data-theme="light"] {
   --bg: #ffffff;
-  --surface: #f6f1f9;
+  --surface: #f8f3fa;
   --surface-2: #ffffff;
-  --line: rgb(36 21 50 / 0.12);
-  --fg: #1b0d26;
-  --muted: #5e4d6c;
-  --brand: #8a14a3;
-  --brand-strong: #6e0f83;
-  --accent: #b5139f;
+  --line: rgb(74 0 97 / 0.12);
+  --fg: #1e0726;
+  --muted: #5e4a69;
+  --brand: #9e19b8;
+  --brand-strong: #4a0061;
+  --accent: #c00aac;
   --brand-ink: #ffffff;
-  --hero-overlay: rgb(18 10 25 / 0.6);
-  --win: #b5139f;
+  --hero-overlay: rgb(30 7 38 / 0.6);
+  --win: #c00aac;
   --loss: #8c7c9a;
   color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --bg: #14071a;
+  --surface: #1c0a24;
+  --surface-2: #281033;
+  --line: rgb(255 255 255 / 0.1);
+  --fg: #f7f0fa;
+  --muted: #bfa8cc;
+  --brand: #9e19b8;
+  --brand-strong: #4a0061;
+  --accent: #ef4fdd;
+  --brand-ink: #ffffff;
+  --hero-overlay: rgb(20 7 26 / 0.72);
+  --win: #ef4fdd;
+  --loss: #7a6a8a;
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -68,6 +70,8 @@
   --color-win: var(--win);
   --color-loss: var(--loss);
   --color-steel: #cdd6dc;
+  /* Faixas escuras (abertura, topos com foto): o mesmo roxo fechado nos dois temas */
+  --color-band: #14071a;
 
   --font-display: var(--font-oswald), "Arial Narrow", sans-serif;
   --font-sans: var(--font-manrope), system-ui, sans-serif;

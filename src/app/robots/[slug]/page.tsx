@@ -8,6 +8,7 @@ import { Container } from "@/components/ui/Container";
 import { Loop } from "@/components/ui/Loop";
 import { RobotBlueprint } from "@/components/robots/RobotBlueprint";
 import { BeforeAfter } from "@/components/robots/BeforeAfter";
+import { TankTails3D } from "@/components/robots/TankTails3D";
 import { MatchLegend, MatchStrip } from "@/components/seasons/MatchStrip";
 import { Trophy } from "@/components/graphics/Trophies";
 import { getRobot, robots, type Robot } from "@/content/robots";
@@ -99,7 +100,7 @@ export default async function RobotPage({ params }: PageProps<"/robots/[slug]">)
   return (
     <>
       {/* Topo: ficha do robô */}
-      <section className="relative isolate overflow-hidden bg-[#160b20] text-white">
+      <section className="relative isolate overflow-hidden bg-band text-white">
         <div
           aria-hidden
           className="absolute inset-0 -z-10 opacity-[0.07] [background-image:linear-gradient(#fff_1px,transparent_1px),linear-gradient(90deg,#fff_1px,transparent_1px)] [background-size:48px_48px]"
@@ -166,6 +167,22 @@ export default async function RobotPage({ params }: PageProps<"/robots/[slug]">)
           </div>
         </Container>
       </section>
+
+      {/* O Tank Tails em 3D, repetindo a jogada da Charged Up (só ele tem modelo) */}
+      {robot.slug === "tank-tails" && (
+        <section className="relative isolate overflow-hidden border-t border-white/10 bg-band text-white">
+          <Container className="grid items-center gap-6 py-12 lg:grid-cols-[1fr_1.4fr]">
+            <div>
+              <p className="kicker !text-[#f0a6e8]">Em 3D</p>
+              <h2 className="heading mt-3 text-4xl sm:text-5xl">A jogada da Charged Up</h2>
+              <p className="mt-4 max-w-md leading-relaxed text-white/75">
+                O modelo do Tank Tails pega o cone no chão, sobe o braço e pontua na haste, como em quadra em 2023.
+              </p>
+            </div>
+            <TankTails3D className="aspect-[4/3] w-full" />
+          </Container>
+        </section>
+      )}
 
       {/* Ficha técnica */}
       <section className="border-b border-line bg-surface">
@@ -250,7 +267,7 @@ export default async function RobotPage({ params }: PageProps<"/robots/[slug]">)
 
       {/* Em movimento */}
       {robot.clip && (
-        <section className="relative isolate overflow-hidden bg-[#160b20] text-white">
+        <section className="relative isolate overflow-hidden bg-band text-white">
           <div
             aria-hidden
             className="absolute inset-0 -z-10 opacity-[0.05] [background-image:linear-gradient(#fff_1px,transparent_1px),linear-gradient(90deg,#fff_1px,transparent_1px)] [background-size:48px_48px]"

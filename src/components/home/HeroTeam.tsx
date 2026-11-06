@@ -18,8 +18,10 @@ export function HeroTeam({ photos, children }: { photos: HeroPhoto[]; children: 
   const [index, setIndex] = useState(photos.length - 1);
   const [prev, setPrev] = useState<number | null>(null);
   const [paused, setPaused] = useState(false);
+  // Troca sozinha só uma volta completa; depois fica parada (WCAG 2.2.2). Os botões continuam trocando.
+  const [turns, setTurns] = useState(0);
   const reduce = useReducedMotion();
-  const auto = !paused && !reduce && photos.length > 1;
+  const auto = !paused && !reduce && photos.length > 1 && turns < photos.length;
 
   const go = (i: number) => {
     if (i === index) return;
@@ -32,6 +34,7 @@ export function HeroTeam({ photos, children }: { photos: HeroPhoto[]; children: 
     const id = setTimeout(() => {
       setPrev(index);
       setIndex((index + 1) % photos.length);
+      setTurns((n) => n + 1);
     }, INTERVAL);
     return () => clearTimeout(id);
   }, [auto, index, photos.length]);
@@ -41,7 +44,7 @@ export function HeroTeam({ photos, children }: { photos: HeroPhoto[]; children: 
 
   return (
     <section
-      className="relative isolate overflow-hidden bg-[#160b20] text-white"
+      className="relative isolate overflow-hidden bg-band text-white"
       onPointerEnter={() => setPaused(true)}
       onPointerLeave={() => setPaused(false)}
       onFocus={() => setPaused(true)}
@@ -57,8 +60,7 @@ export function HeroTeam({ photos, children }: { photos: HeroPhoto[]; children: 
           aria-hidden
           fill
           sizes="100vw"
-          loading="eager"
-          fetchPriority={i === photos.length - 1 ? "high" : "low"}
+          loading="lazy"
           className={cn("-z-30 object-cover", i === (prev ?? index) ? "opacity-100" : "opacity-0")}
           style={{ objectPosition: p.position ?? "center" }}
         />
@@ -74,7 +76,7 @@ export function HeroTeam({ photos, children }: { photos: HeroPhoto[]; children: 
           alt={current.alt}
           fill
           sizes="100vw"
-          loading="eager"
+          loading="lazy"
           className={cn("object-cover", !reduce && "animate-[hero-kenburns_9s_ease-out_both]")}
           style={{ objectPosition: current.position ?? "center" }}
         />
@@ -90,15 +92,15 @@ export function HeroTeam({ photos, children }: { photos: HeroPhoto[]; children: 
       )}
 
       {/* Escurece só o canto de baixo, onde fica o texto; o resto da foto fica limpo */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#160b20]/95 via-[#160b20]/40 via-35% to-transparent to-60%" />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#160b20]/60 to-transparent to-50%" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-band/95 via-band/40 via-35% to-transparent to-60%" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-band/60 to-transparent to-50%" />
 
       {children}
 
       {/* Rodapé do topo: legenda e as temporadas */}
       <div className="absolute inset-x-0 bottom-0">
         <div className="mx-auto flex max-w-6xl flex-wrap items-end justify-between gap-x-8 gap-y-3 border-t border-white/15 px-4 pb-5 pt-4 sm:px-6">
-          <p className="hidden max-w-md text-sm text-white/75 sm:block" aria-live="polite">
+          <p className="hidden max-w-md text-sm text-white/75 sm:block" aria-live={auto ? "off" : "polite"}>
             <span className="font-bold text-white">
               Equipe {current.year} · {current.game}.
             </span>{" "}
@@ -123,7 +125,7 @@ export function HeroTeam({ photos, children }: { photos: HeroPhoto[]; children: 
                     <span className={cn("heading block text-lg leading-none", active ? "text-white" : "text-white/55 group-hover:text-white")}>
                       {p.year}
                     </span>
-                    <span className={cn("mt-1 block truncate text-[11px]", active ? "text-[#f0a6e8]" : "text-white/40")}>{p.game}</span>
+                    <span className={cn("mt-1 block truncate text-[11px]", active ? "text-[#f0a6e8]" : "text-white/60")}>{p.game}</span>
                     <span className="absolute inset-x-0 bottom-0 h-0.5 bg-white/15">
                       <span
                         key={`${index}-${auto}`}

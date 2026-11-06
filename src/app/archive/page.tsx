@@ -25,7 +25,7 @@ export default function ArchivePage() {
       />
       <Container className="py-14">
         <div className="grid gap-6 md:grid-cols-2">
-          <Link href="/museum" className="group grid overflow-hidden rounded-lg border border-line bg-[#160b20] text-white card md:col-span-2 md:grid-cols-[1fr_1.2fr]">
+          <Link href="/museum" className="group grid overflow-hidden rounded-lg border border-line bg-band text-white card md:col-span-2 md:grid-cols-[1fr_1.2fr]">
             <div className="p-6 sm:p-8">
               <p className="kicker !text-[#f0a6e8]">Acervo · 2022 até hoje</p>
               <h2 className="heading mt-2 text-4xl group-hover:text-[#f0a6e8]">Museu da Raposa</h2>
@@ -68,7 +68,7 @@ export default function ArchivePage() {
             <div className="flex aspect-[16/9] flex-col justify-center gap-2 bg-black px-6 font-mono text-sm">
               {trips.slice(0, 4).map((t, i) => (
                 <p key={i} className="flex gap-4 text-white/70">
-                  <span className="w-20 text-white/40">{t.date}</span>
+                  <span className="w-20 text-white/60">{t.date}</span>
                   <span className="text-[#f6d36b]">{t.code}</span>
                   <span className="truncate uppercase">{t.city}</span>
                 </p>

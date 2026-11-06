@@ -72,7 +72,7 @@ export default function BoardingPage() {
             </tbody>
           </table>
         </div>
-        <p className="mt-3 text-xs text-white/40">Distâncias em linha reta a partir de Resende, ida e volta. Na estrada é sempre mais.</p>
+        <p className="mt-3 text-xs text-white/60">Distâncias em linha reta a partir de Resende, ida e volta. Na estrada é sempre mais.</p>
 
         {/* Totais */}
         <dl className="mt-12 grid gap-6 sm:grid-cols-3">
