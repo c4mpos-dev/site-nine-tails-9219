@@ -11,6 +11,7 @@ import { TrophyShelf } from "@/components/graphics/TrophyShelf";
 import { awards } from "@/content/awards";
 import { SeasonExplorer, type ExplorerSeason } from "@/components/home/SeasonExplorer";
 import { RobotCard } from "@/components/robots/RobotCard";
+import { TankTails3D } from "@/components/robots/TankTails3D";
 import { seasons } from "@/content/seasons";
 import { getRobot, robots } from "@/content/robots";
 import { seasonLogos, seasonPhotos } from "@/content/credits";
@@ -74,9 +75,9 @@ export default function Home() {
       {/* Topo: a equipe inteira, uma foto por temporada */}
       <HeroTeam photos={heroTeamPhotos}>
         <Container className="flex min-h-[72svh] flex-col justify-end pb-24 pt-24 sm:min-h-[85vh] sm:pb-32">
-          <p className="kicker text-[#f0a6e8] [text-shadow:0_1px_8px_rgb(0_0_0/0.7)]">FRC 9219 · Resende, RJ · desde 2022</p>
+          <p className="kicker text-band-accent [text-shadow:0_1px_8px_rgb(0_0_0/0.7)]">FRC 9219 · Resende, RJ · desde 2022</p>
           <h1 className="heading mt-2 text-[2.6rem] [text-shadow:0_2px_24px_rgb(0_0_0/0.45)] sm:text-6xl">
-            Nine Tails <span className="text-[#f0a6e8]">#9219</span>
+            Nine Tails <span className="text-band-accent">#9219</span>
           </h1>
           <div className="mt-5 flex flex-wrap gap-2 sm:gap-3">
             <Button href="/team">Conheça a equipe</Button>
@@ -177,7 +178,7 @@ export default function Home() {
                   className="object-cover"
                   style={{ objectPosition: m.position }}
                 />
-                <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent p-3 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+                <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/50 to-transparent p-3 text-xs text-white [text-shadow:0_1px_10px_rgb(0_0_0/0.45)] opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
                   {m.caption}
                 </figcaption>
               </figure>
@@ -258,6 +259,25 @@ export default function Home() {
                 </RevealItem>
               ))}
           </RevealGroup>
+
+          {/* O primeiro robô em 3D, repetindo a jogada da Charged Up */}
+          <Reveal className="relative isolate mt-12 grid items-center gap-4 overflow-hidden rounded-xl border border-line bg-surface px-6 pt-8 sm:px-10 lg:grid-cols-[1fr_1.4fr] lg:py-4">
+            <div
+              aria-hidden
+              className="absolute inset-0 -z-10 opacity-[0.06] [background-image:linear-gradient(#9e19b8_1px,transparent_1px),linear-gradient(90deg,#9e19b8_1px,transparent_1px)] [background-size:44px_44px] [mask-image:radial-gradient(ellipse_at_70%_60%,#000_30%,transparent_75%)]"
+            />
+            <div>
+              <p className="kicker">Onde tudo começou</p>
+              <h3 className="heading mt-2 text-4xl">Tank Tails, 2023</h3>
+              <p className="mt-3 max-w-sm leading-relaxed text-muted">
+                O primeiro robô da raposa, pegando o cone e pontuando na haste como na Charged Up. Arraste para girar.
+              </p>
+              <Link href="/robots/tank-tails" className="text-link mt-4 inline-block">
+                Conheça o Tank Tails →
+              </Link>
+            </div>
+            <TankTails3D className="aspect-[16/10] w-full" />
+          </Reveal>
         </Container>
       </section>
 
