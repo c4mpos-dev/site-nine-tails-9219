@@ -7,6 +7,7 @@ import { Counter } from "@/components/ui/Counter";
 import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { WatchButton } from "@/components/seasons/VideoDialog";
 import { MatchTrail, TrailLegend } from "@/components/records/MatchTrail";
+import { DotMatrix } from "@/components/records/DotMatrix";
 import { bySeason, byEvent, reach, records, videoOf } from "@/lib/matchStats";
 import { matches } from "@/content/matches";
 import { matchEvents } from "@/content/allies";
@@ -94,19 +95,19 @@ export default function RecordsPage() {
       <Container className="py-16">
         <SectionHeading kicker="No telão" title="Os placares que ficaram" />
         <RevealGroup className="mt-10 grid gap-4 md:grid-cols-3">
-          {scoreboards.map((b) => (
+          {scoreboards.map((b, i) => (
             <RevealItem key={b.k} className="h-full">
               <div className="flex h-full flex-col rounded-xl bg-band p-6 text-white ring-1 ring-white/10">
-                <p className="font-mono text-xs uppercase tracking-[0.2em] text-[#f0a6e8]">{b.k}</p>
+                <p className="font-mono text-xs uppercase tracking-[0.2em] text-band-accent">{b.k}</p>
                 <div className="mt-5 grid grid-cols-[1fr_auto_1fr] items-end gap-3 text-center">
                   <div>
                     <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/60">Nine Tails</p>
-                    <p className="heading text-6xl tabular-nums text-[#f0a6e8]">{b.ours}</p>
+                    <DotMatrix value={b.ours} delay={i * 0.25} className="mt-2 h-12 text-band-accent [filter:drop-shadow(0_0_6px_rgb(232_198_240/0.55))]" />
                   </div>
-                  <span className="heading pb-3 text-3xl text-white/40">x</span>
+                  <span className="heading pb-2 text-3xl text-white/40">x</span>
                   <div>
                     <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/60">Adversários</p>
-                    <p className="heading text-6xl tabular-nums text-white/70">{b.theirs}</p>
+                    <DotMatrix value={b.theirs} delay={i * 0.25 + 0.4} className="mt-2 h-12 text-white/70" />
                   </div>
                 </div>
                 <div className="mt-auto flex items-end justify-between gap-3 border-t border-white/10 pt-4">
@@ -114,7 +115,7 @@ export default function RecordsPage() {
                     <span className="block font-bold text-white">{b.note}</span>
                     {b.where}
                   </p>
-                  {b.video && <WatchButton video={b.video} className="shrink-0 !text-[#f0a6e8]" />}
+                  {b.video && <WatchButton video={b.video} className="shrink-0 !text-band-accent" />}
                 </div>
               </div>
             </RevealItem>
