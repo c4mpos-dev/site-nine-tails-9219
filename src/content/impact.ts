@@ -3,6 +3,10 @@ export type Project = {
   tag: string;
   description: string;
   metric?: string;
+  /** Foto do projeto em /public/team (sem ela, a página mostra o lugar reservado). */
+  photo?: string;
+  photoAlt?: string;
+  photoPosition?: string;
 };
 
 export const projects: Project[] = [

@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { PageHero } from "@/components/layout/PageHero";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { Counter } from "@/components/ui/Counter";
 import { Photo } from "@/components/ui/Photo";
 import { NineLearnsFox } from "@/components/impact/NineLearnsFox";
+import { ProjectChapters } from "@/components/impact/ProjectChapters";
 import { communityActions, coopertition, foundedTeams, projects, reach, schools } from "@/content/impact";
 
 export const metadata: Metadata = {
@@ -44,17 +44,10 @@ export default function ImpactPage() {
 
       {/* Projetos */}
       <Container className="py-14">
-        <SectionHeading kicker="Projetos" title="O que fazemos fora da arena" />
-        <RevealGroup className="mt-10 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
-          {projects.map((p) => (
-            <RevealItem key={p.name} className="flex flex-col border-t-2 border-line pt-5">
-              <p className="kicker">{p.tag}</p>
-              <h3 className="heading mt-2 text-2xl">{p.name}</h3>
-              <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">{p.description}</p>
-              {p.metric && <p className="heading mt-4 text-xl text-accent">{p.metric}</p>}
-            </RevealItem>
-          ))}
-        </RevealGroup>
+        <SectionHeading kicker="Projetos" title="O que fazemos fora da arena" lead={`${projects.length} projetos, cada um com a sua história.`} />
+        <div className="mt-12">
+          <ProjectChapters projects={projects} />
+        </div>
       </Container>
 
       {/* O estande do Nine Learns nas competições */}
