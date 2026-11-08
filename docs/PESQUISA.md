@@ -107,7 +107,7 @@ e fundar times de robótica nessas comunidades.
   Iago (programação, ex-competidor) e Gabriel (engenharia, ex-competidor).
 - **Membros (Crescendo):** Maria Eduarda, Maria Lucia, Rebeca e Thiago (social/mkt); Alice, Carlos Eduardo, Enzzo e Pedro Eduardo
   (mecânica); Pedro Siqueira e Vitor Duque (elétrica); Arthur Novaes e Vinícius Vilarinho (programação).
-- **Alumni:** Ana Luíza, Cauã Campos, Davi Garutti, Erick Maia, Gabriel Lauer, Gabriel Rosa, Gabriel Vilela,
+- **Alumni:** Ana Luísa, Cauã Campos, Davi Garutti, Erick Maia, Gabriel Lauer, Gabriel Rosa, Gabriel Vilela,
   Jessé Nunes, Mirella Costa e Vinicios Gimenez.
 - Em agosto de 2025 entraram 5 membros novos. **Faltam as listas de membros das temporadas 2023, 2025, 2026 e 2027.**
 

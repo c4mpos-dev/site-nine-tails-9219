@@ -33,7 +33,7 @@ export type Alumnus = {
 };
 
 export const alumni: Alumnus[] = [
-  { name: "Ana Luíza", years: [2023], now: "Publicidade", instagram: "", linkedin: "" },
+  { name: "Ana Luísa", years: [2023], now: "Publicidade", instagram: "", linkedin: "" },
   { name: "Cauã Campos", years: [2023], now: "Engenharia de Software", instagram: "", linkedin: "" },
   { name: "Davi Garutti", years: [2023], now: "Engenharia", instagram: "", linkedin: "" },
   { name: "Erick Maia", years: [2023], now: "Tradução e documentação", instagram: "", linkedin: "" },
