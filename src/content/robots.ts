@@ -16,6 +16,8 @@ export type Robot = {
   photo?: string;
   /** Enquadramento da foto (object-position). */
   photoPosition?: string;
+  /** O robô recortado, sem fundo (webp com transparência), para a vitrine do hangar. */
+  cutout?: string;
   /** Foto fechada no robô, para miniaturas redondas (cai para `photo` se não houver). */
   thumb?: { src: string; position?: string };
   /** Comparação "da oficina à arena" (slider). */
@@ -46,6 +48,7 @@ export const robots: Robot[] = [
     awards: ["rookie-all-star", "rookie-inspiration"],
     matchEvents: ["2023-brasilia", "2023-houston"],
     photo: "/team/robo-tank-tails.webp",
+    cutout: "/team/robo-tank-tails-recorte.webp",
     thumb: { src: "/team/robo-tank-tails-thumb.webp" },
     clip: { src: "/clips/tank-tails.mp4", caption: "Em campo na Regional do Brasil, no Mané Garrincha, março de 2023." },
     backstage: [
@@ -71,6 +74,7 @@ export const robots: Robot[] = [
     awards: ["engineering"],
     matchEvents: ["2023-rio"],
     photo: "/team/robo-the-answer.webp",
+    cutout: "/team/robo-the-answer-recorte.webp",
     thumb: { src: "/team/robo-the-answer-thumb.webp" },
     beforeAfter: {
       before: "/team/2023-the-answer-eletrica.webp",
@@ -101,6 +105,7 @@ export const robots: Robot[] = [
     events: ["Regional Brasil 2024"],
     matchEvents: ["2024-brasilia"],
     photo: "/team/robo-garuttinho.webp",
+    cutout: "/team/robo-garuttinho-recorte.webp",
     thumb: { src: "/team/robo-garuttinho-thumb.webp" },
     clip: { src: "/clips/garuttinho.mp4", caption: "Correntes, motores e a placa da raposa: um passeio pela lateral do robô." },
   },
@@ -123,6 +128,7 @@ export const robots: Robot[] = [
     awards: ["finalista"],
     matchEvents: ["2024-cuiaba"],
     photo: "/team/robo-predator.webp",
+    cutout: "/team/robo-predator-recorte.webp",
     thumb: { src: "/team/robo-predator-thumb.webp" },
   },
   {
@@ -143,6 +149,7 @@ export const robots: Robot[] = [
     events: ["Regional Brasília 2025", "Regional São Paulo 2025", "Off-Season RS 2025"],
     matchEvents: ["2025-brasilia", "2025-sao-paulo", "2025-porto-alegre"],
     photo: "/team/robo-arak.webp",
+    cutout: "/team/robo-arak-recorte.webp",
     thumb: { src: "/team/robo-arak-thumb.webp" },
     clip: { src: "/clips/arak.mp4", caption: "Testando o swerve na oficina antes da Regional de Brasília." },
   },
@@ -164,6 +171,7 @@ export const robots: Robot[] = [
     events: ["Regional SESI Educação 2026 (SP)", "Regional SESI Osasco 2026"],
     matchEvents: ["2026-sao-paulo", "2026-osasco"],
     photo: "/team/robo-pharaoh.webp",
+    cutout: "/team/robo-pharaoh-recorte.webp",
     thumb: { src: "/team/robo-pharaoh-thumb.webp" },
     beforeAfter: {
       before: "/team/2026-oficina-chassi.webp",

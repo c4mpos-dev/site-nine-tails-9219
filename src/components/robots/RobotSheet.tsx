@@ -53,7 +53,7 @@ export function RobotSheet({ robot, flip }: { robot: Robot; flip?: boolean }) {
             ) : (
               <RobotBlueprint drivetrain={robot.drivetrain} className="absolute inset-0 m-auto h-[75%] w-[75%] text-brand opacity-80" />
             )}
-            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/55 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/35 to-transparent" />
             <span className="absolute bottom-3 left-4 font-mono text-[11px] uppercase tracking-[0.25em] text-white/85">
               {robot.order} · {robot.year}
             </span>

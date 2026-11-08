@@ -8,7 +8,7 @@ import { RobotBlueprint } from "./RobotBlueprint";
 
 /**
  * Galeria do hangar: só as fotos, com nome, ano e jogo por cima.
- * No hover o card inclina com reflexo, a foto corre ao contrário (paralaxe) e o texto sobe revelando a frase.
+ * No hover o card inclina, a foto corre ao contrário (paralaxe) e o texto sobe revelando a frase.
  */
 export function RobotGallery({ robots }: { robots: Robot[] }) {
   return (
@@ -18,7 +18,7 @@ export function RobotGallery({ robots }: { robots: Robot[] }) {
         return (
           <li key={r.slug}>
             <Link href={`/robots/${r.slug}`} className="group block">
-              <Tilt max={6} glare className="rounded-lg">
+              <Tilt max={8} glare className="rounded-lg">
                 <div className="relative aspect-[4/5] overflow-hidden rounded-lg bg-surface-2 ring-1 ring-line transition-shadow duration-300 group-hover:shadow-xl group-hover:ring-2 group-hover:ring-accent">
                   {r.photo ? (
                     <Image
@@ -33,7 +33,7 @@ export function RobotGallery({ robots }: { robots: Robot[] }) {
                   ) : (
                     <RobotBlueprint drivetrain={r.drivetrain} className="absolute inset-0 m-auto h-[70%] w-[70%] text-brand opacity-80" />
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/5 via-40% to-transparent" />
                   <span className="absolute left-3 top-3 rounded bg-black/60 px-2 py-0.5 font-mono text-[11px] uppercase tracking-[0.2em] text-white">
                     {r.order}
                   </span>
@@ -42,16 +42,16 @@ export function RobotGallery({ robots }: { robots: Robot[] }) {
                       className="absolute right-3 top-3 inline-flex items-center gap-1 rounded bg-black/60 px-2 py-0.5 text-xs font-bold text-white"
                       title={`${r.awards.length} ${r.awards.length > 1 ? "prêmios" : "prêmio"}`}
                     >
-                      <TrophyIcon className="size-3.5 text-[#f0a6e8]" aria-hidden /> {r.awards.length}
+                      <TrophyIcon className="size-3.5 text-[#b558c7]" aria-hidden /> {r.awards.length}
                     </span>
                   )}
-                  <div className="absolute inset-x-0 bottom-0 p-5 text-white transition-transform duration-500 ease-out [@media(hover:hover)]:translate-y-7 [@media(hover:hover)]:group-hover:translate-y-0">
+                  <div className="absolute inset-x-0 bottom-0 p-5 text-white [text-shadow:0_1px_10px_rgb(0_0_0/0.45)] transition-transform duration-500 ease-out [@media(hover:hover)]:translate-y-7 [@media(hover:hover)]:group-hover:translate-y-0">
                     <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-white/70">
                       {r.year}
                       {season && ` · ${season.game}`}
                     </p>
-                    <h3 className="heading mt-1 text-4xl transition-colors group-hover:text-[#f0a6e8]">{r.name}</h3>
-                    <span aria-hidden className="mt-2 block h-0.5 w-10 bg-[#f0a6e8] transition-[width] duration-500 group-hover:w-24" />
+                    <h3 className="heading mt-1 text-4xl transition-colors group-hover:text-[#b558c7]">{r.name}</h3>
+                    <span aria-hidden className="mt-2 block h-0.5 w-10 bg-[#b558c7] transition-[width] duration-500 group-hover:w-24" />
                     <p className="mt-2 line-clamp-2 text-sm text-white/75 transition-opacity duration-500 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:opacity-100">
                       {r.tagline}
                     </p>

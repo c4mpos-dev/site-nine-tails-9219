@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
@@ -8,8 +6,9 @@ import { RobotSheet } from "@/components/robots/RobotSheet";
 import { RobotGallery } from "@/components/robots/RobotGallery";
 import { RobotTable } from "@/components/robots/RobotTable";
 import { HangarViews } from "@/components/robots/HangarViews";
-import { RobotBlueprint } from "@/components/robots/RobotBlueprint";
+import { RobotShowcase } from "@/components/robots/RobotShowcase";
 import { robots } from "@/content/robots";
+import { getSeason } from "@/content/seasons";
 import { MosaicRobot, type MosaicSource } from "@/components/robots/MosaicRobot";
 import { teamPhotos, heroTeamPhotos } from "@/content/gallery";
 import { matches } from "@/content/matches";
@@ -46,6 +45,9 @@ export default function RobotsPage() {
         ]}
       />
 
+      {/* O hangar em movimento: rolando, cada robô atravessa a quadra, do primeiro ao mais novo */}
+      <RobotShowcase robots={robots.map((r) => ({ ...r, game: getSeason(r.seasonSlug)?.game }))} />
+
       {/* O hangar, do mais novo ao primeiro: fichas, galeria ou tabela */}
       <Container className="py-16">
         <HangarViews
@@ -74,39 +76,6 @@ export default function RobotsPage() {
         />
       </Container>
 
-      {/* Linhagem: do primeiro robô ao mais novo */}
-      <section className="border-t border-line bg-surface">
-        <Container className="py-14">
-          <SectionHeading kicker="Linhagem" title={`Do ${robots[0].name} ao ${robots[robots.length - 1].name}`} />
-          <div className="mt-10 overflow-x-auto [scrollbar-width:thin]">
-            <ol className="relative flex min-w-[720px] justify-between gap-4">
-              <span aria-hidden className="absolute left-[10%] right-[10%] top-[60px] h-0.5 bg-gradient-to-r from-line via-brand to-accent" />
-              {robots.map((r) => (
-                <li key={r.slug} className="relative w-full text-center">
-                  <Link href={`/robots/${r.slug}`} className="group block">
-                    <div className="relative mx-auto size-[120px] overflow-hidden rounded-full border-4 border-surface bg-surface-2 shadow-md ring-2 ring-line transition-[box-shadow,transform] duration-300 group-hover:-translate-y-1 group-hover:ring-accent">
-                      {r.thumb || r.photo ? (
-                        <Image
-                          src={r.thumb?.src ?? r.photo!}
-                          alt={`Robô ${r.name}`}
-                          fill
-                          sizes="120px"
-                          className="object-cover transition-transform duration-500 group-hover:scale-110"
-                          style={{ objectPosition: r.thumb?.position ?? r.photoPosition ?? "center" }}
-                        />
-                      ) : (
-                        <RobotBlueprint drivetrain={r.drivetrain} className="absolute inset-0 m-auto h-16 w-20 text-brand" />
-                      )}
-                    </div>
-                    <p className="heading mt-4 text-xl group-hover:text-accent">{r.name}</p>
-                    <p className="text-xs text-muted">{r.year}</p>
-                  </Link>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </Container>
-      </section>
     </>
   );
 }

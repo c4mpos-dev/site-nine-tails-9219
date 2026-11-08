@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: PageProps<"/robots/[slug]">):
 
 /** Moldura de "visor" nos cantos da foto, como num desenho técnico. */
 function Corners() {
-  const c = "absolute size-5 border-[#f0a6e8]";
+  const c = "absolute size-5 border-[#b558c7]";
   return (
     <>
       <span aria-hidden className={`${c} -left-2 -top-2 border-l-2 border-t-2`} />
@@ -100,39 +100,39 @@ export default async function RobotPage({ params }: PageProps<"/robots/[slug]">)
   return (
     <>
       {/* Topo: ficha do robô */}
-      <section className="relative isolate overflow-hidden bg-band text-white">
+      <section className="relative isolate overflow-hidden border-b border-line bg-tint">
         <div
           aria-hidden
-          className="absolute inset-0 -z-10 opacity-[0.07] [background-image:linear-gradient(#fff_1px,transparent_1px),linear-gradient(90deg,#fff_1px,transparent_1px)] [background-size:48px_48px]"
+          className="absolute inset-0 -z-10 opacity-[0.06] [background-image:linear-gradient(#9e19b8_1px,transparent_1px),linear-gradient(90deg,#9e19b8_1px,transparent_1px)] [background-size:48px_48px]"
         />
         <Container className="grid items-center gap-12 py-12 sm:py-16 lg:grid-cols-[1fr_1.15fr]">
           <div className="relative">
-            <span aria-hidden className="heading pointer-events-none absolute -left-2 -top-16 -z-10 text-[11rem] leading-none text-transparent [-webkit-text-stroke:1.5px_rgb(240_166_232/0.25)] sm:text-[14rem]">
+            <span aria-hidden className="heading pointer-events-none absolute -left-2 -top-16 -z-10 text-[11rem] leading-none text-transparent [-webkit-text-stroke:1.5px_rgb(181_88_199/0.3)] sm:text-[14rem]">
               #{number}
             </span>
-            <nav aria-label="Trilha" className="mb-6 flex flex-wrap gap-2 text-sm text-white/60">
-              <Link href="/" className="hover:text-white">
+            <nav aria-label="Trilha" className="mb-6 flex flex-wrap gap-2 text-sm text-muted">
+              <Link href="/" className="hover:text-fg">
                 Início
               </Link>
               <span aria-hidden>/</span>
-              <Link href="/robots" className="hover:text-white">
+              <Link href="/robots" className="hover:text-fg">
                 Robôs
               </Link>
             </nav>
-            <p className="kicker !text-[#f0a6e8]">
+            <p className="kicker">
               {robot.order} · {season?.game} {robot.year}
             </p>
             <h1 className="heading mt-3 text-6xl sm:text-8xl">{robot.name}</h1>
-            <p className="mt-4 max-w-md text-xl leading-relaxed text-white/80">{robot.tagline}</p>
+            <p className="mt-4 max-w-md text-xl leading-relaxed text-muted">{robot.tagline}</p>
             {robotAwards.length > 0 && (
               <ul className="mt-6 flex flex-wrap gap-2">
                 {robotAwards.map((a) => (
                   <li key={a.id}>
                     <Link
                       href={`/awards#${a.id}`}
-                      className="inline-flex items-center gap-2 rounded-full border border-white/20 px-3 py-1 text-sm font-bold hover:border-[#f0a6e8]"
+                      className="inline-flex items-center gap-2 rounded-full border border-line bg-bg px-3 py-1 text-sm font-bold hover:border-accent"
                     >
-                      <span className="size-1.5 rotate-45 bg-[#f0a6e8]" /> {a.title}
+                      <span className="size-1.5 rotate-45 bg-accent" /> {a.title}
                     </Link>
                   </li>
                 ))}
@@ -142,7 +142,7 @@ export default async function RobotPage({ params }: PageProps<"/robots/[slug]">)
           <div className="relative">
             <Corners />
             <div
-              className={cn("relative aspect-[4/3] overflow-hidden rounded-md bg-white/5", robot.photo && "zoomable")}
+              className={cn("relative aspect-[4/3] overflow-hidden rounded-md bg-surface-2", robot.photo && "zoomable")}
               {...(robot.photo ? zoom(robot.photo, `Robô ${robot.name}`) : {})}
             >
               {robot.photo ? (
@@ -159,8 +159,8 @@ export default async function RobotPage({ params }: PageProps<"/robots/[slug]">)
                 />
               ) : (
                 <div className="absolute inset-0 grid place-items-center">
-                  <RobotBlueprint drivetrain={robot.drivetrain} className="h-[70%] w-[70%] text-[#f0a6e8]" />
-                  <p className="absolute bottom-3 text-xs text-white/50">Planta ilustrativa da base. A foto entra em breve.</p>
+                  <RobotBlueprint drivetrain={robot.drivetrain} className="h-[70%] w-[70%] text-[#b558c7]" />
+                  <p className="absolute bottom-3 text-xs text-muted">Planta ilustrativa da base. A foto entra em breve.</p>
                 </div>
               )}
             </div>
@@ -170,12 +170,12 @@ export default async function RobotPage({ params }: PageProps<"/robots/[slug]">)
 
       {/* O Tank Tails em 3D, repetindo a jogada da Charged Up (só ele tem modelo) */}
       {robot.slug === "tank-tails" && (
-        <section className="relative isolate overflow-hidden border-t border-white/10 bg-band text-white">
+        <section className="border-b border-line">
           <Container className="grid items-center gap-6 py-12 lg:grid-cols-[1fr_1.4fr]">
             <div>
-              <p className="kicker !text-[#f0a6e8]">Em 3D</p>
+              <p className="kicker">Em 3D</p>
               <h2 className="heading mt-3 text-4xl sm:text-5xl">A jogada da Charged Up</h2>
-              <p className="mt-4 max-w-md leading-relaxed text-white/75">
+              <p className="mt-4 max-w-md leading-relaxed text-muted">
                 O modelo do Tank Tails pega o cone no chão, sobe o braço e pontua na haste, como em quadra em 2023.
               </p>
             </div>
@@ -267,10 +267,10 @@ export default async function RobotPage({ params }: PageProps<"/robots/[slug]">)
 
       {/* Em movimento */}
       {robot.clip && (
-        <section className="relative isolate overflow-hidden bg-band text-white">
+        <section className="relative isolate overflow-hidden border-y border-line bg-tint">
           <div
             aria-hidden
-            className="absolute inset-0 -z-10 opacity-[0.05] [background-image:linear-gradient(#fff_1px,transparent_1px),linear-gradient(90deg,#fff_1px,transparent_1px)] [background-size:48px_48px]"
+            className="absolute inset-0 -z-10 opacity-[0.05] [background-image:linear-gradient(#9e19b8_1px,transparent_1px),linear-gradient(90deg,#9e19b8_1px,transparent_1px)] [background-size:48px_48px]"
           />
           <Container
             className={`grid items-center gap-10 py-16 ${robot.clip.aspect ? "lg:grid-cols-[minmax(0,380px)_1fr]" : "lg:grid-cols-[minmax(0,1.6fr)_1fr]"}`}
@@ -281,14 +281,14 @@ export default async function RobotPage({ params }: PageProps<"/robots/[slug]">)
                 src={robot.clip.src}
                 label={`${robot.name} em movimento. ${robot.clip.caption}`}
                 aspect={robot.clip.aspect}
-                className="rounded-md !bg-white/5"
+                className="rounded-md !bg-surface-2"
               />
             </div>
             <div>
-              <p className="kicker !text-[#f0a6e8]">Em movimento</p>
+              <p className="kicker">Em movimento</p>
               <h2 className="heading mt-3 text-4xl sm:text-5xl">O {robot.name} em ação</h2>
-              <p className="mt-4 max-w-sm text-lg leading-relaxed text-white/75">{robot.clip.caption}</p>
-              <p className="mt-6 text-sm text-white/50">Trecho do acervo da equipe, sem som, em loop.</p>
+              <p className="mt-4 max-w-sm text-lg leading-relaxed text-muted">{robot.clip.caption}</p>
+              <p className="mt-6 text-sm text-muted">Trecho do acervo da equipe, sem som, em loop.</p>
             </div>
           </Container>
         </section>
@@ -349,7 +349,7 @@ export default async function RobotPage({ params }: PageProps<"/robots/[slug]">)
       )}
 
       {/* Navegação entre robôs */}
-      <Container className="grid gap-4 border-t border-line pt-10 sm:grid-cols-2">
+      <Container className="grid gap-4 border-t border-line pb-16 pt-10 sm:grid-cols-2">
         {prev ? <NavCard robot={prev} dir="prev" /> : <span />}
         {next && <NavCard robot={next} dir="next" />}
       </Container>
