@@ -2,7 +2,7 @@ import { nav, navMore } from "@/content/site";
 import { seasons } from "@/content/seasons";
 import { robots } from "@/content/robots";
 import { awards } from "@/content/awards";
-import { areas, mentors } from "@/content/people";
+import { areas } from "@/content/people";
 import { alumni } from "@/content/alumni";
 import { glossary } from "@/content/glossary";
 import { rooms } from "@/content/museum";
@@ -57,7 +57,6 @@ export const searchIndex: SearchItem[] = [
     x: [r.tagline, r.description, ...r.features, ...r.events].join(" "),
   })),
   ...awards.map((a): SearchItem => ({ t: a.title, s: `${a.event} · ${a.date}`, h: `/awards#${a.id}`, k: "prêmio", x: a.description })),
-  ...mentors.map((p): SearchItem => ({ t: p.name, s: `Mentor · ${p.role}`, h: "/team#mentores", k: "pessoa", x: p.area })),
   ...alumni.map((p): SearchItem => ({ t: p.name, s: `Alumni · ${p.now ?? "Nine Tails"}`, h: "/alumni", k: "pessoa", x: [p.area, p.did, p.vibe, p.instagram].join(" ") })),
   ...areas.map((a): SearchItem => ({ t: a.name, s: "Área da equipe", h: `/team#area-${a.slug}`, k: "página", x: [a.description, ...a.tasks].join(" ") })),
   ...glossary.map((g): SearchItem => ({ t: g.term, s: g.def, h: `/glossary#${g.id}`, k: "termo" })),

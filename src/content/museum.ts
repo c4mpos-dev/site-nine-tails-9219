@@ -104,7 +104,6 @@ export const rooms: Room[] = [
           { src: "/museu/23-hou-selfie-bandeira.webp", r: P, title: "selfie com a bandeira", frame: "polaroid", when: "Abr 2023" },
           { src: "/museu/23-hou-selfie-trio.webp", r: L, title: "cansados e felizes", frame: "polaroid", when: "Abr 2023" },
           { src: "/museu/23-hou-careta.webp", r: L, title: "foto séria (não)", frame: "polaroid", when: "Abr 2023" },
-          { src: "/museu/23-hou-carro.webp", r: L, title: "no carro, rumo ao pavilhão", frame: "polaroid", when: "Abr 2023" },
         ],
         clip: {
           src: "/clips/houston-rookie-inspiration.mp4",

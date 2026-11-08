@@ -5,7 +5,7 @@ import { Container } from "@/components/ui/Container";
 import { PageHero } from "@/components/layout/PageHero";
 import { Reveal } from "@/components/ui/Reveal";
 import { TimelineRail } from "@/components/archive/TimelineRail";
-import { chapters, pioneers, type Chapter } from "@/content/pioneers";
+import { chapters, type Chapter } from "@/content/pioneers";
 import { cn } from "@/lib/cn";
 import { zoom } from "@/lib/zoom";
 
@@ -27,7 +27,7 @@ function Shot({ src, caption, position, className, sizes }: Chapter["photos"][nu
         className="object-cover"
         style={{ objectPosition: position }}
       />
-      <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent px-3 pb-2 pt-8 text-xs text-white">
+      <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/50 to-transparent px-3 pb-2 pt-8 text-xs text-white [text-shadow:0_1px_10px_rgb(0_0_0/0.45)]">
         {caption}
       </figcaption>
     </figure>
@@ -109,36 +109,7 @@ export default function PioneersPage() {
         </TimelineRail>
       </Container>
 
-      {/* Epílogo */}
-      <section className="border-y border-line bg-surface">
-        <Container className="grid gap-12 py-16 lg:grid-cols-[1fr_1.3fr]">
-          <Reveal>
-            <p className="kicker">Epílogo</p>
-            <h2 className="heading mt-3 text-4xl sm:text-5xl">Quem abriu o caminho</h2>
-            <p className="mt-4 text-lg leading-relaxed text-muted">
-              No fim de 2023, a primeira formação se despediu das competições. Muitos continuaram por perto como mentores,
-              voluntários, juízes de FLL e engenheiros, ajudando a próxima geração da raposa.
-            </p>
-            <p className="mt-4 text-sm text-muted">
-              Lista montada a partir dos documentos da equipe. Foi pioneiro e não está aqui?{" "}
-              <a href="mailto:ninetails9219@gmail.com?subject=Sou%20pioneiro%20da%20Nine%20Tails" className="text-link">
-                Fale com a gente
-              </a>
-              .
-            </p>
-          </Reveal>
-          <ul className="grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-3">
-            {pioneers.map((p) => (
-              <li key={p.name} className="border-t border-line pt-3">
-                <p className="heading text-xl">{p.name}</p>
-                <p className="text-sm text-muted">{p.now}</p>
-              </li>
-            ))}
-          </ul>
-        </Container>
-      </section>
-
-      <Container className="mt-12 flex flex-wrap justify-between gap-4">
+      <Container className="flex flex-wrap justify-between gap-4 pb-16">
         <Link href="/seasons/2023-charged-up" className="text-link">
           ← A temporada Charged Up em números
         </Link>

@@ -82,22 +82,3 @@ export const chapters: Chapter[] = [
     layout: "trio",
   },
 ];
-
-/**
- * Integrantes da primeira temporada citados nos documentos da equipe.
- * A lista ainda está incompleta: pioneiros que não aparecem aqui podem pedir para entrar.
- */
-export const pioneers: Array<{ name: string; now: string }> = [
-  { name: "Ana Luíza", now: "Voluntária FIRST · Publicidade" },
-  { name: "Cauã Campos", now: "Engenharia de Software" },
-  { name: "Davi Garutti", now: "Engenharia" },
-  { name: "Enzzo", now: "Seguiu na equipe na Crescendo" },
-  { name: "Erick Maia", now: "Tradução e documentação" },
-  { name: "Gabriel Lauer", now: "CAD e voluntariado" },
-  { name: "Gabriel Rosa", now: "Treinamentos técnicos" },
-  { name: "Gabriel Vilela", now: "Virou mentor" },
-  { name: "Iago", now: "Virou mentor de programação" },
-  { name: "Jessé Nunes", now: "Mentor de mecânica" },
-  { name: "Mirella Costa", now: "Voluntária FIRST" },
-  { name: "Vinicios Gimenez", now: "Juiz FLL · Engenharia" },
-];

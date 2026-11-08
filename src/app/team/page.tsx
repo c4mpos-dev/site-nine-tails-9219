@@ -1,18 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { PageHero } from "@/components/layout/PageHero";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Photo } from "@/components/ui/Photo";
 import { Button } from "@/components/ui/Button";
 import { Loop } from "@/components/ui/Loop";
-import { areas, mentors } from "@/content/people";
-import { alumni } from "@/content/alumni";
+import { areas } from "@/content/people";
 
 export const metadata: Metadata = {
   title: "Equipe",
-  description: "A história, as áreas, os mentores e os alumni da Nine Tails #9219, equipe de FRC da Escola Firjan SENAI SESI Resende.",
+  description: "A história, as áreas e os marcos da Nine Tails #9219, equipe de FRC da Escola Firjan SENAI SESI Resende.",
 };
 
 const facts = [
@@ -161,57 +159,7 @@ export default function TeamPage() {
         </ol>
       </Container>
 
-      {/* 4. Mentores, e a porta para as cartas dos alumni */}
-      <section className="border-y border-line bg-surface">
-        <Container className="grid gap-16 py-20 lg:grid-cols-[1fr_1.4fr]">
-          <div id="mentores" className="scroll-mt-24">
-            <p className="kicker">Quem orienta</p>
-            <h2 className="heading mt-3 text-4xl">Mentores</h2>
-            <ul className="mt-8 space-y-4">
-              {mentors.map((m) => (
-                <li key={m.name} className="flex items-center gap-4">
-                  <span aria-hidden className="heading grid size-12 shrink-0 place-items-center rounded-full bg-brand text-lg text-brand-ink">
-                    {m.name[0]}
-                  </span>
-                  <span>
-                    <span className="block font-bold">{m.name}</span>
-                    <span className="block text-sm text-muted">
-                      {m.role}
-                      {m.area ? ` · ${m.area}` : ""}
-                    </span>
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <Link href="/alumni" className="card group grid content-center rounded-lg border border-line bg-bg p-8">
-            <p className="kicker">Quem passou e continua por perto</p>
-            <h2 className="heading mt-3 text-4xl group-hover:text-accent">
-              Alumni <span aria-hidden className="card-arrow">→</span>
-            </h2>
-            <p className="mt-3 max-w-lg text-muted">Quem já vestiu a camisa: o que fazia na equipe, onde está hoje e como achar cada um.</p>
-            <ul aria-hidden className="mt-6 flex -space-x-3">
-              {alumni.slice(0, 7).map((a) => (
-                <li key={a.name} className="heading grid size-11 place-items-center rounded-full border-2 border-bg bg-surface-2 text-sm text-accent">
-                  {a.name
-                    .split(" ")
-                    .map((w) => w[0])
-                    .slice(0, 2)
-                    .join("")}
-                </li>
-              ))}
-              <li className="grid size-11 place-items-center rounded-full border-2 border-bg bg-brand text-xs font-bold text-brand-ink">
-                +{alumni.length - 7}
-              </li>
-            </ul>
-            <p className="mt-6 inline-flex items-center gap-1 font-bold text-accent">
-              Ver a lista <ArrowRight className="size-4" />
-            </p>
-          </Link>
-        </Container>
-      </section>
-
-      {/* 5. Marcos, em faixa compacta */}
+      {/* 4. Marcos, em faixa compacta */}
       <Container className="py-20">
         <SectionHeading kicker="Linha do tempo" title="Marcos da equipe" />
         <ol className="mt-10 grid gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
@@ -231,8 +179,8 @@ export default function TeamPage() {
         </p>
       </Container>
 
-      {/* 6. Convite */}
-      <Container>
+      {/* 5. Convite */}
+      <Container className="pb-16">
         <div className="rounded-lg border border-line p-8 sm:flex sm:items-center sm:justify-between sm:gap-8">
           <div>
             <h2 className="heading text-3xl">Quer entrar para a equipe?</h2>
