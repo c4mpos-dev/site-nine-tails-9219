@@ -66,7 +66,7 @@ const fitTitle = (t: string, avail: number, max = 150) => {
 /** Desenha a thumb e devolve o JPEG pronto. */
 async function render(node: React.ReactElement) {
   const png = await new ImageResponse(node, { ...OG, fonts: await fonts() }).arrayBuffer();
-  return new Uint8Array(await sharp(Buffer.from(png)).jpeg({ quality: 82, mozjpeg: true }).toBuffer());
+  return new Uint8Array(await sharp(Buffer.from(png)).jpeg({ quality: 82, progressive: false, chromaSubsampling: "4:2:0" }).toBuffer());
 }
 
 const respond = (jpg: Uint8Array) =>

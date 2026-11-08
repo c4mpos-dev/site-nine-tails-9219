@@ -1,5 +1,6 @@
 // Thumb da prévia de link de cada competição (desenhada no build por src/lib/og.tsx)
 import { OG, ogCard } from "@/lib/og";
+import { notFound } from "next/navigation";
 import { competitions, getCompetition } from "@/lib/events";
 import { seasonTeamCover } from "@/content/gallery";
 
@@ -14,7 +15,8 @@ export function generateStaticParams() {
 }
 
 export default async function Image({ params }: { params: Promise<{ key: string }> }) {
-  const c = getCompetition((await params).key)!;
+  const c = getCompetition((await params).key);
+  if (!c) notFound();
   // a mesma capa da página: a foto larga do museu, senão o robô, senão a equipe na temporada
   const wide = c.photos.find((p) => p.r >= 1.3);
   const team = seasonTeamCover(c.season.slug);

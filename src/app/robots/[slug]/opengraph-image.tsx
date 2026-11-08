@@ -1,5 +1,6 @@
 // Thumb da prévia de link de cada robô (desenhada no build por src/lib/og.tsx)
 import { OG, ogCard, ogRobot } from "@/lib/og";
+import { notFound } from "next/navigation";
 import { getRobot, robots } from "@/content/robots";
 import { getSeason } from "@/content/seasons";
 
@@ -12,7 +13,9 @@ export function generateStaticParams() {
 }
 
 export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
-  const robot = getRobot((await params).slug)!;
+  // o WhatsApp pede a prévia de links pela metade enquanto a pessoa digita (/robots/the-ans)
+  const robot = getRobot((await params).slug);
+  if (!robot) notFound();
   const game = getSeason(robot.seasonSlug)?.game;
   const kicker = `Robô ${robot.year}${game ? ` · ${game}` : ""}`;
   if (robot.cutout) return ogRobot({ kicker, name: robot.name, lead: `${robot.drivetrain}. ${robot.tagline}`, cutout: robot.cutout });

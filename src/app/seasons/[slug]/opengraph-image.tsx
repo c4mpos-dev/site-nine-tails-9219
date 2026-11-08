@@ -1,5 +1,6 @@
 // Thumb da prévia de link de cada temporada (desenhada no build por src/lib/og.tsx)
 import { OG, ogCard } from "@/lib/og";
+import { notFound } from "next/navigation";
 import { getSeason, seasons } from "@/content/seasons";
 import { seasonPhotos } from "@/content/credits";
 import { seasonTeamCover } from "@/content/gallery";
@@ -13,7 +14,8 @@ export function generateStaticParams() {
 }
 
 export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
-  const season = getSeason((await params).slug)!;
+  const season = getSeason((await params).slug);
+  if (!season) notFound();
   // a mesma foto do topo da página: a equipe naquele ano, senão a foto do jogo
   const team = seasonTeamCover(season.slug);
   const stock = season.photos.length ? seasonPhotos[season.photos.at(-1)!] : undefined;
