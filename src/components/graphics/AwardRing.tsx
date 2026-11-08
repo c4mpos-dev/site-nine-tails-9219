@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useAnimationFrame, useReducedMotion } from "motion/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Award } from "@/content/awards";
 import { cn } from "@/lib/cn";
 
@@ -13,7 +13,7 @@ const wrap = (a: number) => a - TAU * Math.round(a / TAU);
 
 /**
  * Os prêmios como medalhas num anel que gira em 3D: a da frente fica grande e nítida,
- * as de trás encolhem e desfocam. Gira sozinho, devagar e sem parar (mais devagar ainda com o mouse em cima);
+ * as de trás encolhem e desfocam. Gira sozinho e sem parar (na metade da velocidade com o mouse em cima);
  * arrasta com o mouse ou o dedo,
  * e clicar numa medalha traz ela para a frente (clicar na da frente abre a história).
  */
@@ -42,15 +42,15 @@ export function AwardRing({ awards, className }: { awards: Award[]; className?: 
       if (st.target !== null) {
         st.angle += (st.target - st.angle) * (reduce ? 1 : Math.min(1, dt * 6));
         // chegou na medalha escolhida: ela fica um pouco na frente antes de voltar a girar
-        if (Math.abs(st.target - st.angle) < 0.0005) {
+        if (Math.abs(st.target - st.angle) < 0.002) {
           st.angle = st.target;
           st.target = null;
-          st.wait = 3;
+          st.wait = 2;
           st.speed = 0;
         }
       } else if (!reduce && (st.wait -= dt) <= 0) {
-        // uma volta a cada ~35 s; com o mouse em cima, quase parando, para dar tempo de ler
-        st.speed += ((st.hover ? 0.05 : 0.18) - st.speed) * Math.min(1, dt * 2);
+        // uma volta a cada ~20 s; com o mouse em cima, na metade, para dar tempo de ler
+        st.speed += ((st.hover ? 0.16 : 0.32) - st.speed) * Math.min(1, dt * 2);
         st.angle += st.speed * dt;
       }
     }
@@ -62,7 +62,8 @@ export function AwardRing({ awards, className }: { awards: Award[]; className?: 
       const z = Math.cos(a); // 1 na frente, -1 atrás
       const k = (z + 1) / 2;
       el.style.transform = `translate(-50%, -50%) translate(${Math.sin(a) * r}px, ${(1 - k) * -26}px) scale(${0.55 + 0.45 * k})`;
-      el.style.filter = `blur(${((1 - k) * 7).toFixed(2)}px)`;
+      // desfoque em degraus de 1px: mudar o blur a cada quadro obriga o navegador a redesenhar as fotos e trava a animação
+      el.style.filter = `blur(${Math.round((1 - k) * 7)}px)`;
       el.style.opacity = String(0.45 + 0.55 * k);
       el.style.zIndex = String(Math.round(k * 100));
     });
@@ -77,6 +78,7 @@ export function AwardRing({ awards, className }: { awards: Award[]; className?: 
     s.current.target = null;
   };
   const onMove = (e: React.PointerEvent) => {
+    if (e.pointerType === "mouse") s.current.hover = true;
     const d = s.current.drag;
     if (!d) return;
     const dx = e.clientX - d.x;
@@ -90,8 +92,16 @@ export function AwardRing({ awards, className }: { awards: Award[]; className?: 
   const onUp = () => {
     if (!s.current.drag) return;
     s.current.drag = null;
-    s.current.target = Math.round(s.current.angle / step) * step;
+    // só encaixa numa medalha (e pausa) se arrastou de verdade; um toque ou o começo de uma rolagem não param o anel
+    if (s.current.moved) s.current.target = Math.round(s.current.angle / step) * step;
   };
+
+  // Rolar a página com a roda não dispara pointerleave: o anel achava que o mouse continuava em cima e ficava lento.
+  useEffect(() => {
+    const off = () => (s.current.hover = false);
+    window.addEventListener("scroll", off, { passive: true });
+    return () => window.removeEventListener("scroll", off);
+  }, []);
 
   const a = awards[front];
 
