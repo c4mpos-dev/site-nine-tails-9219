@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { PageHero } from "@/components/layout/PageHero";
@@ -8,10 +9,11 @@ import { Button } from "@/components/ui/Button";
 import { Loop } from "@/components/ui/Loop";
 import { areas } from "@/content/people";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Equipe",
   description: "A história, as áreas e os marcos da Nine Tails #9219, equipe de FRC da Escola Firjan SENAI SESI Resende.",
-};
+  path: "/team",
+});
 
 const facts = [
   { value: "2022", label: "fundação, em 2 de novembro" },

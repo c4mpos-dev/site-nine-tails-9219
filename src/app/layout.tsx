@@ -15,13 +15,33 @@ export const metadata: Metadata = {
     default: `${site.fullName}, equipe de FRC de Resende (RJ)`,
     template: `%s · ${site.fullName}`,
   },
-  description: site.description,
-  keywords: ["Nine Tails", "9219", "FRC", "FIRST Robotics Competition", "robótica", "Resende", "Firjan SENAI SESI", "STEAM"],
-  openGraph: { type: "website", locale: "pt_BR", siteName: site.fullName, url: site.url },
+  description: site.summary,
+  applicationName: site.fullName,
+  keywords: [
+    "Nine Tails",
+    "Nine Tails 9219",
+    "equipe 9219",
+    "FRC",
+    "FIRST Robotics Competition",
+    "robótica",
+    "equipe de robótica",
+    "Resende",
+    "Rio de Janeiro",
+    "Firjan SENAI SESI",
+    "STEAM",
+  ],
+  authors: [{ name: site.fullName, url: site.url }],
+  creator: site.fullName,
+  publisher: site.fullName,
+  category: "education",
+  formatDetection: { telephone: false, email: false, address: false },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 } },
+  alternates: { canonical: "/" },
+  openGraph: { type: "website", locale: "pt_BR", siteName: site.fullName, url: "/" },
   twitter: { card: "summary_large_image" },
 };
 
-export const viewport: Viewport = { themeColor: "#ffffff" };
+export const viewport: Viewport = { themeColor: "#9e19b8" };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (

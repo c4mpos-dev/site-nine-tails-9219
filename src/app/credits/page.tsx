@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import { Container } from "@/components/ui/Container";
 import { PageHero } from "@/components/layout/PageHero";
 import { seasonPhotos } from "@/content/credits";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Créditos das fotos",
   description: "Créditos e licenças das fotos de temporadas da FRC usadas no site da Nine Tails #9219.",
-};
+  path: "/credits",
+});
 
 export default function CreditsPage() {
   return (

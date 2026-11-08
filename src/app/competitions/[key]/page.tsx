@@ -15,6 +15,7 @@ import { competitionMatches, competitions, getCompetition } from "@/lib/events";
 import { namesFor, record, videoOf } from "@/lib/matchStats";
 import { cn } from "@/lib/cn";
 import { zoom } from "@/lib/zoom";
+import { pageMeta } from "@/lib/seo";
 
 const kindLabel = { regional: "Regional", championship: "Mundial", offseason: "Off-season" };
 
@@ -26,10 +27,11 @@ export async function generateMetadata({ params }: PageProps<"/competitions/[key
   const { key } = await params;
   const c = getCompetition(key);
   if (!c) return {};
-  return {
+  return pageMeta({
     title: `${c.event.shortName} ${c.season.year}`,
     description: `${c.event.name} (${c.event.location}, ${c.event.dates}): resultado, partidas com vídeo, fotos e prêmios da Nine Tails #9219.`,
-  };
+    path: `/competitions/${c.key}`,
+  });
 }
 
 const team = (n: number) => {

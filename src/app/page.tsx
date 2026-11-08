@@ -23,6 +23,9 @@ import { OnThisDay, type Memory } from "@/components/home/OnThisDay";
 import { competitions } from "@/lib/events";
 import { site, stats } from "@/content/site";
 import { zoom } from "@/lib/zoom";
+import { pageMeta } from "@/lib/seo";
+
+export const metadata = pageMeta({ description: site.summary, path: "/" });
 
 
 const mosaic = [
@@ -301,17 +304,37 @@ export default function Home() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "SportsTeam",
-            name: site.fullName,
-            sport: "Robotics — FIRST Robotics Competition",
-            url: site.url,
-            email: site.email,
-            foundingDate: site.founded,
-            location: {
-              "@type": "Place",
-              address: { "@type": "PostalAddress", addressLocality: site.city, addressRegion: "RJ", addressCountry: "BR" },
-            },
-            sameAs: Object.values(site.socials),
+            "@graph": [
+              {
+                "@type": "SportsTeam",
+                "@id": `${site.url}/#equipe`,
+                name: site.fullName,
+                alternateName: ["Nine Tails", "Nine Tails 9219", "FRC 9219", "Equipe 9219"],
+                description: site.description,
+                sport: "Robótica (FIRST Robotics Competition)",
+                url: site.url,
+                logo: `${site.url}/icon-512.png`,
+                image: `${site.url}/opengraph-image`,
+                email: site.email,
+                foundingDate: site.founded,
+                memberOf: { "@type": "SportsOrganization", name: "FIRST Robotics Competition", url: site.links.first },
+                parentOrganization: { "@type": "EducationalOrganization", name: site.school },
+                location: {
+                  "@type": "Place",
+                  address: { "@type": "PostalAddress", addressLocality: site.city, addressRegion: "RJ", addressCountry: "BR" },
+                },
+                award: awards.map((a) => `${a.title} (${a.event})`),
+                sameAs: [...Object.values(site.socials), site.links.tba],
+              },
+              {
+                "@type": "WebSite",
+                "@id": `${site.url}/#site`,
+                name: site.fullName,
+                url: site.url,
+                inLanguage: "pt-BR",
+                publisher: { "@id": `${site.url}/#equipe` },
+              },
+            ],
           }),
         }}
       />

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
@@ -9,11 +10,12 @@ import { chapters, type Chapter } from "@/content/pioneers";
 import { cn } from "@/lib/cn";
 import { zoom } from "@/lib/zoom";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Os pioneiros",
   description:
     "A primeira temporada da Nine Tails #9219 (CHARGED UP, 2023), contada por quem estava lá: da seletiva ao Mundial de Houston.",
-};
+  path: "/pioneers",
+});
 
 function Shot({ src, caption, position, className, sizes }: Chapter["photos"][number] & { className?: string; sizes: string }) {
   return (

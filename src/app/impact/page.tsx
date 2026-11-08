@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import { Container } from "@/components/ui/Container";
 import { PageHero } from "@/components/layout/PageHero";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -8,11 +9,12 @@ import { NineLearnsFox } from "@/components/impact/NineLearnsFox";
 import { ProjectChapters } from "@/components/impact/ProjectChapters";
 import { communityActions, coopertition, foundedTeams, projects, reach, schools } from "@/content/impact";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Impacto",
   description:
     "Nine Learns, formação de professores, times fundados na rede pública e 55 equipes em 16 países: o impacto social da Nine Tails #9219.",
-};
+  path: "/impact",
+});
 
 const numbers = [
   { v: 25000, s: "+", k: "pessoas impactadas" },

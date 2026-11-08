@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import Link from "next/link";
 import { GraduationCap, Handshake, Mail, Megaphone, Wrench } from "lucide-react";
 import { Container } from "@/components/ui/Container";
@@ -8,10 +9,11 @@ import { Reveal } from "@/components/ui/Reveal";
 import { alumni, paths } from "@/content/alumni";
 import { site } from "@/content/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Alumni",
   description: "Quem já vestiu a camisa da Nine Tails #9219: o que fazia na equipe, o que faz hoje e como continua perto da raposa.",
-};
+  path: "/alumni",
+});
 
 const stats = [
   { value: alumni.length, label: "alumni na lista" },

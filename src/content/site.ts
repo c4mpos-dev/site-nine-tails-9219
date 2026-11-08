@@ -1,11 +1,22 @@
+/**
+ * Endereço público do site, usado nos links das prévias (WhatsApp, Instagram, Google).
+ * NEXT_PUBLIC_SITE_URL manda; senão, o domínio de produção que a Vercel informa no build
+ * (quando o ninetails9219.com.br passar para a Vercel, ele vira esse domínio sozinho).
+ */
+const vercelProd = process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL;
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? (vercelProd ? `https://${vercelProd}` : "https://site-nine-tails-9219.vercel.app");
+
 export const site = {
   name: "Nine Tails",
   number: "9219",
   fullName: "Nine Tails #9219",
-  url: "https://ninetails9219.com.br",
+  url: siteUrl.replace(/\/$/, ""),
   tagline: "Evolução constante desde 2022.",
   description:
     "Equipe de FIRST Robotics Competition da Escola Firjan SENAI SESI Resende (RJ). Rookie All Star e Rookie Inspiration no Mundial de Houston em 2023, levando STEAM para milhares de crianças da rede pública.",
+  /** A descrição de busca e de prévia de link: cabe nos ~160 caracteres que o Google mostra. */
+  summary:
+    "Equipe de robótica FRC da Escola Firjan SENAI SESI Resende (RJ). Rookie Inspiration no Mundial de Houston e 6.222 crianças levadas à robótica.",
   founded: "2022-11-02",
   rookieYear: 2023,
   school: "Escola Firjan SENAI SESI Resende",

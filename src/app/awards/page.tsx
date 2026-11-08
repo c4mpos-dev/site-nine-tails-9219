@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import { zoom } from "@/lib/zoom";
@@ -12,10 +13,11 @@ import { TrophyTurn } from "@/components/graphics/TrophyTurn";
 import { AwardRing } from "@/components/graphics/AwardRing";
 import { awards } from "@/content/awards";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Conquistas",
   description: "Rookie All Star, Rookie Inspiration no Mundial de Houston, Engineering Award, Prêmio de Impacto e mais: os prêmios da Nine Tails #9219.",
-};
+  path: "/awards",
+});
 
 const inWords = ["zero", "uma", "duas", "três", "quatro", "cinco"];
 

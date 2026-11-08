@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { FlapText } from "@/components/archive/FlapText";
 import { home, roundTripKm, trips } from "@/content/trips";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Painel de embarque",
   description: "Todas as viagens de competição da Nine Tails #9219, saindo de Resende: de Brasília a Houston.",
-};
+  path: "/travel",
+});
 
 /** As viagens da equipe num painel de aeroporto. */
 export default function BoardingPage() {

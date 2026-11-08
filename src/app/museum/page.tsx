@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import { Caveat } from "next/font/google";
@@ -23,10 +24,11 @@ import { zoom } from "@/lib/zoom";
 
 const hand = Caveat({ subsets: ["latin"], variable: "--font-caveat" });
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Museu da Raposa",
   description: "O acervo da Nine Tails #9219 em salas: fotos de competição e de bastidor, robôs, troféus e objetos de cada temporada, de 2023 até hoje.",
-};
+  path: "/museum",
+});
 
 /** Ano que fecha o período da sala, para o carimbo. */
 const yearOf = (r: Room) => r.period.match(/\d{4}/g)?.at(-1) ?? "";

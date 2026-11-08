@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
@@ -6,10 +7,11 @@ import { PageHero } from "@/components/layout/PageHero";
 import { home, roundTripKm, trips } from "@/content/trips";
 import { records } from "@/lib/matchStats";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Mais",
   description: "Recordes, viagens, o diário dos pioneiros e glossário da Nine Tails #9219.",
-};
+  path: "/archive",
+});
 
 /** Página "Mais": reúne as seções extras do site, todas também no menu. */
 export default function ArchivePage() {

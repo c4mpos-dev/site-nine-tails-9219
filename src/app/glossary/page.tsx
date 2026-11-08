@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { PageHero } from "@/components/layout/PageHero";
 import { glossary } from "@/content/glossary";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Fala FRC?",
   description: "Glossário da FIRST Robotics Competition: os termos que aparecem no site da Nine Tails #9219, explicados.",
-};
+  path: "/glossary",
+});
 
 /** Glossário: para pais, patrocinadores e quem está chegando agora na robótica. */
 export default function GlossaryPage() {

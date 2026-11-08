@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -17,11 +18,12 @@ import { teamPhotos } from "@/content/gallery";
 import { bySeason, reach, record } from "@/lib/matchStats";
 import { matches } from "@/content/matches";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Temporadas",
   description:
     "Charged Up, Crescendo, Reefscape, REBUILT e BIOCORE: a trajetória da Nine Tails #9219 na FIRST Robotics Competition, temporada a temporada.",
-};
+  path: "/seasons",
+});
 
 const awardsOf = (s: (typeof seasons)[number]) => s.events.flatMap((e) => e.awards ?? []).filter((a) => !a.startsWith("Wildcard"));
 const topScore = (slug: string) => Math.max(0, ...bySeason(slug).flatMap((e) => e.matches.map((m) => m[5])));

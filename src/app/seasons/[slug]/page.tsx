@@ -19,6 +19,7 @@ import { SeasonLogo } from "@/components/seasons/SeasonLogo";
 import { site } from "@/content/site";
 import { teamPhotos } from "@/content/gallery";
 import { zoom } from "@/lib/zoom";
+import { pageMeta } from "@/lib/seo";
 
 
 export function generateStaticParams() {
@@ -29,7 +30,7 @@ export async function generateMetadata({ params }: PageProps<"/seasons/[slug]">)
   const { slug } = await params;
   const season = getSeason(slug);
   if (!season) return {};
-  return { title: `${season.year}, ${season.game}`, description: season.summary };
+  return pageMeta({ title: `${season.year}, ${season.game}`, description: season.summary, path: `/seasons/${season.slug}` });
 }
 
 /** Temporada contada como artigo: leitura corrida, com fotos e o placar no meio do texto. */

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
@@ -14,10 +15,11 @@ import { teamPhotos, heroTeamPhotos } from "@/content/gallery";
 import { matches } from "@/content/matches";
 import { record } from "@/lib/matchStats";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Robôs",
   description: "Tank Tails, The Answer, Garuttinho, Predator, Arak e Pharaoh: todos os robôs da Nine Tails #9219, do tank drive ao swerve.",
-};
+  path: "/robots",
+});
 
 // Peças do mosaico: os robôs (que também viram o bumper, nas cores das alianças), as fotos de cada temporada e a equipe
 const mosaicPhotos: MosaicSource[] = [

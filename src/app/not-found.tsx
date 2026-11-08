@@ -5,7 +5,7 @@ import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { Field404 } from "@/components/brand/Field404";
 
-export const metadata: Metadata = { title: "Página não encontrada" };
+export const metadata: Metadata = { title: "Página não encontrada", robots: { index: false } };
 
 const ways = [
   { href: "/seasons", label: "Temporadas", note: "Cada jogo, cada robô, cada evento" },

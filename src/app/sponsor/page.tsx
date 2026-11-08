@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import { Container } from "@/components/ui/Container";
 import { PageHero } from "@/components/layout/PageHero";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -6,10 +7,11 @@ import { Button } from "@/components/ui/Button";
 import { SponsorWall } from "@/components/ui/SponsorWall";
 import { site } from "@/content/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Apoie a equipe",
   description: "Patrocine a Nine Tails #9219 e invista em educação STEAM, inovação e na próxima geração de engenheiros de Resende.",
-};
+  path: "/sponsor",
+});
 
 const mail = `mailto:${site.email}?subject=Patroc%C3%ADnio%20Nine%20Tails`;
 

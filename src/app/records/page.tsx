@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/seo";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { PageHero } from "@/components/layout/PageHero";
@@ -13,10 +14,11 @@ import { matches } from "@/content/matches";
 import { matchEvents } from "@/content/allies";
 import { completedSeasons } from "@/content/seasons";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMeta({
   title: "Recordes",
   description: "Os recordes da Nine Tails #9219 em partidas oficiais: maiores placares, sequências de vitórias e o aproveitamento de cada temporada.",
-};
+  path: "/records",
+});
 
 const score = (s: string) => s.split(" x ").map(Number);
 

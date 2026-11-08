@@ -1,43 +1,19 @@
-import { ImageResponse } from "next/og";
-import { join } from "node:path";
-import { readFile } from "node:fs/promises";
+// Thumb da prévia de link desta página (desenhada no build por src/lib/og.tsx)
+import { OG, ogCard } from "@/lib/og";
 
-export const alt = "Nine Tails #9219 — Equipe de FIRST Robotics Competition de Resende, RJ";
-export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
+export const alt = "A equipe Nine Tails #9219 reunida no Festival SESI de Robótica 2026";
+export const size = OG;
+export const contentType = "image/jpeg";
 
-const logo = await readFile(join(process.cwd(), "src/app/icon.png"), "base64");
-
-export default async function Image() {
-  return new ImageResponse(
-    (
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "70px 90px",
-          background: "#22082d",
-          color: "white",
-          fontFamily: "sans-serif",
-        }}
-      >
-        <div style={{ display: "flex", flexDirection: "column", maxWidth: 640 }}>
-          <div style={{ fontSize: 26, letterSpacing: 8, color: "#f39bea", textTransform: "uppercase" }}>
-            FIRST Robotics Competition
-          </div>
-          <div style={{ fontSize: 120, fontWeight: 900, lineHeight: 1, marginTop: 20 }}>NINE TAILS</div>
-          <div style={{ fontSize: 80, fontWeight: 900, color: "#b558c7", lineHeight: 1 }}>#9219</div>
-          <div style={{ fontSize: 30, color: "#cdd6dc", marginTop: 30 }}>
-            Resende · RJ · Rookie Inspiration no Mundial de Houston 2023
-          </div>
-        </div>
-        {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse só aceita <img> */}
-        <img alt="" src={`data:image/png;base64,${logo}`} width={420} height={420} style={{ objectFit: "contain" }} />
-      </div>
-    ),
-    size,
-  );
+export default function Image() {
+  return ogCard({
+    kicker: "Equipe 9219 · FRC desde 2022",
+    title: "Nine Tails",
+    lead: "Seis robôs, cinco troféus e 6.222 crianças levadas à robótica, saindo de Resende.",
+    photo: {
+      src: "/team/2026-festival-sesi-equipe.webp",
+      position: "50% 40%"
+    },
+    brand: false
+  });
 }

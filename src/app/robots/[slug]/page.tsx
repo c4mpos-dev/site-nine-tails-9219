@@ -18,6 +18,7 @@ import { matchEvents } from "@/content/allies";
 import { byEvent, namesFor } from "@/lib/matchStats";
 import { cn } from "@/lib/cn";
 import { zoom } from "@/lib/zoom";
+import { pageMeta } from "@/lib/seo";
 
 const driveTerm = (d: string) => (/swerve/i.test(d) ? "swerve" : /omni/i.test(d) ? "omni" : "tank");
 
@@ -29,7 +30,7 @@ export async function generateMetadata({ params }: PageProps<"/robots/[slug]">):
   const { slug } = await params;
   const robot = getRobot(slug);
   if (!robot) return {};
-  return { title: `${robot.name} (${robot.year})`, description: robot.description };
+  return pageMeta({ title: `${robot.name} (${robot.year})`, description: `${robot.tagline} ${robot.description}`, path: `/robots/${robot.slug}` });
 }
 
 /** Moldura de "visor" nos cantos da foto, como num desenho técnico. */
