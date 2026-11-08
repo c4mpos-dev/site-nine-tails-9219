@@ -9,7 +9,7 @@ import { Loop } from "@/components/ui/Loop";
 import { Reveal } from "@/components/ui/Reveal";
 import { Trophy } from "@/components/graphics/Trophies";
 import { TrophyTurn } from "@/components/graphics/TrophyTurn";
-import { TrophyShelf } from "@/components/graphics/TrophyShelf";
+import { AwardRing } from "@/components/graphics/AwardRing";
 import { awards } from "@/content/awards";
 
 export const metadata: Metadata = {
@@ -30,18 +30,17 @@ export default function AwardsPage() {
         image={{ src: "/team/2023-houston-abraco.webp", alt: "Integrantes da Nine Tails comemorando em Houston" }}
       />
 
-      {/* A estante */}
+      {/* A vitrine: as medalhas girando */}
       <section className="border-b border-line bg-surface">
         <Container className="pb-12 pt-14">
-          <p className="kicker">A estante</p>
+          <p className="kicker">A vitrine</p>
           <h2 className="heading mt-3 text-4xl sm:text-5xl">
             {awards.length} troféus em {inWords[seasonCount] ?? seasonCount} temporadas
           </h2>
           <p className="mt-3 max-w-2xl text-muted">
-            Cada um desenhado no formato do troféu de verdade: o cristal e a placa da FRC, os troféus do Festival SESI de Robótica. Clique em um para ver a
-            história.
+            Arraste para girar ou clique numa medalha para trazê-la para a frente. Clique na da frente para ver a história.
           </p>
-          <TrophyShelf awards={awards} className="mt-12" />
+          <AwardRing awards={awards} className="mt-10" />
         </Container>
       </section>
 
