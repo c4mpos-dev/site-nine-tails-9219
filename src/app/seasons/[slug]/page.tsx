@@ -179,7 +179,7 @@ export default async function SeasonPage({ params }: PageProps<"/seasons/[slug]"
                       className="object-cover"
                       style={{ objectPosition: t.position }}
                     />
-                    <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent p-3 text-xs text-white">
+                    <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/50 to-transparent p-3 text-xs text-white [text-shadow:0_1px_10px_rgb(0_0_0/0.45)]">
                       {t.caption}
                     </figcaption>
                   </ClipReveal>
@@ -221,7 +221,7 @@ export default async function SeasonPage({ params }: PageProps<"/seasons/[slug]"
         </aside>
       </Container>
 
-      <Container className="flex flex-wrap justify-between gap-4 border-t border-line pt-8">
+      <Container className="flex flex-wrap justify-between gap-4 border-t border-line pb-16 pt-8">
         {prev ? (
           <Link href={`/seasons/${prev.slug}`} className="group">
             <span className="text-xs text-muted">← Anterior</span>

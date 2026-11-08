@@ -81,10 +81,10 @@ export default function SeasonsPage() {
             const upcoming = s.status === "upcoming";
             return (
               <Reveal key={s.slug}>
-                <article className="grid gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-start">
-                  {/* Foto com o ano gigante e a logo do jogo */}
-                  <ClipReveal>
-                    <Link href={`/seasons/${s.slug}`} className="group relative block aspect-[4/3] overflow-hidden rounded-lg bg-surface-2 ring-1 ring-line">
+                <article className="grid gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+                  {/* Foto com o ano gigante e a logo do jogo; no desktop ela estica até a altura do texto ao lado */}
+                  <ClipReveal className="lg:h-full">
+                    <Link href={`/seasons/${s.slug}`} className="group relative block aspect-[4/3] overflow-hidden rounded-lg bg-surface-2 ring-1 ring-line lg:aspect-auto lg:h-full lg:min-h-80">
                       {cover ? (
                         <Image
                           quality={90}
@@ -98,15 +98,15 @@ export default function SeasonsPage() {
                       ) : (
                         // Temporada sem foto ainda: a raposa esperando, com a cauda da vez tracejada em volta
                         <div className="absolute inset-0 grid place-items-center bg-band">
-                          <div className="absolute size-[62%] animate-[spin_40s_linear_infinite] rounded-full border-2 border-dashed border-[#f0a6e8]/40 motion-reduce:animate-none" />
+                          <div className="absolute size-[62%] animate-[spin_40s_linear_infinite] rounded-full border-2 border-dashed border-band-accent/40 motion-reduce:animate-none" />
                           <Image src="/brand/emblem.webp" alt="" width={240} height={220} className="w-[38%] opacity-60" />
-                          <span className="absolute right-4 top-4 rounded bg-white/10 px-2 py-1 font-mono text-xs uppercase tracking-[0.2em] text-[#f0a6e8]">
+                          <span className="absolute right-4 top-4 rounded bg-white/10 px-2 py-1 font-mono text-xs uppercase tracking-[0.2em] text-band-accent">
                             Em preparação
                           </span>
                         </div>
                       )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
-                      <span className="heading absolute bottom-2 left-4 text-7xl text-white/90 sm:text-8xl">{s.year}</span>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent via-35% to-transparent" />
+                      <span className="heading absolute bottom-2 left-4 text-7xl text-white/90 sm:text-8xl [text-shadow:0_1px_10px_rgb(0_0_0/0.45)]">{s.year}</span>
                       {logo && <SeasonLogo src={logo} game={s.game} className="absolute right-3 top-3 shadow-md" />}
                     </Link>
                   </ClipReveal>
