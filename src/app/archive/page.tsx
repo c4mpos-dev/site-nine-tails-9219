@@ -27,13 +27,13 @@ export default function ArchivePage() {
         <div className="grid gap-6 md:grid-cols-2">
           <Link href="/museum" className="group grid overflow-hidden rounded-lg border border-line bg-band text-white card md:col-span-2 md:grid-cols-[1fr_1.2fr]">
             <div className="p-6 sm:p-8">
-              <p className="kicker !text-[#f0a6e8]">Acervo · 2022 até hoje</p>
-              <h2 className="heading mt-2 text-4xl group-hover:text-[#f0a6e8]">Museu da Raposa</h2>
+              <p className="kicker !text-band-accent">Acervo · 2022 até hoje</p>
+              <h2 className="heading mt-2 text-4xl group-hover:text-band-accent">Museu da Raposa</h2>
               <p className="mt-2 max-w-md text-white/75">
                 Fotos sérias e de resenha, robôs, troféus e objetos de cada temporada, expostos em salas.
               </p>
               <p className="mt-4 font-bold">
-                Entrar no museu <span aria-hidden className="card-arrow !text-[#f0a6e8]">→</span>
+                Entrar no museu <span aria-hidden className="card-arrow !text-band-accent">→</span>
               </p>
             </div>
             <div className="relative hidden min-h-56 md:block">

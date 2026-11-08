@@ -1,14 +1,10 @@
 @import "tailwindcss";
 
-/* `dark:` segue o tema escolhido no botão (data-theme no <html>), não o do sistema */
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
-
 /*
  * Nine Tails #9219: sistema de cores.
  *
- * As cores vêm da identidade que a equipe já usa (ninetails9219.com.br e a camisa):
- * roxo #9E19B8, magenta #DE0CC8 e roxo escuro #4A0061, sobre fundo branco.
- * O tema claro é o padrão; o escuro usa a mesma marca sobre um roxo bem fechado.
+ * Cores oficiais da equipe: roxo principal #9E19B8 e roxo secundário #B558C7,
+ * sobre fundo branco. Um tema só, sem modo escuro.
  *
  *   bg         fundo da página
  *   surface    blocos e faixas alternadas
@@ -18,48 +14,34 @@
  *   muted      texto de apoio
  *   brand      roxo da camisa (botões, faixas, destaques grandes)
  *   brand-strong roxo escuro #4A0061 (hover, texto sobre fundo claro de marca)
- *   accent     magenta da raposa (links, rótulos); no claro, um tom abaixo de #DE0CC8 para passar no AA
+ *   accent     roxo secundário #B558C7 (links, rótulos, detalhes)
+ *   tint       lavanda: faixas com cor, onde antes era roxo escuro (topos sem foto, palcos, entrada do museu)
  *   brand-ink  texto sobre brand/accent
  */
-:root,
-[data-theme="light"] {
+:root {
   --bg: #ffffff;
   --surface: #f8f3fa;
   --surface-2: #ffffff;
+  --tint: #ead9f2;
   --line: rgb(74 0 97 / 0.12);
   --fg: #1e0726;
   --muted: #5e4a69;
   --brand: #9e19b8;
   --brand-strong: #4a0061;
-  --accent: #c00aac;
+  --accent: #b558c7;
   --brand-ink: #ffffff;
-  --hero-overlay: rgb(30 7 38 / 0.6);
-  --win: #c00aac;
+  --hero-overlay: rgb(40 6 48 / 0.35);
+  --win: #b558c7;
   --loss: #8c7c9a;
   color-scheme: light;
 }
 
-[data-theme="dark"] {
-  --bg: #14071a;
-  --surface: #1c0a24;
-  --surface-2: #281033;
-  --line: rgb(255 255 255 / 0.1);
-  --fg: #f7f0fa;
-  --muted: #bfa8cc;
-  --brand: #9e19b8;
-  --brand-strong: #4a0061;
-  --accent: #ef4fdd;
-  --brand-ink: #ffffff;
-  --hero-overlay: rgb(20 7 26 / 0.72);
-  --win: #ef4fdd;
-  --loss: #7a6a8a;
-  color-scheme: dark;
-}
 
 @theme inline {
   --color-bg: var(--bg);
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
+  --color-tint: var(--tint);
   --color-line: var(--line);
   --color-fg: var(--fg);
   --color-muted: var(--muted);
@@ -70,11 +52,12 @@
   --color-win: var(--win);
   --color-loss: var(--loss);
   --color-steel: #cdd6dc;
-  /* Faixas escuras (abertura, topos com foto): o mesmo roxo fechado nos dois temas */
-  --color-band: #14071a;
+  /* Faixas roxas (abertura, topos com foto): o roxo principal escurecido, e o secundário clareado para ler em cima */
+  --color-band: #6a117b;
+  --color-band-accent: #e8c6f0;
 
-  --font-display: var(--font-oswald), "Arial Narrow", sans-serif;
-  --font-sans: var(--font-manrope), system-ui, sans-serif;
+  --font-display: var(--font-big-shoulders), "Arial Narrow", sans-serif;
+  --font-sans: var(--font-bricolage), system-ui, sans-serif;
   --font-hand: var(--font-caveat), "Segoe Print", cursive;
 }
 
@@ -103,10 +86,10 @@
   /* Títulos: condensados, em caixa alta, firmes. */
   .heading {
     font-family: var(--font-display);
-    font-weight: 700;
+    font-weight: 800;
     text-transform: uppercase;
-    line-height: 0.98;
-    letter-spacing: 0.005em;
+    line-height: 0.95;
+    letter-spacing: 0.01em;
   }
 
   /* Rótulo pequeno acima dos títulos. */
@@ -223,6 +206,18 @@
   .card:focus-visible {
     border-color: var(--accent);
   }
+}
+
+/* Pilha de robôs: a ficha do robô da vez entra subindo */
+@keyframes stack-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Carta holográfica no toque (Tilt com `holo`): a faixa de brilho passa sozinha de tempos em tempos */
+@keyframes holo-sweep {
+  0%, 55% { background-position: 0 0, 100% 100%; }
+  85%, 100% { background-position: 0 0, 0% 0%; }
 }
 
 @media (prefers-reduced-motion: reduce) {

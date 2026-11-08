@@ -17,7 +17,7 @@ function Spot({ seed, wide }: { seed: number; wide?: boolean }) {
       style={{ transitionDelay: `${150 + (seed % 6) * 120}ms` }}
       className={cn(
         "pointer-events-none absolute -top-20 bottom-1/4 -z-10 opacity-0 transition-opacity duration-700 group-data-[lit=true]/room:opacity-100",
-        "[mask-image:linear-gradient(to_bottom,transparent,black_35%)] bg-[radial-gradient(ellipse_50%_65%_at_50%_30%,rgb(255_196_120/0.22),rgb(255_196_120/0.06)_55%,transparent_75%)] dark:bg-[radial-gradient(ellipse_50%_65%_at_50%_30%,rgb(255_232_196/0.18),rgb(255_232_196/0.05)_55%,transparent_75%)]",
+        "[mask-image:linear-gradient(to_bottom,transparent,black_35%)] bg-[radial-gradient(ellipse_50%_65%_at_50%_30%,rgb(255_196_120/0.22),rgb(255_196_120/0.06)_55%,transparent_75%)]",
         wide ? "inset-x-[10%]" : "-inset-x-10",
       )}
     />
@@ -126,7 +126,7 @@ export function Exhibit({ piece, no, seed }: { piece: Piece; no: string; seed: n
         </div>
         {/* Pedestal */}
         <div className="h-3 bg-gradient-to-b from-[#3a2a48] to-[#241532]" />
-        <div className="mx-4 h-12 bg-gradient-to-b from-[#241532] to-band shadow-[0_16px_24px_-14px_rgb(0_0_0/0.7)]" />
+        <div className="mx-4 h-12 bg-gradient-to-b from-[#241532] to-[#14071a] shadow-[0_16px_24px_-14px_rgb(0_0_0/0.7)]" />
         <Placard no={no} title={piece.title} note={piece.note} when={piece.when} />
       </figure>
     );

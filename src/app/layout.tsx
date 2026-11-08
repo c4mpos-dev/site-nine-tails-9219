@@ -1,14 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope, Oswald } from "next/font/google";
+import { Big_Shoulders, Bricolage_Grotesque } from "next/font/google";
 import { Providers } from "@/components/layout/Providers";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { themeScript } from "@/components/layout/ThemeToggle";
 import { site } from "@/content/site";
 import "./globals.css";
 
-const display = Oswald({ variable: "--font-oswald", subsets: ["latin"] });
-const sans = Manrope({ variable: "--font-manrope", subsets: ["latin"] });
+const display = Big_Shoulders({ variable: "--font-big-shoulders", subsets: ["latin"] });
+const sans = Bricolage_Grotesque({ variable: "--font-bricolage", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -28,13 +27,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="pt-BR"
-      data-theme="light"
-      suppressHydrationWarning
       className={`${display.variable} ${sans.variable} antialiased`}
     >
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-      </head>
       <body className="flex min-h-dvh flex-col overflow-x-clip">
         <a
           href="#conteudo"

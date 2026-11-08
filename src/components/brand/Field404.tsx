@@ -281,11 +281,6 @@ export function Field404() {
       }
     });
     io.observe(box);
-    // Tema claro/escuro: relê as cores
-    const mo = new MutationObserver(readColors);
-    mo.observe(document.documentElement, { attributes: true });
-    const mq = matchMedia("(prefers-color-scheme: dark)");
-    mq.addEventListener("change", readColors);
 
     el.addEventListener("pointermove", onMove);
     el.addEventListener("pointerdown", steer);
@@ -297,8 +292,6 @@ export function Field404() {
       cancelAnimationFrame(raf);
       ro.disconnect();
       io.disconnect();
-      mo.disconnect();
-      mq.removeEventListener("change", readColors);
       el.removeEventListener("pointermove", onMove);
       el.removeEventListener("pointerdown", steer);
       el.removeEventListener("keydown", onKeyDown);

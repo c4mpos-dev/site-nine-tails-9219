@@ -17,11 +17,16 @@
 
 type G = CanvasRenderingContext2D;
 type Look = "brand" | "halftone" | "pop" | "ink" | "red" | "blue";
-type Variant = { big: HTMLCanvasElement; thumb: HTMLCanvasElement; img: HTMLImageElement; caption: string; look: Look; photo: number };
+type Variant = {
+  big: HTMLCanvasElement; thumb: HTMLCanvasElement; img: HTMLImageElement; caption: string; look: Look; photo: number;
+  /** Versão grande, carregada só quando a foto vai ser aberta. */
+  hiBig?: HTMLCanvasElement; hiImg?: HTMLImageElement; loading?: boolean;
+};
 type Tile = { c: number; r: number; x: number; y: number; k: number; cur: number; v: number; bumper: number };
 type Phase = "walk" | "in" | "hold" | "out";
 
-export type MosaicPhoto = { img: HTMLImageElement; caption: string; robot?: boolean };
+/** `img` é a miniatura usada nas peças; `hi` é o endereço da foto grande, para quando ela abre na tela. */
+export type MosaicPhoto = { img: HTMLImageElement; hi?: string; caption: string; robot?: boolean };
 export type MosaicOptions = {
   body: string;
   /** Liga o tour automático (desligado com "reduzir movimento"). */
@@ -44,8 +49,11 @@ export type MosaicHandle = {
 };
 
 const C = 28, R = 17, P = 34, TS = 28;
-const BG = "#14071a";
-const BIG = 384, THUMB = 64;
+const BG = "#f8f3fa";
+/** Fundo das peças em retícula: o roxo da equipe, para a peça não sumir no fundo claro. */
+const HALF_BG = "#6a117b";
+/** BIG: lado das peças perto da câmera; HI: lado da foto aberta (ela ocupa ~60% de 1080). */
+const BIG = 384, HI = 768, THUMB = 64;
 /** Linhas da grade que formam a base com bumper (as rodas ficam logo abaixo). */
 const BUMPER_ROWS = [13, 14, 15];
 /** Tempos do tour, em segundos. */
@@ -80,20 +88,21 @@ function cover(img: HTMLImageElement, n: number) {
   return c;
 }
 
-function edit(img: HTMLImageElement, look: Look) {
-  const c = cover(img, BIG), g = ctx2d(c);
-  const id = g.getImageData(0, 0, BIG, BIG), d = id.data;
+function edit(img: HTMLImageElement, look: Look, n = BIG) {
+  const c = cover(img, n), g = ctx2d(c);
+  const id = g.getImageData(0, 0, n, n), d = id.data;
+  const f = n / BIG; // a retícula, o filete e as linhas crescem junto com a foto
   const lum = (i: number) => (0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2]) / 255;
 
   if (look === "halftone") {
-    // Retícula: pontos magenta do tamanho da luz, sobre o roxo quase preto
-    const L = new Float32Array(BIG * BIG);
+    // Retícula: pontos lilás do tamanho da luz, sobre o roxo da equipe
+    const L = new Float32Array(n * n);
     for (let i = 0; i < L.length; i++) L[i] = lum(i * 4);
-    g.fillStyle = BG; g.fillRect(0, 0, BIG, BIG);
-    const step = 7;
-    g.fillStyle = "#ef4fdd";
-    for (let y = 0; y < BIG; y += step) for (let x = (y / step) % 2 ? step / 2 : 0; x < BIG; x += step) {
-      const v = L[Math.min(BIG - 1, Math.floor(y + step / 2)) * BIG + Math.min(BIG - 1, Math.floor(x + step / 2))];
+    g.fillStyle = HALF_BG; g.fillRect(0, 0, n, n);
+    const step = 7 * f;
+    g.fillStyle = "#e8c6f0";
+    for (let y = 0, row = 0; y < n; y += step, row++) for (let x = row % 2 ? step / 2 : 0; x < n; x += step) {
+      const v = L[Math.min(n - 1, Math.floor(y + step / 2)) * n + Math.min(n - 1, Math.floor(x + step / 2))];
       const r = Math.sqrt(clamp((v - 0.08) * 1.25)) * step * 0.62;
       if (r < 0.4) continue;
       g.beginPath(); g.arc(x + step / 2, y + step / 2, r, 0, Math.PI * 2); g.fill();
@@ -108,10 +117,10 @@ function edit(img: HTMLImageElement, look: Look) {
       for (let k = 0; k < 3; k++) d[i + k] = clamp((l + (d[i + k] - l) * 1.4 - 128) * 1.12 + 132, 0, 255);
     }
     g.putImageData(id, 0, 0);
-    const v = g.createRadialGradient(BIG / 2, BIG / 2, BIG * 0.3, BIG / 2, BIG / 2, BIG * 0.72);
+    const v = g.createRadialGradient(n / 2, n / 2, n * 0.3, n / 2, n / 2, n * 0.72);
     v.addColorStop(0, "rgba(74,0,97,0)"); v.addColorStop(1, "rgba(74,0,97,.75)");
-    g.fillStyle = v; g.fillRect(0, 0, BIG, BIG);
-    g.strokeStyle = "rgba(239,79,221,.9)"; g.lineWidth = 6; g.strokeRect(10, 10, BIG - 20, BIG - 20);
+    g.fillStyle = v; g.fillRect(0, 0, n, n);
+    g.strokeStyle = "rgba(181,88,199,.9)"; g.lineWidth = 6 * f; g.strokeRect(10 * f, 10 * f, n - 20 * f, n - 20 * f);
     return c;
   }
 
@@ -127,7 +136,7 @@ function edit(img: HTMLImageElement, look: Look) {
   if (look === "ink") {
     // linhas finas de impressão por cima
     g.fillStyle = "rgba(0,0,0,.16)";
-    for (let y = 0; y < BIG; y += 3) g.fillRect(0, y, BIG, 1);
+    for (let y = 0; y < n; y += 3 * f) g.fillRect(0, y, n, f);
   }
   return c;
 }
@@ -186,7 +195,7 @@ export function createMosaic(canvas: HTMLCanvasElement, photos: MosaicPhoto[], o
   let minC = C, maxC = 0, minR = R, maxR = 0;
   for (const k of keys) { const c = k % C, r = Math.floor(k / C); minC = Math.min(minC, c); maxC = Math.max(maxC, c); minR = Math.min(minR, r); maxR = Math.max(maxR, r); }
   // RUN: distância de fora da tela até o centro; RATIO: pixels do canvas por pixel da tela
-  let W = canvas.width, H = canvas.height, OX = 0, OY = 0, BASEY = 0, RUN = 0, RATIO = 1, MARGIN = 48;
+  let W = canvas.width, H = canvas.height, OX = 0, OY = 0, RUN = 0, RATIO = 1, MARGIN = 48;
   const body = photos.length;
   const TILES: Tile[] = [...keys].map((k) => {
     const c = k % C, r = Math.floor(k / C);
@@ -203,7 +212,6 @@ export function createMosaic(canvas: HTMLCanvasElement, photos: MosaicPhoto[], o
     W = canvas.width; H = canvas.height;
     OX = W / 2 - ((minC + maxC + 1) / 2) * P + (P - TS) / 2;
     OY = H / 2 - ((minR + maxR + 1) / 2) * P + (P - TS) / 2 + 10; // um pouco abaixo do centro: o título fica em cima
-    BASEY = OY + (maxR + 1) * P;
     RUN = W / 2 + 700;
     const css = canvas.getBoundingClientRect().width || W;
     RATIO = W / css;
@@ -277,17 +285,16 @@ export function createMosaic(canvas: HTMLCanvasElement, photos: MosaicPhoto[], o
     const X = sx(x), Y = sy(y), Wd = w * S, Hd = h * S;
     if (X > W || Y > H || X + Wd < 0 || Y + Hd < 0) return;
     if (Hd < 90) { ctx.drawImage(v.thumb, X, Y, Wd, Hd); return; }
-    ctx.save(); ctx.beginPath(); ctx.roundRect(X, Y, Wd, Hd, corner(Hd)); ctx.clip(); ctx.drawImage(v.big, X, Y, Wd, Hd); ctx.restore();
+    ctx.save(); ctx.beginPath(); ctx.roundRect(X, Y, Wd, Hd, corner(Hd)); ctx.clip(); ctx.drawImage(Hd > BIG && v.hiBig ? v.hiBig : v.big, X, Y, Wd, Hd); ctx.restore();
   }
 
-  function drawTiles(k: number, mirror: boolean, alpha: number) {
+  function drawTiles(k: number, alpha: number) {
     for (const tl of TILES) {
       if (tl.cur < 0.02) continue;
       const { dx, stretch } = motion(tl.c);
       const sz = TS * tl.cur, w = sz * stretch;
       const x = tl.x + dx + (TS - sz) / 2 + sz - w;
-      let y = tl.y + (TS - sz) / 2 + bobOf(tl);
-      if (mirror) y = 2 * BASEY - y - sz;
+      const y = tl.y + (TS - sz) / 2 + bobOf(tl);
       // com a câmera dentro de uma foto, as vizinhas recuam
       ctx.globalAlpha = alpha * (focus && tl !== focus ? 1 - 0.8 * k : 1);
       piece(VARS[look(tl)], x, y, w, sz);
@@ -311,7 +318,7 @@ export function createMosaic(canvas: HTMLCanvasElement, photos: MosaicPhoto[], o
     if (!focus || k < 0.5) return;
     const reveal = phase === "hold" ? eio(clamp((p - 0.35) / 1.1)) : phase === "out" ? 1 : 0;
     if (reveal <= 0) return;
-    const img = VARS[look(focus)].img;
+    const v = VARS[look(focus)], img = v.hiImg ?? v.img;
     const X = sx(focus.x + motion(focus.c).dx), Y = sy(focus.y + bobOf(focus)), D = TS * S;
     const side = Math.min(img.naturalWidth, img.naturalHeight);
     ctx.save();
@@ -320,7 +327,7 @@ export function createMosaic(canvas: HTMLCanvasElement, photos: MosaicPhoto[], o
     ctx.beginPath(); ctx.rect(X, Y, D * reveal, D); ctx.clip();
     ctx.drawImage(img, (img.naturalWidth - side) / 2, (img.naturalHeight - side) / 2, side, side, X, Y, D, D);
     ctx.restore();
-    if (reveal < 1) { ctx.fillStyle = "#ef4fdd"; ctx.fillRect(X + D * reveal - 3, Y, 6, D); }
+    if (reveal < 1) { ctx.fillStyle = "#e8c6f0"; ctx.fillRect(X + D * reveal - 3, Y, 6, D); }
   }
 
   /** Quebra o texto em linhas que caibam na largura. */
@@ -342,16 +349,17 @@ export function createMosaic(canvas: HTMLCanvasElement, photos: MosaicPhoto[], o
     if (a <= 0) return;
     const v = VARS[look(focus)], u = RATIO;
     ctx.globalAlpha = a;
-    const band = ctx.createLinearGradient(0, H * 0.72, 0, H);
-    band.addColorStop(0, "rgba(20,7,26,0)"); band.addColorStop(1, "rgba(20,7,26,.92)");
-    ctx.fillStyle = band; ctx.fillRect(0, H * 0.72, W, H * 0.28);
     ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
     ctx.font = `600 ${24 * u}px ${opt.body}`;
     const lines = wrap(v.caption, Math.min(W * 0.6, 620 * u));
     const lh = 32 * u, y0 = H - 40 * u - (lines.length - 1) * lh;
-    ctx.fillStyle = "#ffffff";
+    // Caixa lisa atrás da legenda, para ler em cima da foto
+    const pad = 16 * u, boxW = Math.max(...lines.map((l) => ctx.measureText(l).width), 160 * u) + pad * 2;
+    ctx.fillStyle = "rgba(248,243,250,.94)";
+    ctx.beginPath(); ctx.roundRect(MARGIN - pad, y0 - 38 * u - 12 * u - pad, boxW, H - (y0 - 38 * u - 12 * u - pad) - 40 * u + pad + 8 * u, 10 * u); ctx.fill();
+    ctx.fillStyle = "#1e0726";
     lines.forEach((l, i) => ctx.fillText(l, MARGIN, y0 + i * lh));
-    ctx.font = `800 ${12 * u}px ${opt.body}`; ctx.fillStyle = "#ef4fdd";
+    ctx.font = `800 ${12 * u}px ${opt.body}`; ctx.fillStyle = "#9e19b8";
     spacing(2 * u);
     ctx.fillText(`FOTO ${String(v.photo + 1).padStart(2, "0")} DE ${photos.length}`, MARGIN, y0 - 38 * u);
     spacing(0);
@@ -362,19 +370,31 @@ export function createMosaic(canvas: HTMLCanvasElement, photos: MosaicPhoto[], o
     exit = ex;
     const k = camera();
     ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = BG; ctx.fillRect(0, 0, W, H);
-    drawTiles(k, true, 0.14);
-    const yb = sy(BASEY);
-    if (yb < H) {
-      const floor = ctx.createLinearGradient(0, yb, 0, yb + 230 * S);
-      floor.addColorStop(0, "rgba(20,7,26,.35)"); floor.addColorStop(1, BG);
-      ctx.fillStyle = floor; ctx.fillRect(0, Math.max(0, yb), W, H - Math.max(0, yb));
-    }
     // rastro: forte na corrida e na arrancada, leve parado, some com a câmera dentro da foto
     const pin = clamp(t / ENTER);
     drawTrail((0.55 + 0.45 * Math.max(1 - pin, clamp(exit * 3))) * (1 - k));
-    drawTiles(k, false, 1);
+    drawTiles(k, 1);
     drawReveal(k);
     drawCaption();
+  }
+
+  /** Carrega a foto grande de uma peça e refaz a edição nela. Enquanto não chega, a câmera usa a pequena. */
+  let dead = false;
+  function sharpen(v: Variant) {
+    const src = photos[v.photo].hi;
+    if (!src || v.hiImg || v.loading) return;
+    v.loading = true;
+    const img = new Image();
+    img.decoding = "async";
+    img.onload = () => { if (dead) return; v.hiImg = img; v.hiBig = edit(img, v.look, HI); };
+    img.src = src;
+  }
+  /** Abre uma peça; já adianta a foto grande da próxima do tour. */
+  function open(tl: Tile) {
+    focus = tl;
+    sharpen(VARS[look(tl)]);
+    if (ORDER.length) sharpen(VARS[look(ORDER[next % ORDER.length])]);
+    setPhase("in");
   }
 
   function frame(dt: number, ex = 0) {
@@ -388,8 +408,7 @@ export function createMosaic(canvas: HTMLCanvasElement, photos: MosaicPhoto[], o
       const wait = first ? ENTER + 2.2 : WALK;
       if (opt.tour && exit <= 0.02 && p >= wait && ORDER.length) {
         first = false;
-        focus = ORDER[next++ % ORDER.length];
-        setPhase("in");
+        open(ORDER[next++ % ORDER.length]);
       }
     } else if (phase === "in" && p >= IN) setPhase("hold");
     else if (phase === "hold" && p >= HOLD) setPhase("out");
@@ -414,8 +433,8 @@ export function createMosaic(canvas: HTMLCanvasElement, photos: MosaicPhoto[], o
       if (d < bd) { bd = d; best = tl; }
     }
     if (!best) return false;
-    focus = best; first = false;
-    setPhase("in");
+    first = false;
+    open(best);
     return true;
   }
 
@@ -425,6 +444,6 @@ export function createMosaic(canvas: HTMLCanvasElement, photos: MosaicPhoto[], o
     resize: layout,
     click,
     still: () => { t = 3; updateCur(1, -1); },
-    destroy: () => { for (const v of VARS) { v.big.width = 0; v.thumb.width = 0; } },
+    destroy: () => { dead = true; for (const v of VARS) { v.big.width = 0; v.thumb.width = 0; if (v.hiBig) v.hiBig.width = 0; } },
   };
 }

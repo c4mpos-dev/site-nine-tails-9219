@@ -183,17 +183,15 @@ export function NineLearnsFox({ schools, heading }: { schools: readonly School[]
     }, { threshold: 0.35 });
 
     const ro = new ResizeObserver(() => { if (img.complete && img.naturalWidth) { build(); run(); } });
-    const mo = new MutationObserver(() => { if (dots.length) { build(); run(); } });
 
     img.decode().then(() => {
       build();
       io.observe(el); ro.observe(box);
-      mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme", "class"] });
     }).catch(() => {});
 
     return () => {
       cancelAnimationFrame(raf);
-      io.disconnect(); ro.disconnect(); mo.disconnect();
+      io.disconnect(); ro.disconnect();
       el.removeEventListener("pointermove", onMove);
       el.removeEventListener("pointerdown", onMove);
       el.removeEventListener("pointerleave", onLeave);

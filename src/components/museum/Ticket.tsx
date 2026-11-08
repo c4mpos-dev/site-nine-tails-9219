@@ -4,15 +4,15 @@ import { useState } from "react";
 import { RotateCw } from "lucide-react";
 import { Flip } from "@/components/ui/Flip";
 
-const paper = "relative flex h-full overflow-hidden rounded-md bg-[#f6efe2] shadow-[0_20px_30px_-10px_rgb(0_0_0/0.55)]";
+const paper = "relative flex h-full overflow-hidden rounded-md bg-[#f6efe2] shadow-[0_20px_30px_-12px_rgb(30_7_38/0.3)] ring-1 ring-[#1b0d26]/10";
 
 /** Furos do picote, na cor do fundo da entrada. */
 function Holes({ side }: { side: "left" | "right" }) {
   const x = side === "right" ? "right-14" : "left-14";
   return (
     <>
-      <span aria-hidden className={`absolute -top-2 ${x} size-4 rounded-full bg-band`} />
-      <span aria-hidden className={`absolute -bottom-2 ${x} size-4 rounded-full bg-band`} />
+      <span aria-hidden className={`absolute -top-2 ${x} size-4 rounded-full bg-tint`} />
+      <span aria-hidden className={`absolute -bottom-2 ${x} size-4 rounded-full bg-tint`} />
     </>
   );
 }
@@ -85,7 +85,7 @@ export function Ticket({ roomCount, pieceCount }: { roomCount: number; pieceCoun
         type="button"
         onClick={() => setBack((b) => !b)}
         aria-label={back ? "Virar o ingresso para a frente" : "Virar o ingresso para ver o verso"}
-        className="block w-full cursor-pointer rounded-md text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f0a6e8]"
+        className="block w-full cursor-pointer rounded-md text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#b558c7]"
       >
         <Flip flipped={back} front={front} back={verso} />
       </button>

@@ -136,7 +136,7 @@ function RoomSection({ room, i }: { room: Room; i: number }) {
           <div className="relative w-fit">
             <p className="font-mono text-xs uppercase tracking-[0.3em] text-muted">Sala</p>
             {/* O número acende junto com a sala, como um letreiro */}
-            <p className="heading text-[6rem] leading-[0.8] text-transparent transition-[filter,-webkit-text-stroke-color] duration-700 [-webkit-text-stroke:2px_var(--line)] group-data-[lit=true]/room:[-webkit-text-stroke-color:var(--accent)] dark:group-data-[lit=true]/room:drop-shadow-[0_0_18px_rgb(229_90_216/0.55)] sm:text-[8rem]">
+            <p className="heading text-[6rem] leading-[0.8] text-transparent transition-[filter,-webkit-text-stroke-color] duration-700 [-webkit-text-stroke:2px_var(--line)] group-data-[lit=true]/room:[-webkit-text-stroke-color:var(--accent)] sm:text-[8rem]">
               {room.number}
             </p>
           </div>
@@ -153,10 +153,10 @@ function RoomSection({ room, i }: { room: Room; i: number }) {
         ))}
       </Container>
       {/* Rodapé e piso de madeira */}
-      <div aria-hidden className="relative h-1.5 bg-surface-2 dark:bg-[#2c1b38]" />
+      <div aria-hidden className="relative h-1.5 bg-surface-2" />
       <div
         aria-hidden
-        className="relative h-8 bg-[repeating-linear-gradient(90deg,#c9a77e_0_96px,#bf9c72_96px_192px)] dark:bg-[repeating-linear-gradient(90deg,#24170f_0_96px,#2b1c12_96px_192px)] shadow-[inset_0_10px_14px_-8px_rgb(0_0_0/0.25)] dark:shadow-[inset_0_10px_14px_-8px_rgb(0_0_0/0.6)]"
+        className="relative h-8 bg-[repeating-linear-gradient(90deg,#c9a77e_0_96px,#bf9c72_96px_192px)] shadow-[inset_0_10px_14px_-8px_rgb(0_0_0/0.25)]"
       />
     </LitRoom>
   );
@@ -177,31 +177,31 @@ export default function MuseumPage() {
   return (
     <div className={cn(hand.variable, "-mb-24 pb-24")}>
       {/* Entrada */}
-      <section id="entrada" className="relative isolate overflow-hidden bg-band text-white">
-        <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(rgb(255_255_255/0.06)_1px,transparent_1px)] bg-[length:22px_22px]" />
+      <section id="entrada" className="relative isolate overflow-hidden border-b border-line bg-tint">
+        <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(rgb(158_25_184/0.12)_1px,transparent_1px)] bg-[length:22px_22px]" />
         <Container className="grid gap-14 py-16 sm:py-24 lg:grid-cols-[1.2fr_1fr] lg:items-center">
           <div>
-            <nav aria-label="Trilha" className="mb-6 flex flex-wrap gap-2 text-sm text-white/60">
-              <Link href="/" className="hover:text-white">
+            <nav aria-label="Trilha" className="mb-6 flex flex-wrap gap-2 text-sm text-muted">
+              <Link href="/" className="hover:text-fg">
                 Início
               </Link>
               <span aria-hidden>/</span>
-              <Link href="/archive" className="hover:text-white">
+              <Link href="/archive" className="hover:text-fg">
                 Mais
               </Link>
               <span aria-hidden>/</span>
               <span>Museu</span>
             </nav>
-            <p className="kicker !text-[#f0a6e8]">Acervo Nine Tails · 2022 até hoje</p>
+            <p className="kicker">Acervo Nine Tails · 2022 até hoje</p>
             <h1 className="heading mt-3 text-5xl sm:text-7xl">Museu da Raposa</h1>
-            <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/80">
+            <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted">
               Fotos de arena e fotos de corredor, troféus e cones na cabeça, abraços, protótipos de papelão e o robô de cada ano. Tudo o que a equipe guardou,
               organizado em salas, uma por temporada.
             </p>
-            <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-wider text-white/60">
+            <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 font-mono text-xs uppercase tracking-wider text-muted">
               <li>Aberto 24 horas</li>
               <li>Entrada franca</li>
-              <li className="text-[#f0a6e8]">É permitido tocar nas fotos</li>
+              <li className="text-accent">É permitido tocar nas fotos</li>
             </ul>
             <a
               href={`#${rooms[0].id}`}

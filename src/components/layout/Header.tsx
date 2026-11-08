@@ -8,7 +8,6 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { nav, navMore, site } from "@/content/site";
 import { SiteSearch } from "./SiteSearch";
-import { ThemeToggle } from "./ThemeToggle";
 import { cn } from "@/lib/cn";
 
 // Menu do celular: o painel desce como uma cortina e os links entram em cascata; ao fechar, sobe de volta
@@ -62,7 +61,6 @@ export function Header() {
 
           <div className="flex items-center gap-1 sm:gap-2">
             <SiteSearch />
-            <ThemeToggle className="grid size-10 place-items-center rounded-md text-muted transition-colors hover:bg-surface hover:text-fg" />
             <Link
               href="/sponsor"
               className="hidden rounded-md bg-brand px-4 py-2 text-sm font-bold text-brand-ink transition-colors hover:bg-brand-strong sm:inline-block"

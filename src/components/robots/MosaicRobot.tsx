@@ -11,8 +11,11 @@ import { createMosaic, type MosaicHandle } from "./mosaic/engine";
 export type MosaicStat = { value: number; label: string };
 export type MosaicSource = { src: string; caption: string; robot?: boolean };
 
-/** Fotos servidas já reduzidas pelo otimizador de imagens do Next (384px: a foto aberta ocupa ~60% da altura; q=75 é uma das qualidades liberadas no next.config). */
-const optimized = (src: string) => `/_next/image?url=${encodeURIComponent(src)}&w=384&q=75`;
+/**
+ * Fotos servidas já reduzidas pelo otimizador de imagens do Next (q=75 é uma das qualidades liberadas no next.config).
+ * 384px para as peças; 1200px só para a foto aberta, que ocupa ~60% da altura e cortada em quadrado ainda passa de 768.
+ */
+const optimized = (src: string, w = 384) => `/_next/image?url=${encodeURIComponent(src)}&w=${w}&q=75`;
 
 /**
  * Ajusta a resolução do canvas à proporção da tela: 1080 de altura no desktop; em tela estreita,
@@ -90,10 +93,10 @@ export function MosaicRobot({
   useEffect(() => {
     let alive = true;
     const root = getComputedStyle(document.documentElement);
-    const manrope = root.getPropertyValue("--font-manrope").trim() || "Manrope";
-    const body = `${manrope}, system-ui, sans-serif`;
+    const sans = root.getPropertyValue("--font-bricolage").trim() || "Bricolage Grotesque";
+    const body = `${sans}, system-ui, sans-serif`;
     Promise.all([
-      Promise.all(photos.map(async (p) => ({ ...p, img: await load(optimized(p.src)) }))),
+      Promise.all(photos.map(async (p) => ({ ...p, img: await load(optimized(p.src)), hi: optimized(p.src, 1200) }))),
       document.fonts.load(`600 24px ${body}`).catch(() => null),
     ])
       .then(([loaded]) => {
@@ -179,7 +182,7 @@ export function MosaicRobot({
   }, [ready, running]);
 
   return (
-    <section aria-label="Abertura" className="relative h-[calc(100svh-65px)] min-h-80 overflow-hidden bg-band">
+    <section aria-label="Abertura" className="relative h-[calc(100svh-65px)] min-h-80 overflow-hidden bg-surface">
       <canvas
         ref={canvasRef}
         width={1920}
@@ -193,30 +196,30 @@ export function MosaicRobot({
       {/* Painel por cima do robô: título, o robô em destaque e os números. Sai da frente com uma foto aberta. */}
       <div
         className={cn(
-          "pointer-events-none absolute inset-0 mx-auto flex max-w-6xl flex-col justify-between px-[max(1rem,env(safe-area-inset-left,0px))] pb-5 pt-8 text-white transition-[opacity,translate] duration-500 sm:px-6 sm:pb-8 sm:pt-12",
+          "pointer-events-none absolute inset-0 mx-auto flex max-w-6xl flex-col justify-between px-[max(1rem,env(safe-area-inset-left,0px))] pb-5 pt-8 text-fg transition-[opacity,translate] duration-500 sm:px-6 sm:pb-8 sm:pt-12",
           focused && "-translate-y-3 opacity-0",
         )}
       >
         <div className="flex flex-wrap items-start justify-between gap-6">
           <div>
-            <p className="kicker text-[#ef4fdd]">{kicker}</p>
+            <p className="kicker">{kicker}</p>
             <h1 className="heading mt-2 text-4xl leading-none sm:text-5xl">{title}</h1>
-            <p className="mt-3 max-w-sm text-sm leading-relaxed text-white/65">{lead}</p>
+            <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted">{lead}</p>
           </div>
-          <Link href={featured.href} className={cn("group hidden border-l-2 border-[#ef4fdd] pl-4 sm:block", !focused && "pointer-events-auto")}>
-            <span className="block text-[11px] font-bold uppercase tracking-[0.16em] text-white/55">{featured.label}</span>
+          <Link href={featured.href} className={cn("group hidden border-l-2 border-accent pl-4 sm:block", !focused && "pointer-events-auto")}>
+            <span className="block text-[11px] font-bold uppercase tracking-[0.16em] text-muted">{featured.label}</span>
             <span className="heading mt-1 flex items-center gap-1 text-2xl">
               {featured.name}
-              <ArrowUpRight className="size-4 text-white/50 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white" aria-hidden />
+              <ArrowUpRight className="size-4 text-muted transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent" aria-hidden />
             </span>
-            <span className="block text-sm text-white/65">{featured.note}</span>
+            <span className="block text-sm text-muted">{featured.note}</span>
           </Link>
         </div>
 
-        <dl className="grid grid-cols-2 gap-x-4 gap-y-4 border-t border-white/15 pt-4 sm:grid-cols-4 sm:pt-5">
+        <dl className="grid grid-cols-2 gap-x-4 gap-y-4 border-t border-line pt-4 sm:grid-cols-4 sm:pt-5">
           {stats.map((st) => (
             <div key={st.label} className="flex flex-col-reverse">
-              <dt className="mt-1 text-xs leading-snug text-white/60">{st.label}</dt>
+              <dt className="mt-1 text-xs leading-snug text-muted">{st.label}</dt>
               <dd className="heading text-3xl sm:text-4xl">
                 <Counter value={st.value} />
               </dd>
@@ -231,7 +234,7 @@ export function MosaicRobot({
           onClick={() => setPaused((v) => !v)}
           aria-label={paused ? "Continuar a animação" : "Pausar a animação"}
           aria-pressed={paused}
-          className="absolute bottom-5 right-4 grid size-10 place-items-center rounded-full bg-white/10 text-white/80 backdrop-blur transition-colors hover:bg-white/20 hover:text-white sm:bottom-8 sm:right-6"
+          className="absolute bottom-5 right-4 grid size-10 place-items-center rounded-full border border-line bg-bg/70 text-muted backdrop-blur transition-colors hover:border-accent hover:text-fg sm:bottom-8 sm:right-6"
         >
           {paused ? <Play className="size-4" /> : <Pause className="size-4" />}
         </button>

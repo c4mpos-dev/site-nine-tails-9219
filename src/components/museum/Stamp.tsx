@@ -6,7 +6,7 @@ export function Stamp({ number, label, year, className }: { number: string; labe
     <span
       aria-hidden
       className={cn(
-        "grid size-24 place-items-center rounded-full border-[3px] border-current p-1 text-center font-mono uppercase leading-none mix-blend-multiply dark:mix-blend-screen",
+        "grid size-24 place-items-center rounded-full border-[3px] border-current p-1 text-center font-mono uppercase leading-none mix-blend-multiply",
         className,
       )}
     >

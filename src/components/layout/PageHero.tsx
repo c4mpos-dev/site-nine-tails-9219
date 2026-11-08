@@ -6,7 +6,7 @@ import { HeroBackdrop, HeroFade, HeroTitle } from "./HeroMotion";
 
 /**
  * Topo das páginas internas: foto real ao fundo, escurecida com o roxo da equipe.
- * Sem foto, vira uma faixa lisa. O botão no canto mostra a foto inteira, sem o texto por cima.
+ * Sem foto, vira uma faixa clara. O botão no canto mostra a foto inteira, sem o texto por cima.
  * A foto abre com zoom lento e desce devagar ao rolar; o título sobe palavra por palavra.
  */
 export function PageHero({
@@ -25,24 +25,24 @@ export function PageHero({
   children?: React.ReactNode;
 }) {
   return (
-    <section className="relative isolate overflow-hidden bg-band text-white">
+    <section className={`relative isolate overflow-hidden ${image ? "bg-band text-white" : "border-b border-line bg-tint text-fg"}`}>
       {image && (
         <>
           <HeroBackdrop src={image.src} alt={image.alt} position={image.position} />
           <div className="absolute inset-0 -z-10 bg-[var(--hero-overlay)]" />
-          <div className="absolute inset-0 -z-10 bg-gradient-to-t from-band via-transparent to-transparent" />
+          <div className="absolute inset-0 -z-10 bg-gradient-to-t from-band/45 via-transparent via-45% to-transparent" />
         </>
       )}
-      <Container className="py-16 sm:py-24">
+      <Container className={`py-16 sm:py-24 ${image ? "[text-shadow:0_1px_12px_rgb(0_0_0/0.5)]" : ""}`}>
         {crumbs && (
-          <nav aria-label="Trilha" className="mb-6 flex flex-wrap gap-2 text-sm text-white/60">
-            <Link href="/" className="hover:text-white">
+          <nav aria-label="Trilha" className={`mb-6 flex flex-wrap gap-2 text-sm ${image ? "text-white/60" : "text-muted"}`}>
+            <Link href="/" className={image ? "hover:text-white" : "hover:text-fg"}>
               Início
             </Link>
             {crumbs.map((c) => (
               <span key={c.href} className="flex gap-2">
                 <span aria-hidden>/</span>
-                <Link href={c.href} className="hover:text-white">
+                <Link href={c.href} className={image ? "hover:text-white" : "hover:text-fg"}>
                   {c.label}
                 </Link>
               </span>
@@ -50,13 +50,13 @@ export function PageHero({
           </nav>
         )}
         {kicker && (
-          <Kicker className="!text-[#f0a6e8]" line="bg-[#f0a6e8]">
+          <Kicker className="!text-band-accent" line="bg-band-accent">
             {kicker}
           </Kicker>
         )}
         <HeroTitle className="heading mt-3 max-w-4xl text-5xl sm:text-7xl">{title}</HeroTitle>
         <HeroFade>
-          {lead && <p className="mt-5 max-w-2xl text-lg leading-relaxed text-white/80">{lead}</p>}
+          {lead && <p className={`mt-5 max-w-2xl text-lg leading-relaxed ${image ? "text-white/80" : "text-muted"}`}>{lead}</p>}
           {children}
         </HeroFade>
       </Container>

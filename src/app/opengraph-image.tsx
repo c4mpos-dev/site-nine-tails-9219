@@ -29,7 +29,7 @@ export default async function Image() {
             FIRST Robotics Competition
           </div>
           <div style={{ fontSize: 120, fontWeight: 900, lineHeight: 1, marginTop: 20 }}>NINE TAILS</div>
-          <div style={{ fontSize: 80, fontWeight: 900, color: "#e11dcc", lineHeight: 1 }}>#9219</div>
+          <div style={{ fontSize: 80, fontWeight: 900, color: "#b558c7", lineHeight: 1 }}>#9219</div>
           <div style={{ fontSize: 30, color: "#cdd6dc", marginTop: 30 }}>
             Resende · RJ · Rookie Inspiration no Mundial de Houston 2023
           </div>

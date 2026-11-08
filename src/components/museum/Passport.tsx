@@ -49,7 +49,7 @@ export function Passport({ stops }: { stops: Stop[] }) {
                   number={s.number}
                   label={s.title}
                   year={s.year}
-                  className={cn("size-20 !mix-blend-multiply", i % 2 ? "rotate-[9deg] text-[#9e19b8]/80" : "-rotate-[11deg] text-[#de0cc8]/75")}
+                  className={cn("size-20 !mix-blend-multiply", i % 2 ? "rotate-[9deg] text-[#9e19b8]/80" : "-rotate-[11deg] text-[#b558c7]/75")}
                 />
               ) : (
                 <span className="grid size-20 place-items-center rounded-full border-2 border-dashed border-[#1b0d26]/20 font-mono text-sm text-[#1b0d26]/30">
@@ -67,18 +67,18 @@ export function Passport({ stops }: { stops: Stop[] }) {
   );
 
   const certificate = (
-    <div className={cn(card, "relative grid place-items-center overflow-hidden bg-[#2a0f3a] text-center text-[#f6efe2]")}>
-      <div aria-hidden className="absolute inset-2 rounded border border-[#f0a6e8]/30" />
+    <div className={cn(card, "relative grid place-items-center overflow-hidden bg-band text-center text-[#f6efe2]")}>
+      <div aria-hidden className="absolute inset-2 rounded border border-band-accent/30" />
       <div className="relative">
-        <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#f0a6e8]">Certificado de visita</p>
+        <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-band-accent">Certificado de visita</p>
         <p className="heading mt-3 text-3xl leading-none sm:text-4xl">Visitante oficial</p>
-        <p className="heading text-3xl leading-none text-[#f0a6e8] sm:text-4xl">do Museu da Raposa</p>
+        <p className="heading text-3xl leading-none text-band-accent sm:text-4xl">do Museu da Raposa</p>
         <p className="mx-auto mt-3 max-w-xs text-sm text-white/75">
           Percorreu as {stops.length} salas, de {stops[0]?.year} a {stops.at(-1)?.year}, e viu a história da Nine Tails #9219 de perto.
         </p>
         <span
           aria-hidden
-          className="mx-auto mt-4 grid size-24 -rotate-12 place-items-center rounded-full border-[3px] border-[#f0a6e8]/80 font-mono uppercase leading-tight text-[#f0a6e8]/90"
+          className="mx-auto mt-4 grid size-24 -rotate-12 place-items-center rounded-full border-[3px] border-band-accent/80 font-mono uppercase leading-tight text-band-accent/90"
         >
           <span className="grid size-[86%] place-content-center rounded-full border border-dashed border-current">
             <span className="text-[8px] tracking-[0.2em]">Visita</span>

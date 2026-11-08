@@ -92,8 +92,8 @@ export function HeroTeam({ photos, children }: { photos: HeroPhoto[]; children: 
       )}
 
       {/* Escurece só o canto de baixo, onde fica o texto; o resto da foto fica limpo */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-band/95 via-band/40 via-35% to-transparent to-60%" />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-band/60 to-transparent to-50%" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-band/50 via-band/10 via-30% to-transparent to-50%" />
+      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-band/35 to-transparent to-45%" />
 
       {children}
 
@@ -125,12 +125,12 @@ export function HeroTeam({ photos, children }: { photos: HeroPhoto[]; children: 
                     <span className={cn("heading block text-lg leading-none", active ? "text-white" : "text-white/55 group-hover:text-white")}>
                       {p.year}
                     </span>
-                    <span className={cn("mt-1 block truncate text-[11px]", active ? "text-[#f0a6e8]" : "text-white/60")}>{p.game}</span>
+                    <span className={cn("mt-1 block truncate text-[11px]", active ? "text-band-accent" : "text-white/60")}>{p.game}</span>
                     <span className="absolute inset-x-0 bottom-0 h-0.5 bg-white/15">
                       <span
                         key={`${index}-${auto}`}
                         className={cn(
-                          "block h-full bg-[#f0a6e8]",
+                          "block h-full bg-band-accent",
                           active ? (auto ? "animate-[hero-progress_7s_linear_forwards]" : "w-full") : "w-0",
                         )}
                       />
