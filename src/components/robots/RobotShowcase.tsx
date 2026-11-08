@@ -133,6 +133,27 @@ export function RobotShowcase({ robots }: { robots: ShowcaseRobot[] }) {
     return () => window.removeEventListener("resize", repaint);
   });
 
+  // Nome comprido (The Answer, Garuttinho, Tank Tails) no celular passava da largura da tela e era cortado
+  // dos dois lados: cada nome encolhe só o bastante para caber, com folga para o deslize lateral.
+  useEffect(() => {
+    const fit = () => {
+      const max = window.innerWidth * 0.84;
+      names.current.forEach((el) => {
+        if (!el) return;
+        el.style.fontSize = "";
+        const range = document.createRange();
+        range.selectNodeContents(el);
+        const w = range.getBoundingClientRect().width;
+        if (w > max) el.style.fontSize = `${(parseFloat(getComputedStyle(el).fontSize) * max) / w}px`;
+      });
+    };
+    fit();
+    // a medida só vale com a fonte do título carregada
+    document.fonts?.ready.then(fit);
+    window.addEventListener("resize", fit);
+    return () => window.removeEventListener("resize", fit);
+  }, []);
+
   const r = robots[active];
   const specs = (x: ShowcaseRobot) => [
     { k: "Tração", v: x.drivetrain },
